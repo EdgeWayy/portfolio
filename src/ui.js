@@ -79,8 +79,10 @@ function quote() {
   const build = () => {
     const need = [...form.querySelectorAll('[data-name="need"] input:checked')].map((i) => t("need")[i.value]);
     const budget = form.querySelector('[data-name="budget"] input:checked');
-    const name = form.querySelector("#q-name").value.trim();
-    const msg = form.querySelector("#q-msg").value.trim();
+    // plain text only; length capped even if maxlength is edited out in DevTools
+    const clean = (v, max) => v.replace(/[\u0000-\u0008\u000B-\u001F\u007F]/g, "").trim().slice(0, max);
+    const name = clean(form.querySelector("#q-name").value, 80);
+    const msg = clean(form.querySelector("#q-msg").value, 600);
     const lines = [t("msgHello")];
     if (name) lines.push(`${t("msgFrom")}: ${name}`);
     if (need.length) lines.push(`${t("msgNeed")}: ${need.join(", ")}`);

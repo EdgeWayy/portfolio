@@ -267,10 +267,10 @@ function setLanguage(lang, { save = true } = {}) {
 
 function getInitialLanguage() {
   const fromUrl = new URLSearchParams(location.search).get("lang"); // e.g. index.html?lang=uz for sharing
-  if (fromUrl && TRANSLATIONS[fromUrl]) return fromUrl;
+  if (fromUrl && Object.prototype.hasOwnProperty.call(TRANSLATIONS, fromUrl)) return fromUrl;
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved && TRANSLATIONS[saved]) return saved;
+    if (saved && Object.prototype.hasOwnProperty.call(TRANSLATIONS, saved)) return saved;
   } catch (e) { /* storage blocked — ignore */ }
   return CONFIG.defaultLang;
 }

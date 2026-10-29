@@ -26,7 +26,7 @@ http.createServer((req, res) => {
   if (url === prefix.slice(0, -1)) { res.writeHead(301, { location: prefix }); return res.end(); }
   if (!url.startsWith(prefix)) return send404(res);
   let file = path.join(dir, url.slice(prefix.length));
-  if (!file.startsWith(dir)) return send404(res);
+  if (file !== dir && !file.startsWith(dir + path.sep)) return send404(res); // no path traversal
   if (fs.existsSync(file) && fs.statSync(file).isDirectory()) {
     if (!url.endsWith("/")) { res.writeHead(301, { location: url + "/" }); return res.end(); }
     file = path.join(file, "index.html");

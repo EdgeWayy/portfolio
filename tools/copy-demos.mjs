@@ -5,6 +5,7 @@
 // Sources are never modified. Secrets, VCS folders, backups and server code are skipped.
 import fs from "node:fs";
 import path from "node:path";
+import { inlineScriptHashes, withCsp } from "./csp.mjs";
 
 const HOME = process.env.USERPROFILE || process.env.HOME;
 const ROOT = path.resolve(import.meta.dirname, "..");
@@ -41,6 +42,9 @@ function copyDir(src, dst) {
 const REPLACE = [
   [/\+998712002626/g, "+998901234567"], [/\+998 71 200-26-26/g, "+998 90 123-45-67"],
   [/\+998791230047/g, "+998901234567"], [/\+998 79 123 00 47/g, "+998 90 123 45 67"],
+  // Vortaq: ?lang=constructor must not pass the language check (prototype keys)
+  [/if \(fromUrl && TRANSLATIONS\[fromUrl\]\)/g, "if (fromUrl && Object.prototype.hasOwnProperty.call(TRANSLATIONS, fromUrl))"],
+  [/if \(saved && TRANSLATIONS\[saved\]\)/g, "if (saved && Object.prototype.hasOwnProperty.call(TRANSLATIONS, saved))"],
   // Vortaq: optional logo image that does not exist (the text logo is the real one) -> avoid a 404
   [/<img class="logo__img" src="images\/logo\.png"[^>]*>\s*/g, ""],
 ];
@@ -141,6 +145,29 @@ async function vendorUnsplash(dst) {
   console.log(`  localized ${ids.size} Unsplash photos`);
 }
 
+// Pages without their own CSP get one (inline scripts allowed by hash); every page gets a referrer policy.
+function secure(file) {
+  let html = fs.readFileSync(file, "utf8");
+  if (!/http-equiv="Content-Security-Policy"/i.test(html)) {
+    html = withCsp(html, {
+      "default-src": "'self'",
+      "script-src": ["'self'", ...inlineScriptHashes(html)],
+      "style-src": ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+      "font-src": ["'self'", "https://fonts.gstatic.com"],
+      "img-src": ["'self'", "data:", "blob:"],
+      "media-src": "'self'",
+      "connect-src": "'self'",
+      "object-src": "'none'",
+      "base-uri": "'self'",
+      "form-action": "'self'",
+    });
+  } else if (!/name=["']referrer["']/i.test(html)) {
+    html = html.replace(/<meta charset=["']?utf-8["']?\s*\/?>/i, (m) => `${m}
+  <meta name="referrer" content="strict-origin-when-cross-origin">`);
+  }
+  fs.writeFileSync(file, html);
+}
+
 const filter = process.argv[2];
 for (const demo of DEMOS.filter((d) => !filter || d.slug.includes(filter))) {
   const src = path.join(HOME, demo.src);
@@ -151,6 +178,6 @@ for (const demo of DEMOS.filter((d) => !filter || d.slug.includes(filter))) {
   scrub(dst);
   await vendorGsap(dst);
   await vendorUnsplash(dst);
-  for (const f of htmlFiles(dst)) inject(f, demo, dst);
+  for (const f of htmlFiles(dst)) { inject(f, demo, dst); secure(f); }
   console.log(`copied ${demo.slug} <- ${demo.src}`);
 }
