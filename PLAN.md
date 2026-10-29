@@ -30,7 +30,6 @@ a tile pattern. Fallback: pre-rendered halftone WebP (no WebGL, reduced motion, 
 4. About: original photo vs pattern (drag slider), story, honest stat counters
 5. Services: websites, Telegram bots, admin panels, payment integrations (with price ranges)
 6. Work: stacked case-study cards for every demo (screenshot, problem, solution, tech, result, live demo)
-7. Bots: animated Telegram chat simulations (kart booking, mafia Mini App, picker bot)
 8. Process: 5-step timeline drawn on scroll
 9. Now building / changelog
 10. FAQ
@@ -50,8 +49,7 @@ RU default + EN toggle. Mobile-first. Reduced motion respected.
 | lumina-mall | portfolio-new/lumina-mall/lumina-mall | interactive mall map + admin |
 | skynavoi-flights | new-site-with-skill | flight booking flow |
 
-Bot projects (case studies only, no code copied): kart booking bot + admin + QR cashier,
-Mafia Telegram Mini App, picker bot.
+Owner request: no Telegram bot projects on the portfolio site (bots are only mentioned as a service).
 
 Every demo gets a fixed "Demo · back to portfolio" bar injected by `tools/copy-demos.mjs`.
 No .env, api/, .git, backups or test dumps are copied. `tools/check-secrets.mjs` runs before commits.

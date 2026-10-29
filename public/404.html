@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>404 — узор не сложился</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='10' fill='%23121212'/%3E%3Cpath fill='%23FF5A1F' d='M24 6l4.3 7.8 8.6-2.5-2.5 8.6L42 24l-7.6 4.3 2.5 8.6-8.6-2.5L24 42l-4.3-7.6-8.6 2.5 2.5-8.6L6 24l7.6-4.3-2.5-8.6 8.6 2.5z'/%3E%3C/svg%3E">
+  <!-- Self-contained on purpose: GitHub Pages serves this file at any missing URL depth, so no relative assets. -->
+  <style>
+    :root{--paper:#F3EEE4;--ink:#121212;--lapis:#1B3BD1;--saffron:#FF5A1F}
+    *{box-sizing:border-box;margin:0}
+    body{min-height:100svh;display:grid;place-items:center;background:var(--lapis);color:var(--paper);
+      font:400 17px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:24px;overflow:hidden}
+    .grid{position:fixed;inset:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(56px,1fr));opacity:.95}
+    .grid svg{width:56px;height:56px;padding:14px;fill:var(--saffron);transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+    .grid svg.gone{fill:transparent;stroke:var(--paper);stroke-width:1.5;stroke-dasharray:3 3}
+    main{position:relative;z-index:1;background:var(--ink);padding:clamp(28px,6vw,64px);border-radius:8px;max-width:560px;text-align:left}
+    h1{font:800 clamp(72px,18vw,160px)/.85 "Arial Black",system-ui,sans-serif;letter-spacing:-.06em;color:var(--saffron)}
+    h2{font:700 clamp(22px,4vw,32px)/1.15 system-ui,sans-serif;margin:18px 0 10px;letter-spacing:-.02em}
+    p{color:#B7B0A3}
+    a{display:inline-flex;align-items:center;gap:10px;margin-top:28px;min-height:52px;padding:0 24px;border-radius:999px;
+      background:var(--saffron);color:var(--ink);font-weight:700;text-decoration:none}
+    a:hover{background:var(--paper)}
+    a:focus-visible{outline:3px solid var(--paper);outline-offset:3px}
+    .en{display:block;margin-top:6px;font-size:14px}
+    @media (prefers-reduced-motion:reduce){.grid svg{transition:none}}
+  </style>
+</head>
+<body>
+  <div class="grid" id="grid" aria-hidden="true"></div>
+  <main>
+    <h1>404</h1>
+    <h2>Узор не сложился: этой страницы нет.</h2>
+    <p>В плитке не хватает одной звезды. Вернитесь на главную — там всё на месте.<span class="en">This page is missing a tile. Head back home.</span></p>
+    <a id="home" href="/">← На главную / Home</a>
+  </main>
+  <script>
+    // Project sites live at /<repo>/ on github.io; anywhere else the root is "/".
+    (function () {
+      var seg = location.pathname.split("/").filter(Boolean);
+      var onPages = /\.github\.io$/.test(location.hostname) || location.hostname === "localhost";
+      document.getElementById("home").href = onPages && seg.length ? "/" + seg[0] + "/" : "/";
+      var g = document.getElementById("grid"), star = '<path d="M24 6l4.3 7.8 8.6-2.5-2.5 8.6L42 24l-7.6 4.3 2.5 8.6-8.6-2.5L24 42l-4.3-7.6-8.6 2.5 2.5-8.6L6 24l7.6-4.3-2.5-8.6 8.6 2.5z"/>';
+      var n = Math.ceil(innerWidth / 56) * Math.ceil(innerHeight / 56), miss = Math.floor(Math.random() * n), html = "";
+      for (var i = 0; i < n; i++) html += '<svg viewBox="0 0 48 48"' + (i === miss ? ' class="gone"' : "") + ">" + star + "</svg>";
+      g.innerHTML = html;
+      addEventListener("pointermove", function (e) {
+        var el = document.elementsFromPoint(e.clientX, e.clientY).find(function (x) { return x.tagName === "svg" && x.parentNode === g; });
+        if (el) el.style.transform = "rotate(" + (45 + Math.random() * 90) + "deg)";
+      });
+    })();
+  </script>
+</body>
+</html>

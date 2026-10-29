@@ -28,7 +28,8 @@ def star(d, cx, cy, r, fill, rot=0.0):
 
 def khatam(g, cell=14, color=LAPIS, bg=PAPER, ss=3):
     h, w = g.shape
-    im = Image.new("RGB", (w * ss, h * ss), bg); d = ImageDraw.Draw(im)
+    mode = "RGBA" if bg is None else "RGB"   # bg=None -> transparent background
+    im = Image.new(mode, (w * ss, h * ss), (0, 0, 0, 0) if bg is None else bg); d = ImageDraw.Draw(im)
     for y in range(0, h, cell):
         for x in range(0, w, cell):
             v = 1 - g[y:y + cell, x:x + cell].mean()
