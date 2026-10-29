@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title data-i18n="cart.title">Корзина — Lirevo</title>
+  <meta name="theme-color" content="#FBF8F3">
+  <script src="js/boot.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='14' fill='%23B4475F'/%3E%3C/svg%3E">
+</head>
+<body data-page="cart">
+  <a class="skip-link" href="#main" data-i18n="skip">Перейти к содержимому</a>
+  <header id="site-header" style="height:76px"></header>
+
+  <main id="main" class="page-top">
+    <div class="container">
+      <nav aria-label="Хлебные крошки" data-i18n-attr="aria-label:crumbs"><ol class="crumbs"><li><a href="index.html" data-i18n="nav.home">Главная</a></li><li aria-current="page" data-i18n="footer.cart">Корзина</li></ol></nav>
+      <h1 class="h-1" style="margin-top:var(--s-5)" data-split data-i18n="cart.h1">Ваша корзина</h1>
+      <div id="cart-root"></div>
+    </div>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/flowers.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/cart.js"></script>
+<script src="../_shared/demo-bar.js" data-usta-demo-bar data-home="../../" data-name="Lirevo" defer></script>
+</body>
+</html>

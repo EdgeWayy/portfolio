@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nagiwa — Yapon oshxonasi va sushi bar</title>
+  <meta name="description" content="Nagiwa — qo‘lda tayyorlangan sushi, rollar va sashimi. Yangi baliq, osoyishta muhit va tezkor yetkazib berish.">
+  <meta name="theme-color" content="#0b0a09">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Nagiwa">
+  <meta property="og:title" content="Nagiwa — Yapon oshxonasi va sushi bar">
+  <meta property="og:description" content="Nagiwa — qo‘lda tayyorlangan sushi, rollar va sashimi. Yangi baliq, osoyishta muhit va tezkor yetkazib berish.">
+  <meta property="og:image" content="images/hero-sushi-dark.jpg">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0a09'/%3E%3Ccircle cx='32' cy='32' r='15' fill='none' stroke='%23c9a45c' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='6' fill='%23c8352b'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Manrope:wght@300;400;500;600&family=Noto+Serif+JP:wght@300;500&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="images/hero-sushi-dark.jpg" fetchpriority="high">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="is-loading">
+
+  <!-- Icon sprite (Lucide-style line icons) -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+    <symbol id="i-telegram" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol>
+    <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></symbol>
+    <symbol id="i-whatsapp" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M9.2 8.6c.2-.4.5-.5.8-.5h.5c.2 0 .4.1.5.4l.6 1.4c.1.2 0 .5-.1.7l-.5.6a5.5 5.5 0 0 0 2.6 2.4l.6-.6c.2-.2.4-.2.7-.1l1.3.6c.3.1.4.3.4.6v.4c0 .4-.2.8-.6 1-1 .5-2.4.3-4.2-1A8 8 0 0 1 9 10.9c-.2-1-.1-1.8.2-2.3Z"/></symbol>
+    <symbol id="i-map-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+    <symbol id="i-fish" viewBox="0 0 24 24"><path d="M6.5 12c.94-3.46 4.94-6 8.5-6 3.56 0 6.06 2.54 7 6-.94 3.47-3.44 6-7 6s-7.56-2.53-8.5-6Z"/><path d="M18 12v.5"/><path d="M16 17.93a9.77 9.77 0 0 1 0-11.86"/><path d="M7 10.67C7 8 5.58 5.97 2.73 5.5c-1 1.5-1 5 .23 6.5-1.24 1.5-1.24 5-.23 6.5C5.58 18.03 7 16 7 13.33"/></symbol>
+    <symbol id="i-chef" viewBox="0 0 24 24"><path d="M17 21a1 1 0 0 0 1-1v-5.35c0-.46.32-.84.73-1.04a4 4 0 0 0-2.14-7.59 5 5 0 0 0-9.18 0 4 4 0 0 0-2.14 7.59c.41.2.73.58.73 1.04V20a1 1 0 0 0 1 1Z"/><path d="M6 17h12"/></symbol>
+    <symbol id="i-truck" viewBox="0 0 24 24"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></symbol>
+    <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+    <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+    <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+    <symbol id="i-expand" viewBox="0 0 24 24"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></symbol>
+  </svg>
+
+  <!-- Preloader -->
+  <div class="preloader" id="preloader" aria-hidden="true">
+    <div class="preloader__inner">
+      <span class="preloader__kanji" lang="ja">寿司</span>
+      <span class="preloader__name">Nagiwa</span>
+      <span class="preloader__bar"><span></span></span>
+    </div>
+  </div>
+
+  <a class="skip-link" href="#main" data-i18n="a11y.skip">Asosiy mazmunga o‘tish</a>
+
+  <!-- Header -->
+  <header class="header" id="header">
+    <div class="header__inner container">
+      <a class="logo" href="#top" aria-label="Nagiwa">
+        <span class="logo__mark" lang="ja" aria-hidden="true">寿</span>
+        <span class="logo__text">Nagiwa</span>
+      </a>
+
+      <nav class="nav" id="nav" aria-label="Main">
+        <ul class="nav__list">
+          <li><a class="nav__link" href="#about" data-i18n="nav.about">Biz haqimizda</a></li>
+          <li><a class="nav__link" href="#menu" data-i18n="nav.menu">Menyu</a></li>
+          <li><a class="nav__link" href="#why" data-i18n="nav.why">Afzalliklar</a></li>
+          <li><a class="nav__link" href="#gallery" data-i18n="nav.gallery">Galereya</a></li>
+          <li><a class="nav__link" href="#contacts" data-i18n="nav.contacts">Aloqa</a></li>
+        </ul>
+      </nav>
+
+      <div class="header__actions">
+        <div class="lang" role="group" data-i18n-aria="a11y.lang">
+          <button class="lang__btn" type="button" data-lang="uz" aria-pressed="true">UZ</button>
+          <button class="lang__btn" type="button" data-lang="ru" aria-pressed="false">RU</button>
+          <button class="lang__btn" type="button" data-lang="en" aria-pressed="false">EN</button>
+        </div>
+        <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="nav" data-i18n-aria="a11y.menuOpen">
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- 1. Hero -->
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="hero__media">
+        <img class="hero__img" src="images/hero-sushi-dark.jpg" width="1920" height="1280"
+             alt="" data-i18n-alt="alt.hero" fetchpriority="high" decoding="async">
+      </div>
+      <div class="hero__shade" aria-hidden="true"></div>
+      <span class="hero__kanji" lang="ja" aria-hidden="true">寿司の家</span>
+
+      <div class="hero__content container">
+        <p class="eyebrow hero__eyebrow"><span class="eyebrow__line"></span><span data-i18n="hero.eyebrow">Yapon oshxonasi · Sushi bar</span></p>
+        <h1 class="hero__title" id="hero-title">
+          <span class="line"><span class="line__inner">Nagiwa</span></span>
+          <span class="line"><span class="line__inner"><em>Sushi</em></span></span>
+        </h1>
+        <p class="hero__tagline" data-i18n="hero.tagline">Yangi baliq, iliq guruch va oshpaz pichog‘ining sokin mahorati.</p>
+        <div class="hero__cta">
+          <a class="btn btn--primary" href="#menu">
+            <span data-i18n="hero.cta">Menyu</span>
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+          </a>
+          <a class="btn btn--ghost" href="#contacts" data-i18n="hero.cta2">Bog‘lanish</a>
+        </div>
+      </div>
+
+      <a class="hero__scroll" href="#about" aria-hidden="true" tabindex="-1">
+        <span data-i18n="hero.scroll">Pastga</span>
+        <span class="hero__scroll-line"></span>
+      </a>
+    </section>
+
+    <!-- 2. About -->
+    <section class="section about" id="about" aria-labelledby="about-title">
+      <div class="container about__grid">
+        <div class="about__text" data-reveal>
+          <p class="eyebrow"><span class="eyebrow__num">01</span><span data-i18n="about.eyebrow">Biz haqimizda</span></p>
+          <h2 class="h2" id="about-title" data-i18n="about.title">Qo‘lda, har bir bo‘lakni alohida tayyorlaymiz</h2>
+          <p class="lead" data-i18n="about.p1"></p>
+          <p class="muted" data-i18n="about.p2"></p>
+          <p class="about__sign" lang="ja" aria-hidden="true">いただきます</p>
+        </div>
+        <figure class="about__media" data-reveal>
+          <span class="about__kanji" lang="ja" aria-hidden="true">鮨</span>
+          <div class="about__frame">
+            <img src="images/about-chef.jpg" width="1600" height="1070" loading="lazy" decoding="async"
+                 sizes="(min-width: 900px) 45vw, 100vw" alt="" data-i18n-alt="alt.about">
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <!-- 3. Menu -->
+    <section class="section menu" id="menu" aria-labelledby="menu-title">
+      <div class="container">
+        <header class="section__head" data-reveal>
+          <p class="eyebrow"><span class="eyebrow__num">02</span><span data-i18n="menu.eyebrow">Menyu</span></p>
+          <h2 class="h2" id="menu-title" data-i18n="menu.title">Mavsum ta’mi</h2>
+          <p class="muted" data-i18n="menu.note"></p>
+        </header>
+
+        <div class="tabs" role="tablist" data-i18n-aria="menu.tabsLabel" data-reveal>
+          <button class="tabs__btn" role="tab" type="button" id="tab-rolls" data-cat="rolls" aria-selected="true" aria-controls="menu-panel" data-i18n="menu.cats.rolls">Rollar</button>
+          <button class="tabs__btn" role="tab" type="button" id="tab-nigiri" data-cat="nigiri" aria-selected="false" aria-controls="menu-panel" tabindex="-1" data-i18n="menu.cats.nigiri">Nigiri</button>
+          <button class="tabs__btn" role="tab" type="button" id="tab-sashimi" data-cat="sashimi" aria-selected="false" aria-controls="menu-panel" tabindex="-1" data-i18n="menu.cats.sashimi">Sashimi</button>
+          <button class="tabs__btn" role="tab" type="button" id="tab-sets" data-cat="sets" aria-selected="false" aria-controls="menu-panel" tabindex="-1" data-i18n="menu.cats.sets">Setlar</button>
+          <button class="tabs__btn" role="tab" type="button" id="tab-drinks" data-cat="drinks" aria-selected="false" aria-controls="menu-panel" tabindex="-1" data-i18n="menu.cats.drinks">Ichimliklar</button>
+        </div>
+
+        <div class="menu__grid" id="menu-panel" role="tabpanel" aria-labelledby="tab-rolls" tabindex="0">
+          <!-- Dish cards are rendered from MENU in js/i18n.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Why us -->
+    <section class="section why" id="why" aria-labelledby="why-title">
+      <div class="container">
+        <header class="section__head" data-reveal>
+          <p class="eyebrow"><span class="eyebrow__num">03</span><span data-i18n="why.eyebrow">Nega aynan biz</span></p>
+          <h2 class="h2" id="why-title" data-i18n="why.title"></h2>
+        </header>
+        <ul class="why__grid">
+          <li class="why__item" data-reveal>
+            <span class="why__icon"><svg class="icon" aria-hidden="true"><use href="#i-fish"/></svg></span>
+            <h3 class="h3" data-i18n="why.items.0.title"></h3>
+            <p class="muted" data-i18n="why.items.0.text"></p>
+          </li>
+          <li class="why__item" data-reveal>
+            <span class="why__icon"><svg class="icon" aria-hidden="true"><use href="#i-chef"/></svg></span>
+            <h3 class="h3" data-i18n="why.items.1.title"></h3>
+            <p class="muted" data-i18n="why.items.1.text"></p>
+          </li>
+          <li class="why__item" data-reveal>
+            <span class="why__icon"><svg class="icon" aria-hidden="true"><use href="#i-truck"/></svg></span>
+            <h3 class="h3" data-i18n="why.items.2.title"></h3>
+            <p class="muted" data-i18n="why.items.2.text"></p>
+          </li>
+          <li class="why__item" data-reveal>
+            <span class="why__icon"><svg class="icon" aria-hidden="true"><use href="#i-leaf"/></svg></span>
+            <h3 class="h3" data-i18n="why.items.3.title"></h3>
+            <p class="muted" data-i18n="why.items.3.text"></p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 5. Gallery -->
+    <section class="section gallery" id="gallery" aria-labelledby="gallery-title">
+      <div class="container">
+        <header class="section__head" data-reveal>
+          <p class="eyebrow"><span class="eyebrow__num">04</span><span data-i18n="gallery.eyebrow">Galereya</span></p>
+          <h2 class="h2" id="gallery-title" data-i18n="gallery.title"></h2>
+        </header>
+        <ul class="gallery__grid">
+          <li class="gallery__item" data-reveal><button class="gallery__btn" type="button" data-full="images/gallery-salmon-maki.jpg"><img src="images/gallery-salmon-maki-sm.jpg" width="800" height="533" loading="lazy" decoding="async" alt="" data-i18n-alt="alt.gallery.salmonMaki"><span class="gallery__zoom" aria-hidden="true"><svg class="icon"><use href="#i-expand"/></svg></span></button></li>
+          <li class="gallery__item" data-reveal><button class="gallery__btn" type="button" data-full="images/gallery-chopsticks-roll.jpg"><img src="images/gallery-chopsticks-roll-sm.jpg" width="800" height="533" loading="lazy" decoding="async" alt="" data-i18n-alt="alt.gallery.chopsticksRoll"><span class="gallery__zoom" aria-hidden="true"><svg class="icon"><use href="#i-expand"/></svg></span></button></li>
+          <li class="gallery__item" data-reveal><button class="gallery__btn" type="button" data-full="images/gallery-izakaya.jpg"><img src="images/gallery-izakaya-sm.jpg" width="800" height="533" loading="lazy" decoding="async" alt="" data-i18n-alt="alt.gallery.izakaya"><span class="gallery__zoom" aria-hidden="true"><svg class="icon"><use href="#i-expand"/></svg></span></button></li>
+          <li class="gallery__item" data-reveal><button class="gallery__btn" type="button" data-full="images/gallery-chef-hands.jpg"><img src="images/gallery-chef-hands-sm.jpg" width="800" height="533" loading="lazy" decoding="async" alt="" data-i18n-alt="alt.gallery.chefHands"><span class="gallery__zoom" aria-hidden="true"><svg class="icon"><use href="#i-expand"/></svg></span></button></li>
+          <li class="gallery__item" data-reveal><button class="gallery__btn" type="button" data-full="images/gallery-handroll.jpg"><img src="images/gallery-handroll-sm.jpg" width="800" height="533" loading="lazy" decoding="async" alt="" data-i18n-alt="alt.gallery.handroll"><span class="gallery__zoom" aria-hidden="true"><svg class="icon"><use href="#i-expand"/></svg></span></button></li>
+          <li class="gallery__item" data-reveal><button class="gallery__btn" type="button" data-full="images/gallery-crispy-rolls.jpg"><img src="images/gallery-crispy-rolls-sm.jpg" width="800" height="533" loading="lazy" decoding="async" alt="" data-i18n-alt="alt.gallery.crispyRolls"><span class="gallery__zoom" aria-hidden="true"><svg class="icon"><use href="#i-expand"/></svg></span></button></li>
+          <li class="gallery__item" data-reveal><button class="gallery__btn" type="button" data-full="images/gallery-sushi-bar.jpg"><img src="images/gallery-sushi-bar-sm.jpg" width="800" height="533" loading="lazy" decoding="async" alt="" data-i18n-alt="alt.gallery.sushiBar"><span class="gallery__zoom" aria-hidden="true"><svg class="icon"><use href="#i-expand"/></svg></span></button></li>
+          <li class="gallery__item" data-reveal><button class="gallery__btn" type="button" data-full="images/gallery-salmon-dark.jpg"><img src="images/gallery-salmon-dark-sm.jpg" width="800" height="533" loading="lazy" decoding="async" alt="" data-i18n-alt="alt.gallery.salmonDark"><span class="gallery__zoom" aria-hidden="true"><svg class="icon"><use href="#i-expand"/></svg></span></button></li>
+          <li class="gallery__item" data-reveal><button class="gallery__btn" type="button" data-full="images/interior-lanterns.jpg"><img src="images/interior-lanterns.jpg" width="1600" height="1067" loading="lazy" decoding="async" alt="" data-i18n-alt="alt.gallery.lanterns"><span class="gallery__zoom" aria-hidden="true"><svg class="icon"><use href="#i-expand"/></svg></span></button></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 6. Contacts -->
+    <section class="section contacts" id="contacts" aria-labelledby="contacts-title">
+      <div class="container">
+        <header class="section__head" data-reveal>
+          <p class="eyebrow"><span class="eyebrow__num">05</span><span data-i18n="contacts.eyebrow">Aloqa</span></p>
+          <h2 class="h2" id="contacts-title" data-i18n="contacts.title"></h2>
+          <p class="muted" data-i18n="contacts.lead"></p>
+        </header>
+
+        <ul class="contacts__grid">
+          <li data-reveal>
+            <!-- TODO: insert real contact -->
+            <a class="contact" href="#">
+              <span class="contact__icon"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg></span>
+              <span class="contact__body"><span class="contact__label" data-i18n="contacts.phone.label">Telefon</span><span class="contact__caption" data-i18n="contacts.phone.caption">Qo‘ng‘iroq qiling</span></span>
+              <svg class="icon contact__arrow" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+            </a>
+          </li>
+          <li data-reveal>
+            <!-- TODO: insert real contact -->
+            <a class="contact" href="#">
+              <span class="contact__icon"><svg class="icon" aria-hidden="true"><use href="#i-telegram"/></svg></span>
+              <span class="contact__body"><span class="contact__label">Telegram</span><span class="contact__caption" data-i18n="contacts.telegram.caption">Telegramda yozing</span></span>
+              <svg class="icon contact__arrow" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+            </a>
+          </li>
+          <li data-reveal>
+            <!-- TODO: insert real contact -->
+            <a class="contact" href="#">
+              <span class="contact__icon"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></span>
+              <span class="contact__body"><span class="contact__label">Instagram</span><span class="contact__caption" data-i18n="contacts.instagram.caption">Bizni kuzating</span></span>
+              <svg class="icon contact__arrow" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+            </a>
+          </li>
+          <li data-reveal>
+            <!-- TODO: insert real contact -->
+            <a class="contact" href="#">
+              <span class="contact__icon"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg></span>
+              <span class="contact__body"><span class="contact__label">WhatsApp</span><span class="contact__caption" data-i18n="contacts.whatsapp.caption">WhatsAppda yozing</span></span>
+              <svg class="icon contact__arrow" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+            </a>
+          </li>
+          <li data-reveal>
+            <!-- TODO: insert real contact -->
+            <a class="contact" href="#">
+              <span class="contact__icon"><svg class="icon" aria-hidden="true"><use href="#i-map-pin"/></svg></span>
+              <span class="contact__body"><span class="contact__label" data-i18n="contacts.address.label">Manzil</span><span class="contact__caption" data-i18n="contacts.address.caption">Xaritada toping</span></span>
+              <svg class="icon contact__arrow" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+            </a>
+          </li>
+          <li data-reveal>
+            <!-- TODO: insert real contact -->
+            <a class="contact" href="#">
+              <span class="contact__icon"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg></span>
+              <span class="contact__body"><span class="contact__label" data-i18n="contacts.hours.label">Ish vaqti</span><span class="contact__caption" data-i18n="contacts.hours.caption">Ish vaqtini bilish</span></span>
+              <svg class="icon contact__arrow" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <a class="logo" href="#top" aria-label="Nagiwa">
+          <span class="logo__mark" lang="ja" aria-hidden="true">寿</span>
+          <span class="logo__text">Nagiwa</span>
+        </a>
+        <p class="muted" data-i18n="footer.tagline"></p>
+      </div>
+      <nav class="footer__nav" data-i18n-aria="a11y.footerNav">
+        <a href="#about" data-i18n="nav.about"></a>
+        <a href="#menu" data-i18n="nav.menu"></a>
+        <a href="#gallery" data-i18n="nav.gallery"></a>
+        <a href="#contacts" data-i18n="nav.contacts"></a>
+      </nav>
+      <p class="footer__copy">© <span id="year"></span> Nagiwa. <span data-i18n="footer.rights"></span></p>
+    </div>
+    <span class="footer__kanji" lang="ja" aria-hidden="true">寿司</span>
+  </footer>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" data-i18n-aria="gallery.dialog" hidden>
+    <button class="lightbox__close" type="button" id="lb-close" data-i18n-aria="gallery.close"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></button>
+    <button class="lightbox__nav lightbox__nav--prev" type="button" id="lb-prev" data-i18n-aria="gallery.prev"><svg class="icon" aria-hidden="true"><use href="#i-chevron-left"/></svg></button>
+    <figure class="lightbox__figure">
+      <img class="lightbox__img" id="lb-img" src="" alt="">
+      <figcaption class="lightbox__caption" id="lb-caption"></figcaption>
+    </figure>
+    <button class="lightbox__nav lightbox__nav--next" type="button" id="lb-next" data-i18n-aria="gallery.next"><svg class="icon" aria-hidden="true"><use href="#i-chevron-right"/></svg></button>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yOcc5TQr/zAKsthzhuv0hiyUKEiQEQXEynnXCvNTOk50dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="js/i18n.js" defer></script>
+  <script src="js/main.js" defer></script>
+<script src="../_shared/demo-bar.js" data-usta-demo-bar data-home="../../" data-name="Nagiwa" defer></script>
+</body>
+</html>

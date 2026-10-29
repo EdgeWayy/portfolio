@@ -1,0 +1,55 @@
+{
+  "airline": { "name": "SkyNavoi", "code": "SN" },
+  "airports": [
+    { "code": "TAS", "city": "Ташкент", "country": "Узбекистан", "airport": "Ташкент Международный" },
+    { "code": "NVI", "city": "Навои", "country": "Узбекистан", "airport": "Навои Международный" },
+    { "code": "SKD", "city": "Самарканд", "country": "Узбекистан", "airport": "Самарканд Международный" },
+    { "code": "IST", "city": "Стамбул", "country": "Турция", "airport": "Стамбул" },
+    { "code": "DXB", "city": "Дубай", "country": "ОАЭ", "airport": "Дубай Международный" },
+    { "code": "SVO", "city": "Москва", "country": "Россия", "airport": "Шереметьево" }
+  ],
+  "hubs": ["TAS", "IST", "DXB"],
+  "routes": [
+    { "a": "TAS", "b": "NVI", "minutes": 65, "price": 641000 },
+    { "a": "TAS", "b": "SKD", "minutes": 55, "price": 527000 },
+    { "a": "TAS", "b": "IST", "minutes": 335, "price": 3243000 },
+    { "a": "TAS", "b": "DXB", "minutes": 215, "price": 2869000 },
+    { "a": "TAS", "b": "SVO", "minutes": 265, "price": 2687000 },
+    { "a": "NVI", "b": "IST", "minutes": 320, "price": 3412000 },
+    { "a": "NVI", "b": "DXB", "minutes": 200, "price": 2953000 },
+    { "a": "NVI", "b": "SVO", "minutes": 255, "price": 2781000 },
+    { "a": "SKD", "b": "IST", "minutes": 315, "price": 3291000 },
+    { "a": "SKD", "b": "DXB", "minutes": 205, "price": 2917000 },
+    { "a": "SKD", "b": "SVO", "minutes": 260, "price": 2743000 },
+    { "a": "IST", "b": "DXB", "minutes": 255, "price": 2461000 },
+    { "a": "IST", "b": "SVO", "minutes": 210, "price": 2193000 },
+    { "a": "DXB", "b": "SVO", "minutes": 330, "price": 3127000 }
+  ],
+  "schedule": [
+    { "dep": "06:15", "stops": 0, "factor": 1.0 },
+    { "dep": "09:40", "stops": 0, "factor": 1.17 },
+    { "dep": "11:05", "stops": 1, "factor": 0.83, "layover": 95 },
+    { "dep": "14:30", "stops": 0, "factor": 1.06 },
+    { "dep": "17:55", "stops": 1, "factor": 0.76, "layover": 145 },
+    { "dep": "21:20", "stops": 0, "factor": 0.92 },
+    { "dep": "23:45", "stops": 2, "factor": 0.68, "layover": 215 },
+    { "dep": "02:10", "stops": 0, "factor": 0.71 }
+  ],
+  "aircraft": ["Airbus A321neo", "Airbus A320neo", "Boeing 737 MAX 8"],
+  "cabins": {
+    "economy": { "label": "Эконом", "factor": 1, "baggage": "23 кг багаж и 8 кг ручная кладь" },
+    "business": { "label": "Бизнес", "factor": 2.84, "baggage": "2 × 32 кг багаж и 12 кг ручная кладь" }
+  },
+  "seatExtras": [
+    { "rows": [5, 6, 7], "label": "Впереди салона", "price": 185000 },
+    { "rows": [12, 13], "label": "Больше места для ног", "price": 243000 }
+  ],
+  "destinations": [
+    { "code": "IST", "from": "NVI", "note": "Прямой рейс по вторникам и субботам", "minutes": 320, "price": 2594000 },
+    { "code": "DXB", "from": "TAS", "note": "Два рейса в день", "minutes": 215, "price": 2183000 },
+    { "code": "SVO", "from": "SKD", "note": "Ежедневно, вылет утром", "minutes": 260, "price": 2087000 },
+    { "code": "TAS", "from": "NVI", "note": "Шесть рейсов в неделю", "minutes": 65, "price": 487000 },
+    { "code": "SKD", "from": "TAS", "note": "Быстрее поезда на два часа", "minutes": 55, "price": 401000 },
+    { "code": "NVI", "from": "SVO", "note": "Наш домашний аэропорт", "minutes": 255, "price": 2114000 }
+  ]
+}

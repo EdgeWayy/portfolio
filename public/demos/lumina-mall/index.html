@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <!-- Security: strict Content-Security-Policy. No inline scripts, no third-party code.
+       (On a real host, send the same policy as an HTTP header; see _headers / vercel.json.) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob: https:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Lumina Mall</title>
+  <meta name="description" content="Lumina Mall: 4 этажа магазинов в интерактивном атриуме · 4 qavatli interaktiv atrium · a four-floor interactive mall atrium.">
+  <meta name="theme-color" content="#1f2a4d">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/atrium.css">
+  <script src="js/theme-init.js"></script>
+</head>
+<body class="page-atrium">
+  <!-- Loading screen (hidden by js/common.js; CSS hides it after 6 s if JS fails) -->
+  <div class="loader" id="loader" role="status" aria-live="polite">
+    <div class="loader-inner">
+      <svg class="loader-logo" viewBox="0 0 80 80" aria-hidden="true">
+        <rect class="ll-frame" x="6" y="6" width="68" height="68" rx="22" pathLength="1"/>
+        <path class="ll-arch" d="M24 58V40a16 16 0 0 1 32 0v18" pathLength="1"/>
+        <path class="ll-floor" d="M18 58h44" pathLength="1"/>
+        <circle class="ll-sun" cx="40" cy="22" r="5"/>
+      </svg>
+      <div class="loader-word">Lumina Mall</div>
+      <div class="loader-bar"><span></span></div>
+      <span class="sr-only" data-i18n="loader.loading"></span>
+    </div>
+  </div>
+
+  <a class="skip-link" href="#about" data-i18n="skip.atrium"></a>
+
+  <header class="topbar">
+    <a class="brand" href="index.html" data-i18n-attr="aria-label:nav.home">
+      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+        <rect class="bm-bg" x="1" y="1" width="38" height="38" rx="12"/>
+        <path class="bm-arch" d="M12 30V20a8 8 0 0 1 16 0v10"/>
+        <path class="bm-floor" d="M9 30h22"/>
+        <circle class="bm-sun" cx="20" cy="10.5" r="2.6"/>
+      </svg>
+      <span class="brand-text"><span class="brand-name">Lumina</span><span class="brand-sub" data-i18n="app.sub"></span></span>
+    </a>
+
+    <div class="search" role="search">
+      <label for="mallSearch" class="sr-only" data-i18n="search.label"></label>
+      <span class="search-icon" data-icon="search" data-size="18"></span>
+      <input id="mallSearch" type="search" autocomplete="off" spellcheck="false" maxlength="60"
+             role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="searchResults"
+             data-i18n-attr="placeholder:search.placeholder">
+      <button class="search-clear" type="button" data-i18n-attr="aria-label:search.clear" hidden><span data-icon="x" data-size="16"></span></button>
+      <ul id="searchResults" class="search-results" role="listbox" data-i18n-attr="aria-label:search.results" hidden></ul>
+      <span id="searchLive" class="sr-only" aria-live="polite"></span>
+    </div>
+
+    <nav class="topbar-actions" data-i18n-attr="aria-label:nav.main">
+      <a class="btn btn-ghost hide-sm" href="mall.html" data-transition><span data-icon="grid" data-size="18"></span><span data-i18n="nav.directory"></span></a>
+      <div data-lang-switch></div>
+      <button class="icon-btn" type="button" data-theme-toggle></button>
+      <button class="icon-btn cart-btn" type="button" data-cart-open><span data-icon="bag"></span><span class="badge" data-cart-count hidden>0</span></button>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- ========================= PHONE HERO =========================
+         Phones and small tablets (≤768px) get this light static hero instead of
+         the 3D atrium below. Hidden on desktop (see css/atrium.css). -->
+    <section class="m-hero" aria-labelledby="mHeroTitle">
+      <div class="container m-hero-inner">
+        <span class="eyebrow" data-i18n="app.trialData"></span>
+        <h1 id="mHeroTitle" class="h1">Lumina Mall</h1>
+        <p class="lead" data-i18n="mall.tagline"></p>
+        <div class="m-hero-actions">
+          <a class="btn btn-primary btn-lg" href="mall.html" data-transition><span data-icon="grid" data-size="18"></span><span data-i18n="about.browse"></span></a>
+          <a class="btn btn-outline btn-lg" href="tel:+998901234567"><span data-icon="phone" data-size="18"></span><span data-i18n="m.call"></span></a>
+        </div>
+        <ul class="m-hero-facts">
+          <li><span data-icon="pin" data-size="18"></span><span data-i18n="mall.address"></span></li>
+          <li><span data-icon="clock" data-size="18"></span><span data-i18n="mall.hours"></span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============================ ATRIUM ============================ -->
+    <section class="atrium-hero" data-i18n-attr="aria-label:atrium.label">
+      <div class="atrium-stage" id="atriumStage" tabindex="0" aria-describedby="atriumHelp"></div>
+      <p id="atriumHelp" class="sr-only" data-i18n="atrium.help"></p>
+
+      <div class="elevator" id="elevator" role="group"></div>
+      <div class="floor-label glass" id="floorLabel" aria-live="polite"></div>
+      <a class="btn btn-soft btn-sm about-cue hide-sm" href="#about"><span data-i18n="atrium.toAbout"></span><span data-icon="arrow-down" data-size="16"></span></a>
+      <div class="atrium-hint" id="atriumHint" hidden></div>
+    </section>
+
+    <!-- ============================= ABOUT ============================= -->
+    <section id="about" class="section about">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-copy" data-reveal>
+            <span class="eyebrow" data-i18n="about.eyebrow"></span>
+            <h2 class="h2" data-i18n="about.title"></h2>
+            <p class="lead" data-i18n="about.lead"></p>
+            <p class="muted" data-i18n="about.note"></p>
+            <div class="row">
+              <a class="btn btn-primary" href="mall.html" data-transition><span data-icon="grid" data-size="18"></span><span data-i18n="about.browse"></span></a>
+              <a class="btn btn-outline" href="#contact"><span data-icon="pin" data-size="18"></span><span data-i18n="about.plan"></span></a>
+            </div>
+          </div>
+          <div class="stats" data-reveal>
+            <div class="stat"><span class="stat-num" data-stat="stores" data-count="16">0</span><span class="stat-label" data-i18n="stats.stores"></span></div>
+            <div class="stat"><span class="stat-num" data-stat="products" data-count="99">0</span><span class="stat-label" data-i18n="stats.products"></span></div>
+            <div class="stat"><span class="stat-num" data-stat="parking" data-count="640">0</span><span class="stat-label" data-i18n="stats.parking"></span></div>
+            <div class="stat"><span class="stat-num" data-stat="visitors" data-count="12000" data-suffix="+">0</span><span class="stat-label" data-i18n="stats.visitors"></span></div>
+          </div>
+        </div>
+
+        <!-- Always open on desktop (summary hidden); js/mall-page.js closes it on phones. -->
+        <details class="m-more" open>
+        <summary class="btn btn-outline btn-block m-more-toggle"><span data-i18n="m.amenities"></span><span class="m-more-chev" data-icon="chevron-down" data-size="18"></span></summary>
+        <div class="features">
+          <article class="card feature" data-reveal>
+            <span class="feature-icon" data-icon="car"></span>
+            <h3 data-i18n="feature.parking.t"></h3>
+            <p data-i18n="feature.parking.d"></p>
+          </article>
+          <article class="card feature" data-reveal>
+            <span class="feature-icon" data-icon="utensils"></span>
+            <h3 data-i18n="feature.food.t"></h3>
+            <p data-i18n="feature.food.d"></p>
+          </article>
+          <article class="card feature" data-reveal>
+            <span class="feature-icon" data-icon="baby"></span>
+            <h3 data-i18n="feature.family.t"></h3>
+            <p data-i18n="feature.family.d"></p>
+          </article>
+          <article class="card feature" data-reveal>
+            <span class="feature-icon" data-icon="wifi"></span>
+            <h3 data-i18n="feature.wifi.t"></h3>
+            <p data-i18n="feature.wifi.d"></p>
+          </article>
+        </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ============================ CONTACT ============================ -->
+    <section id="contact" class="section contact">
+      <div class="container contact-grid">
+        <div class="stack" data-reveal>
+          <div class="section-head">
+            <span class="eyebrow" data-i18n="contact.eyebrow"></span>
+            <h2 class="h2" data-i18n="contact.title"></h2>
+            <p class="lead" data-i18n="contact.lead"></p>
+          </div>
+          <div class="contact-cards">
+            <div class="card contact-card"><span class="feature-icon" data-icon="pin"></span><div><strong data-i18n="contact.address"></strong><span data-i18n="mall.address"></span></div></div>
+            <div class="card contact-card"><span class="feature-icon" data-icon="clock"></span><div><strong data-i18n="contact.hours"></strong><span data-i18n="mall.hours"></span></div></div>
+            <div class="card contact-card"><span class="feature-icon" data-icon="phone"></span><div><strong data-i18n="contact.phone"></strong><a href="tel:+998901234567">+998 90 123-45-67</a></div></div>
+            <div class="card contact-card"><span class="feature-icon" data-icon="mail"></span><div><strong data-i18n="contact.email"></strong><a href="mailto:hello@lumina-mall.example">hello@lumina-mall.example</a></div></div>
+          </div>
+        </div>
+
+        <details class="m-more" open>
+        <summary class="btn btn-outline btn-block m-more-toggle"><span data-i18n="form.title"></span><span class="m-more-chev" data-icon="chevron-down" data-size="18"></span></summary>
+        <form class="card contact-form" id="contactForm" novalidate data-reveal>
+          <h3 class="h3" data-i18n="form.title"></h3>
+          <div class="row-2">
+            <div class="field">
+              <label class="label" for="cf-name"><span data-i18n="form.name"></span> <span class="req" aria-hidden="true">*</span></label>
+              <input class="input" id="cf-name" name="name" type="text" autocomplete="name" maxlength="60" required aria-describedby="cf-name-err">
+              <span class="error-msg" id="cf-name-err" data-error-for="name"></span>
+            </div>
+            <div class="field">
+              <label class="label" for="cf-email"><span data-i18n="form.email"></span> <span class="req" aria-hidden="true">*</span></label>
+              <input class="input" id="cf-email" name="email" type="email" inputmode="email" autocomplete="email" maxlength="120" required aria-describedby="cf-email-err">
+              <span class="error-msg" id="cf-email-err" data-error-for="email"></span>
+            </div>
+          </div>
+          <div class="field">
+            <label class="label" for="cf-message"><span data-i18n="form.message"></span> <span class="req" aria-hidden="true">*</span></label>
+            <textarea class="textarea" id="cf-message" name="message" maxlength="1000" required aria-describedby="cf-message-err"></textarea>
+            <span class="error-msg" id="cf-message-err" data-error-for="message"></span>
+          </div>
+          <!-- Honeypot field: hidden from people, bots tend to fill it in -->
+          <div class="honeypot" aria-hidden="true"><label for="cf-website">Website</label><input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+          <button class="btn btn-primary btn-lg" type="submit"><span data-icon="send" data-size="18"></span><span data-i18n="form.send"></span></button>
+          <p class="hint" data-i18n="form.demo"></p>
+        </form>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <!-- Phone bottom bar (≤768px only) -->
+  <nav class="m-tabbar" data-i18n-attr="aria-label:m.quick">
+    <a href="mall.html" data-transition><span data-icon="grid" data-size="20"></span><span data-i18n="nav.directory"></span></a>
+    <a href="#contact"><span data-icon="pin" data-size="20"></span><span data-i18n="nav.contact"></span></a>
+    <a href="tel:+998901234567"><span data-icon="phone" data-size="20"></span><span data-i18n="contact.phone"></span></a>
+  </nav>
+
+  <div class="zoom-veil" id="zoomVeil" aria-hidden="true"><span class="zoom-veil-emoji"></span></div>
+
+  <script src="js/config.js" defer></script>
+  <script src="js/i18n.js" defer></script>
+  <script src="js/utils.js" defer></script>
+  <script src="js/photos.js" defer></script>
+  <script src="js/data.js" defer></script>
+  <script src="js/imageStore.js" defer></script>
+  <script src="js/storage.js" defer></script>
+  <script src="js/search.js" defer></script>
+  <script src="js/cart.js" defer></script>
+  <script src="js/common.js" defer></script>
+  <script src="js/atrium.js" defer></script>
+  <script src="js/mall-page.js" defer></script>
+<script src="../_shared/demo-bar.js" data-usta-demo-bar data-home="../../" data-name="Lumina Mall" data-note="admin: admin123" defer></script>
+</body>
+</html>

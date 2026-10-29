@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; frame-src https://www.google.com https://maps.google.com; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <!-- SEO: defaults are Russian (default language); main.js swaps them when the language changes -->
+  <title data-i18n="meta.title">Vortaq Fitness Club — тренажёрный зал и фитнес в Ташкенте</title>
+  <meta name="description" data-i18n-content="meta.description" content="Современный тренажёрный зал в Ташкенте: опытные тренеры, кроссфит, бокс, йога, душевые и бесплатная парковка. Запишитесь на бесплатную пробную тренировку!">
+  <meta name="theme-color" content="#0b0b0b">
+  <meta name="color-scheme" content="dark">
+  <script src="js/boot.js"></script>
+
+  <!-- Open Graph (Telegram / Instagram / Facebook link previews) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Vortaq Fitness Club">
+  <meta property="og:title" data-i18n-content="meta.title" content="Vortaq Fitness Club — тренажёрный зал и фитнес в Ташкенте">
+  <meta property="og:description" data-i18n-content="meta.description" content="Современный тренажёрный зал в Ташкенте: опытные тренеры, кроссфит, бокс, йога, душевые и бесплатная парковка.">
+  <meta property="og:locale" data-i18n-content="meta.ogLocale" content="ru_RU">
+  <meta property="og:locale:alternate" content="uz_UZ">
+  <meta property="og:locale:alternate" content="en_US">
+  <!-- TODO: replace with the absolute URL once the site is hosted, e.g. https://vortaq.example/images/og-cover.jpg -->
+  <meta property="og:image" content="images/hero.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0b0b'/%3E%3Cpath d='M10 44C26 30 42 24 56 22 42 28 28 36 10 44Z' fill='%238bf000'/%3E%3Ctext x='32' y='38' font-family='Arial Black,Arial' font-weight='900' font-size='22' fill='%23fff' text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="images/hero-mobile.jpg" media="(max-width: 767px)">
+  <link rel="preload" as="image" href="images/hero.jpg" media="(min-width: 768px)">
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Structured data for Google (edit together with CONFIG in js/main.js) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ExerciseGym",
+    "name": "Vortaq Fitness Club",
+    "telephone": "+998901234567",
+    "address": { "@type": "PostalAddress", "addressLocality": "Tashkent", "addressCountry": "UZ" },
+    "openingHours": ["Mo-Fr 06:00-23:00", "Sa-Su 08:00-22:00"],
+    "priceRange": "3-225 USD"
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main" data-i18n="a11y.skip"></a>
+
+  <!-- ===================== HEADER ===================== -->
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a class="header__logo" href="#top" data-i18n-aria="a11y.home">
+        <span class="logo logo--sm">
+          <span class="logo__text" aria-hidden="true">
+            <span class="logo__word">VORTAQ</span>
+            <svg class="logo__swoosh" viewBox="0 0 200 22" aria-hidden="true"><path d="M2 19C58 5 132 1 198 5 134 7 66 12 2 19Z"/></svg>
+            <span class="logo__sub">FITNESS CLUB</span>
+          </span>
+        </span>
+      </a>
+
+      <nav class="nav" id="nav" aria-label="Main">
+        <ul class="nav__list">
+          <li><a class="nav__link" href="#about" data-i18n="nav.about"></a></li>
+          <li><a class="nav__link" href="#plans" data-i18n="nav.plans"></a></li>
+          <li><a class="nav__link" href="#trainers" data-i18n="nav.trainers"></a></li>
+          <li><a class="nav__link" href="#schedule" data-i18n="nav.schedule"></a></li>
+          <li><a class="nav__link" href="#gallery" data-i18n="nav.gallery"></a></li>
+                    <li><a class="nav__link" href="#faq" data-i18n="nav.faq"></a></li>
+          <li><a class="nav__link" href="#contact" data-i18n="nav.contact"></a></li>
+        </ul>
+        <a class="btn btn--primary nav__cta" href="#contact" data-plan="trial" data-i18n="nav.cta"></a>
+      </nav>
+
+      <div class="header__actions">
+        <div class="lang" role="group" data-i18n-aria="a11y.language">
+          <button class="lang__btn" type="button" data-lang="uz">UZ</button>
+          <button class="lang__btn" type="button" data-lang="ru">RU</button>
+          <button class="lang__btn" type="button" data-lang="en">EN</button>
+        </div>
+        <a class="btn btn--primary btn--sm header__cta" href="#contact" data-plan="trial" data-i18n="nav.cta"></a>
+        <button class="burger" type="button" aria-expanded="false" aria-controls="nav" data-i18n-aria="a11y.menuOpen">
+          <span class="burger__line"></span><span class="burger__line"></span><span class="burger__line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ===================== 1. HERO ===================== -->
+    <section class="hero media" id="top">
+      <picture class="hero__bg">
+        <source media="(max-width: 767px)" srcset="images/hero-mobile.jpg" width="800" height="1300">
+        <img src="images/hero.jpg" alt="" width="1920" height="1100" fetchpriority="high" decoding="async">
+      </picture>
+      <div class="hero__overlay" aria-hidden="true"></div>
+
+      <div class="container hero__content">
+        <span class="logo logo--lg hero__logo" data-reveal>
+          <span class="logo__text" aria-hidden="true">
+            <span class="logo__word">VORTAQ</span>
+            <svg class="logo__swoosh" viewBox="0 0 200 22" aria-hidden="true"><path d="M2 19C58 5 132 1 198 5 134 7 66 12 2 19Z"/></svg>
+            <span class="logo__sub">FITNESS CLUB</span>
+          </span>
+        </span>
+        <p class="eyebrow" data-reveal data-i18n="hero.eyebrow"></p>
+        <h1 class="hero__title" data-reveal>
+          <span data-i18n="hero.title1"></span>
+          <span class="hero__accent" data-i18n="hero.title2"></span>
+        </h1>
+        <p class="hero__subtitle" data-reveal data-i18n="hero.subtitle"></p>
+        <div class="hero__buttons" data-reveal>
+          <a class="btn btn--primary btn--lg" href="#contact" data-plan="trial">
+            <span data-i18n="hero.ctaTrial"></span>
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn--ghost btn--lg" href="#plans" data-i18n="hero.ctaPlans"></a>
+        </div>
+        <ul class="hero__stats" data-reveal>
+          <li><strong data-stat="area"></strong><span data-i18n="hero.statArea"></span></li>
+          <li><strong data-stat="trainers"></strong><span data-i18n="hero.statTrainers" data-i18n-count-from="trainers"></span></li>
+          <li><strong data-stat="classes"></strong><span data-i18n="hero.statClasses" data-i18n-count-from="classes"></span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===================== 2. ABOUT / WHY PROFIT ===================== -->
+    <section class="section section--marble" id="about" aria-labelledby="about-title">
+      <div class="container">
+        <header class="section__head" data-reveal>
+          <p class="eyebrow" data-i18n="about.eyebrow"></p>
+          <h2 class="section__title" id="about-title" data-i18n="about.title"></h2>
+        </header>
+        <ul class="features" id="features-list"></ul>
+      </div>
+    </section>
+
+    <!-- ===================== 3. MEMBERSHIPS ===================== -->
+    <section class="section" id="plans" aria-labelledby="plans-title">
+      <div class="container">
+        <header class="section__head" data-reveal>
+          <p class="eyebrow" data-i18n="plans.eyebrow"></p>
+          <h2 class="section__title" id="plans-title" data-i18n="plans.title"></h2>
+          <p class="section__subtitle" data-i18n="plans.subtitle"></p>
+        </header>
+        <div class="plans rail" id="plans-list"></div>
+        <div class="extras" id="extras-list"></div>
+      </div>
+    </section>
+
+    <!-- ===================== 4. TRAINERS ===================== -->
+    <section class="section section--marble" id="trainers" aria-labelledby="trainers-title">
+      <div class="container">
+        <header class="section__head" data-reveal>
+          <p class="eyebrow" data-i18n="trainers.eyebrow"></p>
+          <h2 class="section__title" id="trainers-title" data-i18n="trainers.title"></h2>
+        </header>
+        <ul class="trainers rail" id="trainers-list"></ul>
+      </div>
+    </section>
+
+    <!-- ===================== 5. SCHEDULE ===================== -->
+    <section class="section" id="schedule" aria-labelledby="schedule-title">
+      <div class="container">
+        <header class="section__head" data-reveal>
+          <p class="eyebrow" data-i18n="schedule.eyebrow"></p>
+          <h2 class="section__title" id="schedule-title" data-i18n="schedule.title"></h2>
+          <p class="section__subtitle" data-i18n="schedule.subtitle"></p>
+        </header>
+        <div class="schedule" data-reveal>
+          <div class="schedule__tabs" role="tablist" id="schedule-tabs"></div>
+          <p class="schedule__hint" data-i18n="schedule.swipe"></p>
+          <div class="schedule__grid" id="schedule-grid"></div>
+          <ul class="schedule__legend" id="schedule-legend"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== 6. GALLERY ===================== -->
+    <section class="section section--marble" id="gallery" aria-labelledby="gallery-title">
+      <div class="container">
+        <header class="section__head" data-reveal>
+          <p class="eyebrow" data-i18n="gallery.eyebrow"></p>
+          <h2 class="section__title" id="gallery-title" data-i18n="gallery.title"></h2>
+        </header>
+        <ul class="gallery" id="gallery-list"></ul>
+      </div>
+    </section>
+
+    <!-- ===================== 7. FAQ ===================== -->
+    <section class="section section--marble" id="faq" aria-labelledby="faq-title">
+      <div class="container container--narrow">
+        <header class="section__head" data-reveal>
+          <p class="eyebrow" data-i18n="faq.eyebrow"></p>
+          <h2 class="section__title" id="faq-title" data-i18n="faq.title"></h2>
+        </header>
+        <div class="faq" id="faq-list"></div>
+      </div>
+    </section>
+
+    <!-- ===================== 9. CONTACT + FORM ===================== -->
+    <section class="section" id="contact" aria-labelledby="contact-title">
+      <div class="container">
+        <header class="section__head" data-reveal>
+          <p class="eyebrow" data-i18n="contact.eyebrow"></p>
+          <h2 class="section__title" id="contact-title" data-i18n="contact.title"></h2>
+          <p class="section__subtitle" data-i18n="contact.subtitle"></p>
+        </header>
+
+        <div class="contact">
+          <div class="card form-card" data-reveal>
+            <form class="form" id="lead-form" novalidate>
+              <h3 class="form__title" data-i18n="form.title"></h3>
+
+              <div class="field">
+                <label class="field__label" for="f-name" data-i18n="form.name"></label>
+                <input class="field__input" id="f-name" name="name" type="text" autocomplete="name" maxlength="60" required aria-describedby="f-name-err" data-i18n-placeholder="form.namePh">
+                <p class="field__error" id="f-name-err" aria-live="polite"></p>
+              </div>
+
+              <div class="field">
+                <label class="field__label" for="f-phone" data-i18n="form.phone"></label>
+                <input class="field__input" id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required aria-describedby="f-phone-err" data-i18n-placeholder="form.phonePh">
+                <p class="field__error" id="f-phone-err" aria-live="polite"></p>
+              </div>
+
+              <div class="field">
+                <label class="field__label" for="f-plan" data-i18n="form.plan"></label>
+                <div class="field__select">
+                  <select class="field__input" id="f-plan" name="plan" required aria-describedby="f-plan-err"></select>
+                </div>
+                <p class="field__error" id="f-plan-err" aria-live="polite"></p>
+              </div>
+
+              <div class="field">
+                <label class="field__label" for="f-time" data-i18n="form.time"></label>
+                <div class="field__select">
+                  <select class="field__input" id="f-time" name="time" required aria-describedby="f-time-err">
+                    <option value="" data-i18n="form.timePh"></option>
+                    <option value="morning" data-i18n="form.times.morning"></option>
+                    <option value="day" data-i18n="form.times.day"></option>
+                    <option value="evening" data-i18n="form.times.evening"></option>
+                  </select>
+                </div>
+                <p class="field__error" id="f-time-err" aria-live="polite"></p>
+              </div>
+
+              <!-- Honeypot: hidden from people, bots fill it in and the lead is dropped -->
+              <div class="field" hidden aria-hidden="true">
+                <label for="f-website">Website</label>
+                <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
+              </div>
+
+              <button class="btn btn--primary btn--lg btn--block form__submit" type="submit">
+                <span data-i18n="form.submit"></span>
+              </button>
+              <p class="form__error" id="form-error" role="alert"></p>
+              <p class="form__privacy" data-i18n="form.privacy"></p>
+            </form>
+
+            <div class="success" id="form-success" hidden tabindex="-1">
+              <div class="success__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M5 12.5 10 17l9-10"/></svg>
+              </div>
+              <h3 class="success__title" data-i18n="form.success.title"></h3>
+              <p class="success__text" data-i18n="form.success.text"></p>
+              <button class="btn btn--ghost" type="button" id="form-again" data-i18n="form.success.again"></button>
+            </div>
+          </div>
+
+          <div class="contact__info" data-reveal>
+            <ul class="info">
+              <li class="info__item">
+                <span class="info__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12z"/><circle cx="12" cy="9" r="2.5"/></svg></span>
+                <div><p class="info__label" data-i18n="contact.address"></p><p class="info__value" data-config="address"></p></div>
+              </li>
+              <li class="info__item">
+                <span class="info__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+                <div>
+                  <p class="info__label" data-i18n="contact.hours"></p>
+                  <p class="info__value"><span data-i18n="contact.weekdays"></span> <span data-config="hoursWeekdays"></span></p>
+                  <p class="info__value"><span data-i18n="contact.weekend"></span> <span data-config="hoursWeekend"></span></p>
+                </div>
+              </li>
+              <li class="info__item">
+                <span class="info__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span>
+                <div><p class="info__label" data-i18n="contact.phone"></p><a class="info__value info__link" data-config="phone" href="#"></a></div>
+              </li>
+              <li class="info__item">
+                <span class="info__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" class="fill"/></svg></span>
+                <div>
+                  <p class="info__label" data-i18n="contact.social"></p>
+                  <div class="socials">
+                    <a class="social" data-config="instagram" href="#" target="_blank" rel="noopener">Instagram</a>
+                    <a class="social" data-config="telegram" href="#" target="_blank" rel="noopener">Telegram</a>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <div class="map">
+              <iframe id="map-frame" data-i18n-title="contact.mapTitle" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== 10. FOOTER ===================== -->
+  <footer class="footer">
+    <div class="footer__wood" aria-hidden="true"></div>
+    <div class="container footer__grid">
+      <div class="footer__brand">
+        <span class="logo logo--md">
+          <span class="logo__text" aria-hidden="true">
+            <span class="logo__word">VORTAQ</span>
+            <svg class="logo__swoosh" viewBox="0 0 200 22" aria-hidden="true"><path d="M2 19C58 5 132 1 198 5 134 7 66 12 2 19Z"/></svg>
+            <span class="logo__sub">FITNESS CLUB</span>
+          </span>
+        </span>
+        <p class="footer__tagline" data-i18n="footer.tagline"></p>
+      </div>
+
+      <nav class="footer__col" aria-labelledby="footer-links">
+        <h3 class="footer__heading" id="footer-links" data-i18n="footer.links"></h3>
+        <ul class="footer__links">
+          <li><a href="#about" data-i18n="nav.about"></a></li>
+          <li><a href="#plans" data-i18n="nav.plans"></a></li>
+          <li><a href="#trainers" data-i18n="nav.trainers"></a></li>
+          <li><a href="#schedule" data-i18n="nav.schedule"></a></li>
+          <li><a href="#gallery" data-i18n="nav.gallery"></a></li>
+          <li><a href="#faq" data-i18n="nav.faq"></a></li>
+        </ul>
+      </nav>
+
+      <div class="footer__col">
+        <h3 class="footer__heading" data-i18n="footer.contacts"></h3>
+        <ul class="footer__links">
+          <li><a data-config="phone" href="#"></a></li>
+          <li><a data-config="instagram" href="#" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a data-config="telegram" href="#" target="_blank" rel="noopener">Telegram</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <h3 class="footer__heading" data-i18n="footer.language"></h3>
+        <div class="lang lang--footer" role="group" data-i18n-aria="a11y.language">
+          <button class="lang__btn" type="button" data-lang="uz">UZ</button>
+          <button class="lang__btn" type="button" data-lang="ru">RU</button>
+          <button class="lang__btn" type="button" data-lang="en">EN</button>
+        </div>
+      </div>
+    </div>
+    <div class="container footer__bottom">
+      <p>© <span id="year"></span> Vortaq Fitness Club. <span data-i18n="footer.rights"></span></p>
+      <p data-i18n="footer.demo"></p>
+    </div>
+  </footer>
+
+  <!-- Floating Telegram button -->
+  <a class="tg-float" data-config="telegram" href="#" target="_blank" rel="noopener" data-i18n-aria="a11y.telegram">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+  </a>
+
+  <!-- Gallery lightbox -->
+  <dialog class="lightbox" id="lightbox">
+    <button class="lightbox__btn lightbox__close" type="button" data-action="close" data-i18n-aria="a11y.close">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <button class="lightbox__btn lightbox__prev" type="button" data-action="prev" data-i18n-aria="a11y.prev">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <figure class="lightbox__figure">
+      <img class="lightbox__img" id="lightbox-img" alt="">
+      <figcaption class="lightbox__caption" id="lightbox-caption"></figcaption>
+    </figure>
+    <button class="lightbox__btn lightbox__next" type="button" data-action="next" data-i18n-aria="a11y.next">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
+  </dialog>
+
+  <script src="js/translations.js"></script>
+  <script src="js/main.js"></script>
+<script src="../_shared/demo-bar.js" data-usta-demo-bar data-home="../../" data-name="Vortaq" defer></script>
+</body>
+</html>

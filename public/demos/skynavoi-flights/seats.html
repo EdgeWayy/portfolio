@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Выбор места · SkyNavoi</title>
+  <meta name="description" content="Схема салона и выбор места на рейс SkyNavoi.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#071427">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;600&subset=cyrillic&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="page-dark">
+  <a class="skip-link" href="#main">Перейти к содержимому</a>
+  <div class="backdrop" aria-hidden="true"><img src="assets/video/hero-poster.webp" alt=""></div>
+  <header class="site-header" id="site-header"></header>
+
+  <main id="main" class="page-main">
+    <div class="container" id="page">
+      <div class="page-head">
+        <a class="back-link" href="results.html" id="back"></a>
+        <div id="steps"></div>
+        <h1 class="page-title">Выберите места</h1>
+      </div>
+
+      <div class="booking">
+        <section class="panel glass" aria-labelledby="map-title">
+          <h2 class="panel__title" id="map-title">Схема салона</h2>
+          <div class="pax-tabs" role="tablist" aria-label="Пассажиры" id="pax-tabs"></div>
+          <div class="legend" aria-hidden="true">
+            <span><i style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.28)"></i>Свободно</span>
+            <span><i style="background:rgba(255,196,160,.18);border:1px solid rgba(255,196,160,.7)"></i>Платное место</span>
+            <span><i style="background:#ff5b1f"></i>Ваш выбор</span>
+            <span><i style="background:#fff"></i>Другой пассажир</span>
+            <span><i style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08)"></i>Занято</span>
+          </div>
+          <div class="fuselage" id="seat-map"></div>
+          <p class="seat-tip" id="seat-tip" role="status" aria-live="polite"></p>
+        </section>
+
+        <aside class="panel glass sum" id="summary" aria-label="Ваше бронирование"></aside>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" id="site-footer"></footer>
+  <script type="module" src="js/seats.js"></script>
+<script src="../_shared/demo-bar.js" data-usta-demo-bar data-home="../../" data-name="SkyNavoi" defer></script>
+</body>
+</html>

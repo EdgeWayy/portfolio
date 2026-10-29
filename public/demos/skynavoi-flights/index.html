@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SkyNavoi: авиабилеты из Узбекистана в Стамбул, Дубай и Москву</title>
+  <meta name="description" content="Прямые рейсы SkyNavoi из Навои, Ташкента и Самарканда. Цена уже включает багаж 23 кг и выбор места. Демо проект с вымышленными данными.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#071427">
+  <meta property="og:title" content="SkyNavoi: авиабилеты по честной цене">
+  <meta property="og:description" content="Прямые рейсы из Узбекистана в Стамбул, Дубай и Москву. Багаж и место уже в цене.">
+  <meta property="og:image" content="assets/og-image.jpg">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;600&subset=cyrillic&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="assets/video/hero-poster.webp" type="image/webp">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Перейти к содержимому</a>
+  <header class="site-header" id="site-header"></header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__media" id="hero-media">
+        <picture>
+          <source srcset="assets/video/hero-poster.webp" type="image/webp">
+          <img src="assets/video/hero-poster.jpg" alt="" width="1920" height="1080" fetchpriority="high">
+        </picture>
+        <video id="hero-video" autoplay muted loop playsinline preload="metadata" poster="assets/video/hero-poster.jpg" aria-hidden="true" tabindex="-1"
+          data-src-webm="assets/video/hero.webm" data-src-mp4="assets/video/hero.mp4"></video>
+      </div>
+      <div class="hero__shade"></div>
+
+      <div class="container hero__inner">
+        <div>
+          <p class="hero__eyebrow glass"><span class="hero__eyebrow-dot">Новое</span> Прямой рейс Навои ⇄ Стамбул с 3 ноября</p>
+          <h1 class="hero__title" id="hero-title" data-words>
+            Полёты<br>из Узбекистана<br>по <span class="accent">честной</span> цене
+          </h1>
+          <p class="hero__sub">Прямые рейсы из Навои, Ташкента и Самарканда в Стамбул, Дубай и Москву. Цена в поиске уже включает багаж 23 кг и выбор обычного места.</p>
+          <p class="hero__proof">
+            <span><strong>4,8 из 5</strong> по 12 417 отзывам</span>
+            <span><strong>96,3%</strong> рейсов вовремя в 2026 году</span>
+          </p>
+        </div>
+
+        <form class="search glass" id="search" action="results.html" method="get" novalidate aria-label="Поиск рейсов">
+          <div class="search__top">
+            <div class="segmented" role="radiogroup" aria-label="Тип поездки">
+              <input type="radio" name="trip" id="trip-round" value="round" checked>
+              <label for="trip-round">Туда и обратно</label>
+              <input type="radio" name="trip" id="trip-one" value="one">
+              <label for="trip-one">В одну сторону</label>
+            </div>
+            <p class="route-preview" aria-live="polite">
+              <span data-preview="from">NVI</span>
+              <span class="track track--loop" aria-hidden="true">
+                <span class="track__line"></span>
+                <span class="track__runner"><span class="track__plane" data-plane></span></span>
+              </span>
+              <span data-preview="to">IST</span>
+            </p>
+          </div>
+
+          <div class="search__grid">
+            <div class="search__pair">
+              <div class="field">
+                <label class="field__label" for="from">Откуда</label>
+                <div class="field__control"><select class="input" id="from" name="from" required></select></div>
+              </div>
+              <button type="button" class="swap" id="swap" aria-label="Поменять города местами"></button>
+              <div class="field">
+                <label class="field__label" for="to">Куда</label>
+                <div class="field__control"><select class="input" id="to" name="to" required></select></div>
+              </div>
+            </div>
+
+            <div class="search__dates">
+              <div class="field">
+                <label class="field__label" for="depart">Туда</label>
+                <div class="field__control"><input class="input" type="date" id="depart" name="depart" required></div>
+              </div>
+              <div class="field">
+                <label class="field__label" for="return">Обратно</label>
+                <div class="field__control"><input class="input" type="date" id="return" name="return"></div>
+              </div>
+            </div>
+
+            <div class="search__extra">
+              <div class="field">
+                <label class="field__label" for="pax">Пассажиры</label>
+                <div class="field__control">
+                  <select class="input" id="pax" name="pax">
+                    <option value="1">1 взрослый</option>
+                    <option value="2">2 взрослых</option>
+                    <option value="3">3 взрослых</option>
+                    <option value="4">4 взрослых</option>
+                    <option value="5">5 взрослых</option>
+                    <option value="6">6 взрослых</option>
+                  </select>
+                </div>
+              </div>
+              <div class="field">
+                <label class="field__label" for="cabin">Класс</label>
+                <div class="field__control">
+                  <select class="input" id="cabin" name="cabin">
+                    <option value="economy">Эконом</option>
+                    <option value="business">Бизнес</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn--accent btn--lg search__submit">Найти рейсы</button>
+          </div>
+          <p class="search__error" id="search-error" role="alert"></p>
+        </form>
+      </div>
+
+      <button type="button" class="video-toggle glass" id="video-toggle" aria-label="Остановить видео" hidden></button>
+    </section>
+
+    <section class="section" id="destinations" aria-labelledby="dest-title">
+      <div class="container">
+        <div class="section__head reveal">
+          <h2 class="section__title" id="dest-title">Шесть городов, куда летают чаще всего</h2>
+          <p class="section__lead">Цены за взрослого в одну сторону, эконом с багажом, на ближайшие 30 дней.</p>
+        </div>
+        <div class="dest-grid" id="dest-grid" data-stagger></div>
+      </div>
+    </section>
+
+    <section class="section section--tight" aria-labelledby="benefits-title">
+      <div class="container">
+        <div class="section__head reveal">
+          <h2 class="section__title" id="benefits-title">Цена в поиске равна цене при оплате</h2>
+        </div>
+        <div class="benefits" data-stagger>
+          <article class="benefit glass-light">
+            <span class="benefit__icon" data-icon="bag"></span>
+            <h3 class="benefit__title">Багаж 23 кг включён</h3>
+            <p class="benefit__text">Чемодан и ручная кладь 8 кг входят в любой тариф эконом. Никаких доплат на стойке регистрации.</p>
+            <p class="benefit__stat">Экономия до 410 000 сум на рейсе в Стамбул</p>
+          </article>
+          <article class="benefit glass-light">
+            <span class="benefit__icon" data-icon="seat"></span>
+            <h3 class="benefit__title">Место выбираете вы</h3>
+            <p class="benefit__text">Обычные места бесплатно сразу при бронировании. Семьи сидят вместе без звонков в поддержку.</p>
+            <p class="benefit__stat">Платно только ряды 5–7 и 12–13</p>
+          </article>
+          <article class="benefit glass-light">
+            <span class="benefit__icon" data-icon="shield"></span>
+            <h3 class="benefit__title">Отмена за 24 часа</h3>
+            <p class="benefit__text">Передумали в течение суток после покупки? Возвращаем полную стоимость на ту же карту.</p>
+            <p class="benefit__stat">Средний срок возврата 3 рабочих дня</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section tagline" aria-label="Наш принцип">
+      <div class="container">
+        <p class="tagline__text" id="tagline">Мы считаем минуты в воздухе, а&nbsp;не в&nbsp;очередях у&nbsp;стойки <span class="accent">регистрации</span></p>
+        <p class="tagline__by">Онлайн регистрация открывается за 30 часов до вылета</p>
+      </div>
+    </section>
+
+    <section class="section" id="how" aria-labelledby="how-title">
+      <div class="container">
+        <div class="section__head reveal">
+          <h2 class="section__title" id="how-title">Билет за три шага и четыре минуты</h2>
+        </div>
+        <ol class="steps-how" role="list" data-stagger>
+          <li class="how glass-light">
+            <span class="how__num">01</span>
+            <h3 class="how__title">Найдите рейс</h3>
+            <p class="how__text">Выберите города и даты. Фильтры по цене, времени вылета и пересадкам сразу сужают список.</p>
+          </li>
+          <li class="how glass-light">
+            <span class="how__num">02</span>
+            <h3 class="how__title">Выберите место</h3>
+            <p class="how__text">Схема салона показывает свободные кресла. Для каждого пассажира своё место.</p>
+          </li>
+          <li class="how glass-light">
+            <span class="how__num">03</span>
+            <h3 class="how__title">Получите билет</h3>
+            <p class="how__text">После ввода паспортных данных вы сразу видите код бронирования и посадочный с QR кодом.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section section--tight" id="faq" aria-labelledby="faq-title">
+      <div class="container">
+        <div class="section__head reveal">
+          <h2 class="section__title" id="faq-title">Частые вопросы</h2>
+        </div>
+        <div class="faq" data-stagger>
+          <details class="faq__item glass-light">
+            <summary>Что входит в тариф эконом?<span class="faq__plus" aria-hidden="true"></span></summary>
+            <p class="faq__answer">Багаж до 23 кг, ручная кладь до 8 кг, выбор обычного места и горячее питание на рейсах дольше трёх часов.</p>
+          </details>
+          <details class="faq__item glass-light">
+            <summary>Можно ли вернуть билет?<span class="faq__plus" aria-hidden="true"></span></summary>
+            <p class="faq__answer">В течение 24 часов после покупки возврат полный. Позже удерживается сбор 290 000 сум для эконома, бизнес возвращается без сбора.</p>
+          </details>
+          <details class="faq__item glass-light">
+            <summary>Какие документы нужны для полёта в Стамбул и Дубай?<span class="faq__plus" aria-hidden="true"></span></summary>
+            <p class="faq__answer">Заграничный паспорт, действительный минимум 6 месяцев с даты вылета. Для граждан Узбекистана виза в Турцию не нужна до 30 дней, в ОАЭ оформляется по прилёте или заранее онлайн.</p>
+          </details>
+          <details class="faq__item glass-light">
+            <summary>Когда открывается регистрация?<span class="faq__plus" aria-hidden="true"></span></summary>
+            <p class="faq__answer">Онлайн за 30 часов до вылета, в аэропорту за 3 часа для международных рейсов и за 2 часа для внутренних.</p>
+          </details>
+          <details class="faq__item glass-light">
+            <summary>Сколько стоит провоз ребёнка?<span class="faq__plus" aria-hidden="true"></span></summary>
+            <p class="faq__answer">Дети до 2 лет без места летают за 10% тарифа взрослого, от 2 до 12 лет со скидкой 25%.</p>
+          </details>
+          <details class="faq__item glass-light">
+            <summary>Это настоящая авиакомпания?<span class="faq__plus" aria-hidden="true"></span></summary>
+            <p class="faq__answer">Нет. SkyNavoi это демо проект. Рейсы, цены и бронирования вымышлены, оплата не проводится.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta" aria-labelledby="cta-title">
+      <picture>
+        <source srcset="assets/video/hero-poster.webp" type="image/webp">
+        <img class="cta__img" src="assets/video/hero-poster.jpg" alt="" loading="lazy" width="1920" height="1080">
+      </picture>
+      <div class="container">
+        <div class="cta__card glass reveal">
+          <h2 class="cta__title" id="cta-title">Стамбул от 2&nbsp;594&nbsp;000&nbsp;сум с&nbsp;багажом</h2>
+          <p class="cta__text">Прямой рейс из Навои по вторникам и субботам. Место и багаж уже в цене, отмена бесплатно в течение суток.</p>
+          <div class="cta__actions">
+            <a class="btn btn--accent btn--lg" href="#search">Найти рейсы</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="site-footer"></footer>
+
+  <script type="module" src="js/home.js"></script>
+<script src="../_shared/demo-bar.js" data-usta-demo-bar data-home="../../" data-name="SkyNavoi" defer></script>
+</body>
+</html>

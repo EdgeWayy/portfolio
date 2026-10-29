@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title data-i18n="home.title">Lirevo — мастерская цветов | Доставка букетов по Москве</title>
+  <meta name="description" data-i18n-attr="content:home.desc" content="Авторские букеты из свежих цветов с доставкой за 90 минут. Розы, пионы, тюльпаны, композиции в коробках.">
+  <meta name="theme-color" content="#FBF8F3">
+  <script src="js/boot.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cg fill='%23B4475F'%3E%3Cellipse cx='20' cy='11' rx='6' ry='9'/%3E%3Cellipse cx='20' cy='11' rx='6' ry='9' transform='rotate(72 20 20)'/%3E%3Cellipse cx='20' cy='11' rx='6' ry='9' transform='rotate(144 20 20)'/%3E%3Cellipse cx='20' cy='11' rx='6' ry='9' transform='rotate(216 20 20)'/%3E%3Cellipse cx='20' cy='11' rx='6' ry='9' transform='rotate(288 20 20)'/%3E%3C/g%3E%3Ccircle cx='20' cy='20' r='4' fill='%23A16207'/%3E%3C/svg%3E">
+</head>
+<body data-page="home">
+  <a class="skip-link" href="#main" data-i18n="skip">Перейти к содержимому</a>
+  <header id="site-header" style="height:76px"></header>
+
+  <main id="main">
+    <!-- HERO -->
+    <section class="hero" aria-labelledby="hero-title">
+      <canvas class="hero-canvas" aria-hidden="true"></canvas>
+      <div class="container hero-inner">
+        <div class="hero-copy">
+          <span class="eyebrow" data-reveal data-i18n="hero.eyebrow">Свежие цветы каждое утро</span>
+          <h1 class="h-display" id="hero-title" data-split data-i18n="hero.title">Цветы, которые <em>скажут</em> за вас</h1>
+          <p class="lead" data-reveal style="--rd:300ms" data-i18n="hero.lead">Собираем авторские букеты вручную и доставляем по Москве за 90 минут. Фото букета — до отправки, свежесть — до 10 дней.</p>
+          <div class="hero-ctas" data-reveal style="--rd:420ms">
+            <a class="btn btn--accent" href="catalog.html" data-magnetic><span class="btn-label" data-i18n="hero.cta">Выбрать букет</span> <svg class="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+            <a class="btn btn--ghost" href="#delivery" data-i18n="hero.how">Как мы работаем</a>
+          </div>
+          <div class="hero-stats" data-reveal style="--rd:540ms">
+            <div><b data-count="10">10</b><span data-i18n="stat.fresh">дней свежести</span></div>
+            <div><b data-count="90" data-suffix=" мин" data-i18n-attr="data-suffix:u.min">90 мин</b><span data-i18n="stat.express">экспресс-доставка</span></div>
+          </div>
+        </div>
+        <div id="hero-scroll">
+        <div class="hero-art" data-reveal="scale" style="--rd:150ms">
+          <div class="hero-ring" aria-hidden="true"></div>
+          <div class="hero-blob" aria-hidden="true" data-parallax="12"></div>
+          <div id="hero-bouquet" data-parallax="-18"></div>
+          <div class="float-badge float-badge--1"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg></span><span data-i18n="badge.photo"><b>Фото перед отправкой</b>согласуем каждый букет</span></div>
+          <div class="float-badge float-badge--2"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span><span data-i18n="badge.fast"><b>Доставка за 90 минут</b>ежедневно 8:00–22:00</span></div>
+        </div>
+        </div>
+      </div>
+      <div class="scroll-cue" aria-hidden="true"><i data-i18n="scroll" style="font-style:normal">Листайте</i><span></span></div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee" aria-hidden="true"><div class="marquee-track" id="marquee"></div></div>
+
+    <!-- BESTSELLERS -->
+    <section class="section" aria-labelledby="best-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow" data-reveal data-i18n="best.eyebrow">Бестселлеры</span>
+            <h2 class="h-1" id="best-title" data-split data-i18n="best.title">Любимые букеты <em class="serif">недели</em></h2>
+          </div>
+          <a class="link-u" href="catalog.html" data-reveal><span data-i18n="allCatalog">Весь каталог</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+        </div>
+        <div class="grid-products" id="best-grid" data-reveal-stagger></div>
+      </div>
+    </section>
+
+    <!-- CATEGORIES -->
+    <section class="section" style="padding-top:0" aria-labelledby="cats-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow" data-reveal data-i18n="cats.eyebrow">Категории</span>
+            <h2 class="h-1" id="cats-title" data-split data-i18n="cats.title">Найдите свой повод</h2>
+          </div>
+        </div>
+        <div class="cats" id="cats" data-reveal-stagger></div>
+      </div>
+    </section>
+
+    <!-- HORIZONTAL COLLECTION -->
+    <section class="hscroll" id="hscroll" aria-labelledby="season-title">
+      <div class="container hscroll-head">
+        <span class="eyebrow" data-i18n="season.eyebrow">Коллекция «Осень-2026»</span>
+        <h2 class="h-1" id="season-title" style="margin-top:12px" data-i18n="season.title">Сезонные <em class="serif">композиции</em></h2>
+      </div>
+      <div class="hscroll-track" id="hscroll-track"></div>
+      <div class="hscroll-progress" aria-hidden="true"><span id="hscroll-bar"></span></div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="section" aria-labelledby="why-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow" data-reveal data-i18n="why.eyebrow">Почему Lirevo</span>
+            <h2 class="h-1" id="why-title" data-split data-i18n="why.title">Больше, чем просто цветы</h2>
+          </div>
+        </div>
+        <div class="features" data-reveal-stagger id="features"></div>
+      </div>
+    </section>
+
+    <!-- STEPS -->
+    <section class="section" id="delivery" style="background:var(--surface)" aria-labelledby="steps-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow" data-reveal data-i18n="steps.eyebrow">Доставка и оплата</span>
+            <h2 class="h-1" id="steps-title" data-split data-i18n="steps.title">От заказа до улыбки — 4 шага</h2>
+          </div>
+          <p class="lead" data-reveal id="steps-lead">Бесплатная доставка по Москве от $50.00. Экспресс за 90 минут — +$5.00. Оплата картой, по СБП или курьеру.</p>
+        </div>
+        <div style="position:relative">
+          <div class="steps-line" aria-hidden="true"><span id="steps-line"></span></div>
+          <ol class="steps" id="steps"></ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROMO -->
+    <section class="section" aria-labelledby="promo-title">
+      <div class="container">
+        <div class="promo" data-reveal>
+          <div class="promo-copy">
+            <span class="eyebrow" data-i18n="promo.eyebrow">Доставка сегодня</span>
+            <h2 class="h-1" id="promo-title" data-i18n="promo.title">Успейте порадовать <em class="serif" style="color:#F5B6C3">сегодня</em></h2>
+            <p class="lead" id="promo-lead"><span data-i18n="promo.today">Оформите заказ до 20:00 — и мы доставим букет уже сегодня. Промокод </span><b style="color:#fff">LIREVO10</b><span data-i18n="promo.suffix"> дарит −10% на первый заказ.</span></p>
+            <div class="countdown" id="countdown" role="timer" aria-live="off">
+              <div><b data-h>00</b><span data-i18n="cd.h">часов</span></div>
+              <div><b data-m>00</b><span data-i18n="cd.m">минут</span></div>
+              <div><b data-s>00</b><span data-i18n="cd.s">секунд</span></div>
+            </div>
+            <a class="btn" href="catalog.html" data-magnetic><span class="btn-label" data-i18n="promo.cta">Заказать сейчас</span> <svg class="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+          </div>
+          <div class="promo-art" id="promo-art"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha512-onMTRKJBKz8M1TnqqDuGBlowlH0ohFzMXYRNebz+yOcc5TQr/zAKsthzhuv0hiyUKEiQEQXEynnXCvNTOk50dg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/flowers.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/home.js"></script>
+<script src="../_shared/demo-bar.js" data-usta-demo-bar data-home="../../" data-name="Lirevo" defer></script>
+</body>
+</html>

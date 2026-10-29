@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Выбор рейса · SkyNavoi</title>
+  <meta name="description" content="Рейсы SkyNavoi с фильтрами по цене, времени вылета и пересадкам.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#071427">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;600&subset=cyrillic&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="page-dark">
+  <a class="skip-link" href="#main">Перейти к содержимому</a>
+  <div class="backdrop" aria-hidden="true"><img src="assets/video/hero-poster.webp" alt=""></div>
+  <header class="site-header" id="site-header"></header>
+
+  <main id="main" class="page-main">
+    <div class="container">
+      <div class="page-head">
+        <a class="back-link" href="index.html#search" id="edit-search"></a>
+        <div id="steps"></div>
+        <h1 class="page-title" id="page-title">Выберите рейс</h1>
+      </div>
+
+      <section class="summary glass" id="summary" aria-label="Параметры поиска"></section>
+      <p class="leg-note" id="leg-note" hidden></p>
+
+      <div class="results">
+        <details class="filters glass" id="filters" open>
+          <summary class="filters__summary"><span>Фильтры</span><span id="filters-icon"></span></summary>
+          <form class="filters__body" id="filter-form">
+            <div class="filter-group">
+              <label class="filter-group__title" for="price">Цена до</label>
+              <input class="range" type="range" id="price" name="price" step="10000">
+              <div class="range-value"><span>от <span id="price-min"></span></span><strong id="price-out"></strong></div>
+            </div>
+            <fieldset class="filter-group">
+              <legend>Пересадки</legend>
+              <label class="check"><input type="checkbox" name="stops" value="0" checked> Без пересадок <span class="check__count" data-count="stops-0"></span></label>
+              <label class="check"><input type="checkbox" name="stops" value="1" checked> 1 пересадка <span class="check__count" data-count="stops-1"></span></label>
+              <label class="check"><input type="checkbox" name="stops" value="2" checked> 2 пересадки <span class="check__count" data-count="stops-2"></span></label>
+            </fieldset>
+            <fieldset class="filter-group">
+              <legend>Время вылета</legend>
+              <label class="check"><input type="checkbox" name="time" value="night" checked> Ночь, 00:00–05:59 <span class="check__count" data-count="time-night"></span></label>
+              <label class="check"><input type="checkbox" name="time" value="morning" checked> Утро, 06:00–11:59 <span class="check__count" data-count="time-morning"></span></label>
+              <label class="check"><input type="checkbox" name="time" value="day" checked> День, 12:00–17:59 <span class="check__count" data-count="time-day"></span></label>
+              <label class="check"><input type="checkbox" name="time" value="evening" checked> Вечер, 18:00–23:59 <span class="check__count" data-count="time-evening"></span></label>
+            </fieldset>
+            <button type="reset" class="btn btn--ghost btn--sm">Сбросить фильтры</button>
+          </form>
+        </details>
+
+        <section aria-labelledby="page-title">
+          <div class="list-toolbar">
+            <p class="list-count" id="list-count" role="status" aria-live="polite"></p>
+            <div class="segmented" role="radiogroup" aria-label="Сортировка">
+              <input type="radio" name="sort" id="sort-price" value="price" checked><label for="sort-price">Дешевле</label>
+              <input type="radio" name="sort" id="sort-fast" value="duration"><label for="sort-fast">Быстрее</label>
+              <input type="radio" name="sort" id="sort-early" value="dep"><label for="sort-early">Раньше</label>
+            </div>
+          </div>
+          <div class="flight-list" id="flight-list" aria-busy="true"></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" id="site-footer"></footer>
+  <script type="module" src="js/results.js"></script>
+<script src="../_shared/demo-bar.js" data-usta-demo-bar data-home="../../" data-name="SkyNavoi" defer></script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob: https:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Lumina Mall</title>
+  <meta name="theme-color" content="#1f2a4d">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/store.css">
+  <script src="js/theme-init.js"></script>
+</head>
+<body class="page-store">
+  <div class="loader" id="loader" role="status" aria-live="polite">
+    <div class="loader-inner">
+      <svg class="loader-logo" viewBox="0 0 80 80" aria-hidden="true">
+        <rect class="ll-frame" x="6" y="6" width="68" height="68" rx="22" pathLength="1"/>
+        <path class="ll-arch" d="M24 58V40a16 16 0 0 1 32 0v18" pathLength="1"/>
+        <path class="ll-floor" d="M18 58h44" pathLength="1"/>
+        <circle class="ll-sun" cx="40" cy="22" r="5"/>
+      </svg>
+      <div class="loader-word">Lumina Mall</div>
+      <div class="loader-bar"><span></span></div>
+      <span class="sr-only" data-i18n="loader.loading"></span>
+    </div>
+  </div>
+  <div class="enter-veil" id="enterVeil" aria-hidden="true"><span class="enter-veil-emoji"></span></div>
+
+  <a class="skip-link" href="#products" data-i18n="skip.products"></a>
+
+  <header class="topbar">
+    <a class="back-btn" href="index.html" id="backToMap" data-transition>
+      <span class="back-icon" data-icon="arrow-left" data-size="18"></span>
+      <span class="back-text" data-i18n="store.back"></span>
+    </a>
+    <a class="brand hide-sm" href="index.html" data-i18n-attr="aria-label:nav.home" data-transition>
+      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+        <rect class="bm-bg" x="1" y="1" width="38" height="38" rx="12"/>
+        <path class="bm-arch" d="M12 30V20a8 8 0 0 1 16 0v10"/>
+        <path class="bm-floor" d="M9 30h22"/>
+        <circle class="bm-sun" cx="20" cy="10.5" r="2.6"/>
+      </svg>
+      <span class="brand-text"><span class="brand-name">Lumina</span><span class="brand-sub" data-i18n="app.sub"></span></span>
+    </a>
+    <nav class="topbar-actions" data-i18n-attr="aria-label:nav.main">
+      <a class="btn btn-ghost hide-sm" href="mall.html" data-transition><span data-icon="grid" data-size="18"></span><span data-i18n="nav.directory"></span></a>
+      <div data-lang-switch></div>
+      <button class="icon-btn" type="button" data-theme-toggle></button>
+      <button class="icon-btn cart-btn" type="button" data-cart-open><span data-icon="bag"></span><span class="badge" data-cart-count hidden>0</span></button>
+    </nav>
+  </header>
+
+  <main id="main" class="page-offset">
+    <section class="store-hero" id="storeHero" aria-labelledby="storeName">
+      <!-- Store photo (custom cover → bundled photo) with a dark overlay for readable text -->
+      <div class="hero-photo img-box" id="heroPhoto" aria-hidden="true"></div>
+      <div class="hero-deco" aria-hidden="true"><span></span><span></span><span></span></div>
+      <div class="container hero-inner">
+        <div class="store-logo" id="storeLogo" aria-hidden="true"></div>
+        <div class="hero-copy">
+          <div class="row hero-tags" id="storeTags"></div>
+          <h1 class="h1" id="storeName">&nbsp;</h1>
+          <p class="lead" id="storeDesc"></p>
+          <dl class="hero-facts" id="storeFacts"></dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="section products-section" id="products" data-i18n-attr="aria-label:store.products">
+      <div class="container">
+        <div class="toolbar" role="search">
+          <div class="toolbar-search">
+            <label for="productSearch" class="sr-only" data-i18n="store.searchLabel"></label>
+            <span class="search-icon" data-icon="search" data-size="18"></span>
+            <input class="input" id="productSearch" type="search" maxlength="40" autocomplete="off" data-i18n-attr="placeholder:store.search">
+          </div>
+          <label class="sr-only" for="productSort" data-i18n="store.sortLabel"></label>
+          <select class="select toolbar-sort" id="productSort">
+            <option value="featured" data-i18n="sort.featured"></option>
+            <option value="price-asc" data-i18n="sort.priceAsc"></option>
+            <option value="price-desc" data-i18n="sort.priceDesc"></option>
+            <option value="name" data-i18n="sort.name"></option>
+          </select>
+          <label class="switch">
+            <input type="checkbox" id="inStockOnly">
+            <span class="switch-track" aria-hidden="true"></span>
+            <span data-i18n="store.inStockOnly"></span>
+          </label>
+        </div>
+        <p class="result-count muted small" id="resultCount" aria-live="polite"></p>
+        <div class="product-grid" id="productGrid"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="js/config.js" defer></script>
+  <script src="js/i18n.js" defer></script>
+  <script src="js/utils.js" defer></script>
+  <script src="js/photos.js" defer></script>
+  <script src="js/data.js" defer></script>
+  <script src="js/imageStore.js" defer></script>
+  <script src="js/storage.js" defer></script>
+  <script src="js/search.js" defer></script>
+  <script src="js/cart.js" defer></script>
+  <script src="js/common.js" defer></script>
+  <script src="js/store.js" defer></script>
+<script src="../_shared/demo-bar.js" data-usta-demo-bar data-home="../../" data-name="Lumina Mall" data-note="admin: admin123" defer></script>
+</body>
+</html>

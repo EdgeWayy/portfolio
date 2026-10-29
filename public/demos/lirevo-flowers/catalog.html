@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title data-i18n="cat.title">Каталог букетов — Lirevo</title>
+  <meta name="description" data-i18n-attr="content:cat.desc" content="Розы, пионы, тюльпаны, полевые цветы и композиции в коробках с доставкой по Москве.">
+  <meta name="theme-color" content="#FBF8F3">
+  <script src="js/boot.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='14' fill='%23B4475F'/%3E%3C/svg%3E">
+</head>
+<body data-page="catalog">
+  <a class="skip-link" href="#main" data-i18n="skip">Перейти к содержимому</a>
+  <header id="site-header" style="height:76px"></header>
+
+  <main id="main" class="page-top">
+    <div class="container">
+      <nav aria-label="Хлебные крошки" data-i18n-attr="aria-label:crumbs"><ol class="crumbs"><li><a href="index.html" data-i18n="nav.home">Главная</a></li><li aria-current="page" data-i18n="nav.catalog">Каталог</li></ol></nav>
+      <div class="catalog-hero" style="margin-top:var(--s-5)">
+        <h1 class="h-1" data-split data-i18n="cat.h1">Каталог <em class="serif">букетов</em></h1>
+        <p class="lead" data-reveal data-i18n="cat.lead">Каждый букет собирается вручную в день доставки. Выберите категорию, бюджет — и мы сделаем остальное.</p>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <div class="container toolbar-row">
+        <div class="filter-tabs" id="tabs" role="group" aria-label="Категории" data-i18n-attr="aria-label:cat.groups"><span class="pill" aria-hidden="true"></span></div>
+        <div class="toolbar-tools">
+          <div class="search-box">
+            <label class="sr-only" for="q" data-i18n="search.label">Поиск букета</label>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input class="input" id="q" type="search" placeholder="Пионы, розы, коробка…" data-i18n-attr="placeholder:search.ph" autocomplete="off">
+          </div>
+          <div class="price-filter">
+            <label for="price" data-i18n="price.upto">До</label>
+            <input type="range" id="price" min="20" max="90" step="5" value="90">
+            <output for="price" id="price-out">$90.00</output>
+          </div>
+          <label class="sr-only" for="sort" data-i18n="sort.label">Сортировка</label>
+          <select class="select" id="sort">
+            <option value="popular" data-i18n="sort.popular">Популярные</option>
+            <option value="price-asc" data-i18n="sort.asc">Сначала дешевле</option>
+            <option value="price-desc" data-i18n="sort.desc">Сначала дороже</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <p class="results-meta" id="meta" aria-live="polite"></p>
+      <div class="grid-products" id="grid"></div>
+      <div class="empty" id="empty" hidden>
+        <h2 data-i18n="none.title">Ничего не нашлось</h2>
+        <p data-i18n="none.text">Попробуйте изменить категорию или увеличить бюджет.</p>
+        <button class="btn btn--ghost btn--sm" type="button" id="reset" data-i18n="reset">Сбросить фильтры</button>
+      </div>
+    </div>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Flip.min.js" integrity="sha512-omCJ8S/xl+DUjxNTqvhVSptHwIEi0IDp52n63HEj8ThJgSK/8Lcpi9btnTdE8db+Y4cDKZrZ7NQZBX4PKN4i4g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/flowers.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/catalog.js"></script>
+<script src="../_shared/demo-bar.js" data-usta-demo-bar data-home="../../" data-name="Lirevo" defer></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob: https:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Lumina Mall</title>
+  <meta name="theme-color" content="#1f2a4d">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/directory.css">
+  <script src="js/theme-init.js"></script>
+</head>
+<body class="page-directory">
+  <div class="loader" id="loader" role="status" aria-live="polite">
+    <div class="loader-inner">
+      <svg class="loader-logo" viewBox="0 0 80 80" aria-hidden="true">
+        <rect class="ll-frame" x="6" y="6" width="68" height="68" rx="22" pathLength="1"/>
+        <path class="ll-arch" d="M24 58V40a16 16 0 0 1 32 0v18" pathLength="1"/>
+        <path class="ll-floor" d="M18 58h44" pathLength="1"/>
+        <circle class="ll-sun" cx="40" cy="22" r="5"/>
+      </svg>
+      <div class="loader-word">Lumina Mall</div>
+      <div class="loader-bar"><span></span></div>
+      <span class="sr-only" data-i18n="loader.loading"></span>
+    </div>
+  </div>
+
+  <a class="skip-link" href="#stores" data-i18n="skip.stores"></a>
+
+  <header class="topbar">
+    <a class="brand" href="index.html" data-i18n-attr="aria-label:nav.home" data-transition>
+      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+        <rect class="bm-bg" x="1" y="1" width="38" height="38" rx="12"/>
+        <path class="bm-arch" d="M12 30V20a8 8 0 0 1 16 0v10"/>
+        <path class="bm-floor" d="M9 30h22"/>
+        <circle class="bm-sun" cx="20" cy="10.5" r="2.6"/>
+      </svg>
+      <span class="brand-text hide-sm"><span class="brand-name">Lumina</span><span class="brand-sub" data-i18n="app.sub"></span></span>
+    </a>
+    <nav class="topbar-actions" data-i18n-attr="aria-label:nav.main">
+      <a class="btn btn-ghost" href="index.html" data-transition><span data-icon="map" data-size="18"></span><span class="hide-sm" data-i18n="nav.atrium"></span></a>
+      <div data-lang-switch></div>
+      <button class="icon-btn" type="button" data-theme-toggle></button>
+      <button class="icon-btn cart-btn" type="button" data-cart-open><span data-icon="bag"></span><span class="badge" data-cart-count hidden>0</span></button>
+    </nav>
+  </header>
+
+  <main id="main" class="page-offset">
+    <section class="dir-hero">
+      <div class="container dir-hero-inner">
+        <span class="eyebrow" data-i18n="dir.eyebrow"></span>
+        <h1 class="h1" data-i18n="dir.title"></h1>
+        <p class="lead" data-i18n="dir.lead"></p>
+        <div class="dir-stats">
+          <div><strong data-count="16" data-stat="stores">0</strong><span data-i18n="dir.stat.stores"></span></div>
+          <div><strong data-count="4">0</strong><span data-i18n="dir.stat.floors"></span></div>
+          <div><strong data-count="99" data-stat="products">0</strong><span data-i18n="dir.stat.products"></span></div>
+          <div><strong data-count="0" data-stat="open">0</strong><span data-i18n="dir.stat.open"></span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section dir-section" id="stores" data-i18n-attr="aria-label:nav.directory">
+      <div class="container">
+        <div class="dir-filters">
+          <div class="toolbar-search">
+            <label for="dirSearch" class="sr-only" data-i18n="search.label"></label>
+            <span class="search-icon" data-icon="search" data-size="18"></span>
+            <input class="input" id="dirSearch" type="search" maxlength="60" autocomplete="off" data-i18n-attr="placeholder:dir.search">
+          </div>
+          <div class="segmented dir-floor" role="radiogroup"></div>
+        </div>
+        <p class="hint dir-hint" data-i18n="search.hint"></p>
+        <div class="chips" id="categoryChips" role="group"></div>
+        <p class="result-count muted small" id="dirCount" aria-live="polite"></p>
+        <div class="store-grid" id="storeGrid"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="js/config.js" defer></script>
+  <script src="js/i18n.js" defer></script>
+  <script src="js/utils.js" defer></script>
+  <script src="js/photos.js" defer></script>
+  <script src="js/data.js" defer></script>
+  <script src="js/imageStore.js" defer></script>
+  <script src="js/storage.js" defer></script>
+  <script src="js/search.js" defer></script>
+  <script src="js/cart.js" defer></script>
+  <script src="js/common.js" defer></script>
+  <script src="js/directory.js" defer></script>
+<script src="../_shared/demo-bar.js" data-usta-demo-bar data-home="../../" data-name="Lumina Mall" data-note="admin: admin123" defer></script>
+</body>
+</html>

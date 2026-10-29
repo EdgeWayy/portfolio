@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Данные пассажиров · SkyNavoi</title>
+  <meta name="description" content="Паспортные и контактные данные для бронирования SkyNavoi.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#071427">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@500;600&subset=cyrillic&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="page-dark">
+  <a class="skip-link" href="#main">Перейти к содержимому</a>
+  <div class="backdrop" aria-hidden="true"><img src="assets/video/hero-poster.webp" alt=""></div>
+  <header class="site-header" id="site-header"></header>
+
+  <main id="main" class="page-main">
+    <div class="container" id="page">
+      <div class="page-head">
+        <a class="back-link" href="seats.html" id="back"></a>
+        <div id="steps"></div>
+        <h1 class="page-title">Данные пассажиров</h1>
+      </div>
+
+      <div class="booking">
+        <form class="panel glass" id="pax-form" novalidate aria-labelledby="form-title">
+          <h2 class="panel__title" id="form-title">Как в заграничном паспорте</h2>
+          <p class="form-alert" id="form-alert" role="alert" hidden></p>
+          <div id="pax-list"></div>
+
+          <div class="pax-card">
+            <div class="pax-card__head"><h3 class="pax-card__title">Контакты для билета</h3></div>
+            <div class="form-grid">
+              <div class="field">
+                <label class="field__label" for="email">Электронная почта</label>
+                <input class="input" type="email" id="email" name="email" autocomplete="email" inputmode="email" placeholder="dilnoza.r@mail.uz" aria-describedby="email-error" required>
+                <p class="field__error" id="email-error"></p>
+              </div>
+              <div class="field">
+                <label class="field__label" for="phone">Телефон</label>
+                <input class="input" type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" placeholder="+998 90 123 45 67" aria-describedby="phone-error" required>
+                <p class="field__error" id="phone-error"></p>
+              </div>
+              <div class="field span-2">
+                <label class="consent"><span class="check"><input type="checkbox" id="consent" name="consent" aria-describedby="consent-error" required></span>
+                  <span>Согласен с <a href="legal.html#terms" target="_blank">условиями перевозки</a> и <a href="legal.html#privacy" target="_blank">обработкой данных</a>. Это демо: данные никуда не отправляются.</span></label>
+                <p class="field__error" id="consent-error"></p>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <aside class="panel glass sum" id="summary" aria-label="Ваше бронирование"></aside>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer" id="site-footer"></footer>
+  <script type="module" src="js/passenger.js"></script>
+<script src="../_shared/demo-bar.js" data-usta-demo-bar data-home="../../" data-name="SkyNavoi" defer></script>
+</body>
+</html>

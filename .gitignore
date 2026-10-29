@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.env
+.env.*
+*.log
+.DS_Store
+/my-photo.*
+/tools/_work/
+/.playwright-mcp/
+/test-results/

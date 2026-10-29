@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title data-i18n="pdp.title">Букет — Lirevo</title>
+  <meta name="theme-color" content="#FBF8F3">
+  <script src="js/boot.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='14' fill='%23B4475F'/%3E%3C/svg%3E">
+</head>
+<body data-page="catalog">
+  <a class="skip-link" href="#main" data-i18n="skip">Перейти к содержимому</a>
+  <header id="site-header" style="height:76px"></header>
+
+  <main id="main" class="page-top">
+    <div class="container" id="pdp-root"></div>
+
+    <section class="section" aria-labelledby="rel-title" id="related-wrap">
+      <div class="container">
+        <div class="section-head">
+          <div><span class="eyebrow" data-reveal data-i18n="related.eyebrow">Вам может понравиться</span><h2 class="h-2" id="rel-title" data-split data-i18n="related.title">Похожие букеты</h2></div>
+          <a class="link-u" href="catalog.html"><span data-i18n="allCatalog">Весь каталог</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+        </div>
+        <div class="grid-products" id="related" data-reveal-stagger></div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/flowers.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/product.js"></script>
+<script src="../_shared/demo-bar.js" data-usta-demo-bar data-home="../../" data-name="Lirevo" defer></script>
+</body>
+</html>
