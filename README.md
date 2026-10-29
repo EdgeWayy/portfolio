@@ -4,7 +4,7 @@ Portfolio of **Akbar**, a web developer from Uzbekistan ([@KrieWoo](https://t.me
 
 The site is built around the eight-point star (khatam) from
 Samarkand tilework. The hero portrait is a live WebGL grid of stars, and the cursor works as a lens that
-turns into a "master's loupe" with finer saffron stars. No real photo is published, only star renderings. Six real demo sites live inside this repo and open from the portfolio.
+turns into a "master's loupe" with finer, magnified stars. No real photo is published, only star renderings. Six real demo sites live inside this repo and open from the portfolio.
 
 - Static site: Vite + vanilla JS + GSAP + Lenis + raw WebGL. No backend.
 - Russian by default, with an English toggle. Mobile first. Respects reduced motion.
@@ -58,7 +58,6 @@ The site uses processed copies in `public/img/`:
 |---|---|
 | `portrait-tone.webp` | 96×120 mosaic with 8 gray levels that the WebGL shader turns into stars |
 | `portrait-halftone-*.webp` | static star halftone (hero fallback: no WebGL, weak phone, reduced motion; OG image) |
-| `portrait-dots-*.webp` | ink stars on saffron, About section |
 
 The real photo is not published anywhere on the site.
 

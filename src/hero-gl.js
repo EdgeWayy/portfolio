@@ -1,6 +1,6 @@
 /* Hero portrait: a grid of eight-point stars (khatam) drawn by one fragment shader.
    Star size = darkness of the tone map. The pointer is a "master's loupe": inside it the stars get
-   twice as fine and turn saffron on ink, and the grid bulges around it. Scrolling grows and turns the stars until the portrait dissolves.
+   finer and magnified, on a solid paper disc, and the grid bulges around it. Scrolling grows and turns the stars until the portrait dissolves.
    Raw WebGL (one full-screen quad, no library), loaded lazily; the static halftone <img> stays as the fallback. */
 const vertex = /* glsl */ `
 attribute vec2 position;
@@ -26,7 +26,7 @@ uniform float uIntro;
 uniform float uCell;
 uniform vec3 uInk;
 uniform vec3 uRing;
-uniform vec3 uDark;
+uniform vec3 uPaper;
 varying vec2 vUv;
 
 const float IMG_ASPECT = 0.8; // 4:5 portrait
@@ -77,15 +77,15 @@ void main() {
   float lensR = uLens * uHover;
   if (lensR > 1.0) {
     float inLens = 1.0 - smoothstep(lensR - 1.5 * uDpr, lensR + 1.5 * uDpr, dist);
-    // loupe: a finer grid magnified 1.6x, drawn as light: saffron stars on ink, sized by brightness
+    // loupe: a finer grid of the same blue stars, magnified 1.6x, on a paper disc
     float fc = uCell * 0.72;
     vec2 fcen = (floor(frag / fc) + 0.5) * fc;
     vec2 zuv = coverUv((uMouse + (fcen - uMouse) / 1.6) / uRes);
     float ft = (zuv.x < 0.0 || zuv.x > 1.0 || zuv.y < 0.0 || zuv.y > 1.0) ? 1.0 : texture2D(uTone, zuv).r;
-    float fl = ft;
-    float fsd = star(frag - fcen, fc * 0.5 * pow(fl, 0.9) * 1.15, fl * 0.7 - uTime * 0.25);
-    float fa = (1.0 - smoothstep(-0.8 * uDpr, 0.8 * uDpr, fsd)) * step(0.06, fl);
-    col = mix(col, vec4(mix(uDark, uRing, fa), 1.0), inLens);
+    float fd = 1.0 - ft;
+    float fsd = star(frag - fcen, fc * 0.5 * pow(fd, 0.62) * 1.12, fd * 0.7 - uTime * 0.25);
+    float fa = (1.0 - smoothstep(-0.8 * uDpr, 0.8 * uDpr, fsd)) * step(0.06, fd);
+    col = mix(col, vec4(mix(uPaper, uInk, fa), 1.0), inLens);
     float ring = 1.0 - smoothstep(1.2 * uDpr, 2.6 * uDpr, abs(dist - lensR));
     col = mix(col, vec4(uRing, 1.0), ring);
   }
@@ -145,11 +145,11 @@ export async function initHeroGL(figure, { toneUrl, coarse }) {
 
   texture(gl, toneImg, 0);
   const U = (n) => gl.getUniformLocation(prog, n);
-  const uni = Object.fromEntries(["uTone", "uRes", "uDpr", "uMouse", "uLens", "uHover", "uTime", "uScroll", "uIntro", "uCell", "uInk", "uRing", "uDark"].map((n) => [n, U(n)]));
+  const uni = Object.fromEntries(["uTone", "uRes", "uDpr", "uMouse", "uLens", "uHover", "uTime", "uScroll", "uIntro", "uCell", "uInk", "uRing", "uPaper"].map((n) => [n, U(n)]));
   gl.uniform1i(uni.uTone, 0);
   gl.uniform3fv(uni.uInk, hex("#1B3BD1"));
-  gl.uniform3fv(uni.uRing, hex("#FF5A1F"));
-  gl.uniform3fv(uni.uDark, hex("#121212"));
+  gl.uniform3fv(uni.uRing, hex("#1B3BD1"));
+  gl.uniform3fv(uni.uPaper, hex("#F3EEE4"));
   gl.clearColor(0, 0, 0, 0);
 
   const dpr = Math.min(window.devicePixelRatio || 1, coarse ? 1.5 : 1.75);

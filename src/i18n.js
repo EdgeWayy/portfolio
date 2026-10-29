@@ -27,8 +27,6 @@ const en = {
   "marquee.label": "What I do",
   "marquee.a": "<span>Business sites</span><i>✦</i><span>Online stores</span><i>✦</i><span>Admin panels</span><i>✦</i><span>Click · Payme · Uzum</span><i>✦</i><span>Telegram bots</span><i>✦</i><span>RU · UZ · EN</span><i>✦</i>",
   "about.title": "Hi, I'm Akbar",
-  "about.altDots": "Portrait of Akbar made of stars",
-  "about.cap": "3,427 stars · 0 photo pixels",
   "about.big": "I build websites the way a <em>master</em> builds a pattern on a Samarkand wall: from a hundred precise pieces, each in its place.",
   "about.p1": "I'm Akbar, a self-taught developer from Uzbekistan. I build websites for local businesses: coffee shops, fitness clubs, restaurants, stores.",
   "about.p2": "I work with AI as a partner: it handles the routine, and I check the design, logic and quality myself. So you get a well-thought-out site faster and cheaper than from an agency.",
