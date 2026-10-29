@@ -81,8 +81,9 @@ p { text-wrap: pretty; }
 /* ---------- page wipe (to and from demos) ---------- */
 .wipe {
   position: fixed; inset: 0; z-index: 150; pointer-events: none;
-  background: var(--lapis); transform: translateY(101%);
+  background: var(--lapis); transform: translateY(101%); visibility: hidden;
 }
+.wipe.is-in, .wipe.is-cover, .wipe.is-leave { visibility: visible; }
 .wipe__pattern {
   position: absolute; inset: 0; opacity: .9;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 48 48'%3E%3Cpath fill='%23FF5A1F' d='M24 14l2.2 4 4.4-1.3-1.3 4.4 4 2.2-4 2.2 1.3 4.4-4.4-1.3L24 34l-2.2-4-4.4 1.3 1.3-4.4-4-2.2 4-2.2-1.3-4.4 4.4 1.3z'/%3E%3C/svg%3E");
@@ -220,7 +221,7 @@ p { text-wrap: pretty; }
 }
 .hero__portrait {
   grid-area: portrait; position: relative; z-index: 2; justify-self: center;
-  width: min(84vw, 460px); aspect-ratio: 4 / 5; margin-top: -14vw;
+  width: min(84vw, 460px); aspect-ratio: 4 / 5; margin-top: -7vw;
   touch-action: pan-y;
 }
 .hero__img, .hero__gl { position: absolute; inset: 0; width: 100%; height: 100%; }
@@ -405,9 +406,6 @@ p { text-wrap: pretty; }
   .svc__item::before { inset: 0; }
   .svc__item:nth-child(odd)::before { left: calc(var(--gutter) * -1); }
   .svc__item:nth-child(even)::before { right: calc(var(--gutter) * -1); }
-}
-@media (min-width: 1200px) {
-  .svc__item { grid-template-columns: auto 1fr; grid-template-areas: "top top" "text text" "price price"; }
 }
 
 /* ---------- process ---------- */

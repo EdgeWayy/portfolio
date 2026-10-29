@@ -6,8 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "node tools/check-secrets.mjs && vite build",
-    "preview": "vite preview --port 4173",
+    "preview": "node tools/serve.mjs dist /akbar-portfolio/ 4173",
     "demos": "node tools/copy-demos.mjs",
+    "shots": "node tools/shots.mjs && python tools/photo/shots_to_webp.py",
+    "test": "node tools/shots.mjs --no-shots && node tools/e2e.mjs",
+    "og": "node tools/og.mjs",
     "check": "node tools/check-secrets.mjs"
   },
   "devDependencies": {

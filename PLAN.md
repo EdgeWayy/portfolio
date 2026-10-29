@@ -30,11 +30,11 @@ a tile pattern. Fallback: pre-rendered halftone WebP (no WebGL, reduced motion, 
 4. About: original photo vs pattern (drag slider), story, honest stat counters
 5. Services: websites, Telegram bots, admin panels, payment integrations (with price ranges)
 6. Work: stacked case-study cards for every demo (screenshot, problem, solution, tech, result, live demo)
-8. Process: 5-step timeline drawn on scroll
-9. Now building / changelog
-10. FAQ
-11. Contact: "Get a quote" form that opens Telegram with a prefilled message
-12. Footer, easter egg, 404 page
+7. Process: 5-step timeline drawn on scroll
+8. Now building / changelog
+9. FAQ
+10. Contact: "Get a quote" form that opens Telegram with a prefilled message
+11. Footer, easter egg, 404 page
 
 RU default + EN toggle. Mobile-first. Reduced motion respected.
 
@@ -56,8 +56,8 @@ No .env, api/, .git, backups or test dumps are copied. `tools/check-secrets.mjs`
 
 ## Stack
 
-Vite (multi-page, `base` from env, default `./`), vanilla JS, GSAP + ScrollTrigger, Lenis, Three.js
-(lazy loaded). Python + Pillow for photo stylization. Playwright for screenshots and link tests.
+Vite (`base` from env, default `./`), vanilla JS, GSAP + ScrollTrigger, Lenis, raw WebGL
+(lazy loaded; Three.js was tried first and dropped: 130 KB gz for one full-screen shader). Python + Pillow for photo stylization. Playwright for screenshots and link tests.
 
 ## Stages
 
