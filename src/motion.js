@@ -56,18 +56,18 @@ function reveals() {
     const words = split(node);
     gsap.from(words, {
       yPercent: 110, duration: 1.1, ease: "expo.out", stagger: 0.04,
-      scrollTrigger: { trigger: node, start: "top 88%" },
+      scrollTrigger: { trigger: node, start: "top 88%", once: true },
     });
   });
   // headings get re-split after a language switch, already visible
   onLang(() => document.querySelectorAll("[data-split]:not(.hero__line)").forEach((n) => split(n)));
 
   gsap.utils.toArray("[data-reveal]").forEach((node) => {
-    gsap.to(node, { y: 0, opacity: 1, duration: 1, ease: "expo.out", scrollTrigger: { trigger: node, start: "top 90%" } });
+    gsap.to(node, { y: 0, opacity: 1, duration: 1, ease: "expo.out", scrollTrigger: { trigger: node, start: "top 90%", once: true } });
   });
 
   gsap.utils.toArray(".svc__item, .log li, .qa, .step").forEach((node) => {
-    gsap.from(node, { y: 30, opacity: 0, duration: 0.9, ease: "expo.out", scrollTrigger: { trigger: node, start: "top 92%" } });
+    gsap.from(node, { y: 30, opacity: 0, duration: 0.9, ease: "expo.out", scrollTrigger: { trigger: node, start: "top 92%", once: true } });
   });
 }
 
@@ -85,11 +85,16 @@ function marquees() {
     return { track, fill, dir: Number(row.dataset.speed) || 1, x: 0 };
   });
   onLang(() => state.forEach((s) => s.fill()));
+  // only animate rows that are on screen
+  const onScreen = new Set();
+  const io = new IntersectionObserver((entries) => entries.forEach((en) => (en.isIntersecting ? onScreen.add(en.target) : onScreen.delete(en.target))));
+  rows.forEach((r) => io.observe(r));
   let boost = 0;
   if (lenis) lenis.on("scroll", (e) => { boost = Math.min(6, Math.abs(e.velocity) * 0.25); });
   gsap.ticker.add((_, dt) => {
     boost *= 0.94;
     for (const s of state) {
+      if (!onScreen.has(s.track.parentElement)) continue;
       const quarter = s.track.scrollWidth / 4;
       s.x -= s.dir * (0.05 + boost * 0.05) * dt;
       if (s.x <= -quarter) s.x += quarter;
@@ -107,7 +112,7 @@ function counters() {
     const obj = { v: end === 0 ? 9 : 0 };
     gsap.to(obj, {
       v: end, duration: end === 0 ? 1.2 : 1.6, ease: "power3.out",
-      scrollTrigger: { trigger: node, start: "top 90%" },
+      scrollTrigger: { trigger: node, start: "top 90%", once: true },
       onUpdate: () => { node.textContent = Math.round(obj.v) + suffix; },
     });
   });
@@ -134,10 +139,10 @@ function cases() {
     cards.forEach((card, i) => {
       const next = cards[i + 1];
       if (!next) return;
-      gsap.to(card, {
-        scale: 0.92, filter: "brightness(.55)", ease: "none",
-        scrollTrigger: { trigger: next, start: "top bottom", end: "top 20%", scrub: true },
-      });
+      // transform + opacity only: both run on the compositor (a scrubbed CSS filter re-rasterized the whole card each frame)
+      const st = { trigger: next, start: "top bottom", end: "top 20%", scrub: true };
+      gsap.to(card, { scale: 0.92, ease: "none", scrollTrigger: st });
+      gsap.to(card.querySelector(".case__shade"), { opacity: 0.45, ease: "none", scrollTrigger: { ...st } });
     });
   });
   gsap.utils.toArray(".case .phone").forEach((ph) => {

@@ -1,8 +1,12 @@
-"""Export final optimized portrait assets to public/img/.  PYTHONPATH=tools/photo python tools/photo/export.py"""
+"""Export the dot-portrait assets to public/img/.  PYTHONPATH=tools/photo python tools/photo/export.py
+Only star/dot renderings leave this script: no real photo is published.
+  portrait-tone.webp        96x120, 8 gray levels: the grid the WebGL shader turns into stars (a mosaic, not a photo)
+  portrait-halftone-*.webp  lapis stars on transparent (hero fallback, OG image)
+  portrait-dots-*.webp      ink stars on saffron (About section)"""
 import numpy as np
 from pathlib import Path
 from PIL import Image, ImageFilter
-from stylize import load, khatam, duotone_suzani, W
+from stylize import load, khatam, W, INK, SAFFRON
 
 OUT = Path("public/img"); OUT.mkdir(parents=True, exist_ok=True)
 
@@ -21,9 +25,9 @@ def save(im, name, widths):
 rgb, mask, g, m = load((1200, 1500))
 t = soft_tone(g, m)
 tone = Image.fromarray((t * 255).astype(np.uint8))
-tone.resize((720, 900), Image.LANCZOS).save(OUT / "portrait-tone.webp", quality=90, method=6)
-save(rgb, "portrait-photo", [480, 640, 900])
-save(duotone_suzani(rgb, soft_tone(g, m) ** 1.3, m), "portrait-suzani", [480, 640, 900])
-half = khatam(soft_tone(g, m), cell=15, bg=None); half.save(W / "final_halftone.png")
-save(half, "portrait-halftone", [480, 640, 900])
-print(sorted(p.name for p in OUT.iterdir()))
+small = np.asarray(tone.resize((96, 120), Image.BOX), np.float32) / 255
+small = np.round(small * 7) / 7                          # posterize: 8 levels
+Image.fromarray((small * 255).astype(np.uint8)).save(OUT / "portrait-tone.webp", lossless=True)
+save(khatam(t, cell=15, bg=None), "portrait-halftone", [480, 640, 900])
+save(khatam(t, cell=13, color=INK, bg=SAFFRON), "portrait-dots", [480, 640, 900])
+print(sorted(p.name for p in OUT.iterdir() if p.is_file()))

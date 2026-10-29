@@ -1,4 +1,4 @@
-/* Nav, menu, compare slider, quote form, clock, page wipe, easter egg. */
+/* Nav, menu, quote form, clock, page wipe, easter egg. */
 import { t, onLang } from "./i18n.js";
 import { scrollToTarget, lenis } from "./motion.js";
 
@@ -60,21 +60,6 @@ function anchors() {
     // menu closes first (unlocks scroll), then we glide
     requestAnimationFrame(() => scrollToTarget(target));
     if (id !== "#top") history.replaceState(null, "", id);
-  });
-}
-
-/* ---------- about: pattern vs photo ---------- */
-function compare() {
-  const box = document.getElementById("compare");
-  const range = box.querySelector(".compare__range");
-  const set = (v) => box.style.setProperty("--pos", `${v}%`);
-  range.addEventListener("input", () => set(range.value));
-  // follow the mouse on desktop without a click
-  box.addEventListener("pointermove", (e) => {
-    if (e.pointerType !== "mouse") return;
-    const r = box.getBoundingClientRect();
-    const v = Math.round(((e.clientX - r.left) / r.width) * 100);
-    range.value = v; set(v);
   });
 }
 
@@ -195,7 +180,6 @@ export function initUI() {
   nav();
   menu();
   anchors();
-  compare();
   clock();
   quote();
   wipe();

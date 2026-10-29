@@ -109,7 +109,7 @@
       <figure class="hero__portrait" id="portrait">
         <img class="hero__img" src="img/portrait-halftone-480.webp" srcset="img/portrait-halftone-480.webp 480w, img/portrait-halftone-640.webp 640w, img/portrait-halftone-900.webp 900w" sizes="(max-width: 760px) 80vw, 40vw" width="900" height="1125" alt="Портрет Акбара из восьмиконечных звёзд" data-i18n-alt="hero.alt" fetchpriority="high">
         <canvas class="hero__gl" aria-hidden="true"></canvas>
-        <figcaption class="hero__hint mono" data-i18n="hero.hint">Наведите — увидите оригинал</figcaption>
+        <figcaption class="hero__hint mono" data-i18n="hero.hint">Наведите — лупа мастера</figcaption>
       </figure>
 
       <div class="hero__bottom">
@@ -133,7 +133,7 @@
       </div>
       <div class="marquee marquee--ink" data-speed="-1">
         <div class="marquee__track">
-          <span>HTML</span><i>✦</i><span>CSS</span><i>✦</i><span>JavaScript</span><i>✦</i><span>GSAP</span><i>✦</i><span>Three.js</span><i>✦</i><span>Vite</span><i>✦</i><span>Python</span><i>✦</i><span>FastAPI</span><i>✦</i><span>IndexedDB</span><i>✦</i><span>Claude AI</span><i>✦</i>
+          <span>HTML</span><i>✦</i><span>CSS</span><i>✦</i><span>JavaScript</span><i>✦</i><span>GSAP</span><i>✦</i><span>WebGL</span><i>✦</i><span>Vite</span><i>✦</i><span>Python</span><i>✦</i><span>FastAPI</span><i>✦</i><span>IndexedDB</span><i>✦</i><span>Claude AI</span><i>✦</i>
         </div>
       </div>
     </section>
@@ -145,16 +145,11 @@
         <h2 class="sec-title" id="about-title" data-split data-i18n="about.title">Кто такой usta</h2>
       </div>
       <div class="about__grid">
-        <div class="compare" id="compare" style="--pos:50%">
-          <img src="img/portrait-photo-900.webp" srcset="img/portrait-photo-480.webp 480w, img/portrait-photo-640.webp 640w, img/portrait-photo-900.webp 900w" sizes="(max-width: 760px) 92vw, 42vw" width="900" height="1125" loading="lazy" alt="Фото Акбара" data-i18n-alt="about.altPhoto">
-          <div class="compare__top">
-            <img src="img/portrait-suzani-900.webp" srcset="img/portrait-suzani-480.webp 480w, img/portrait-suzani-640.webp 640w, img/portrait-suzani-900.webp 900w" sizes="(max-width: 760px) 92vw, 42vw" width="900" height="1125" loading="lazy" alt="" aria-hidden="true">
-          </div>
-          <div class="compare__handle" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M24 2l5.2 9.4 10.4-3-3 10.4L46 24l-9.4 5.2 3 10.4-10.4-3L24 46l-5.2-9.4-10.4 3 3-10.4L2 24l9.4-5.2-3-10.4 10.4 3z"/></svg></div>
-          <input class="compare__range" type="range" min="0" max="100" value="50" aria-label="Сравнить узор и фото" data-i18n-aria="about.range">
-          <span class="compare__tag compare__tag--l mono" data-i18n="about.tagPattern">сюзане</span>
-          <span class="compare__tag compare__tag--r mono" data-i18n="about.tagPhoto">оригинал</span>
-        </div>
+        <figure class="dots">
+          <img src="img/portrait-dots-900.webp" srcset="img/portrait-dots-480.webp 480w, img/portrait-dots-640.webp 640w, img/portrait-dots-900.webp 900w" sizes="(max-width: 760px) 92vw, 42vw" width="900" height="1125" loading="lazy" alt="Портрет Акбара, собранный из звёзд" data-i18n-alt="about.altDots">
+          <svg class="dots__star" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 2l5.2 9.4 10.4-3-3 10.4L46 24l-9.4 5.2 3 10.4-10.4-3L24 46l-5.2-9.4-10.4 3 3-10.4L2 24l9.4-5.2-3-10.4 10.4 3z"/></svg>
+          <figcaption class="dots__cap mono" data-i18n="about.cap">3 427 звёзд · 0 пикселей фото</figcaption>
+        </figure>
         <div class="about__text">
           <p class="about__big" data-reveal data-i18n="about.big"><em>Usta</em> по-узбекски — мастер. Тот, кто собирает узор из сотни точных деталей. Так я делаю сайты.</p>
           <p data-reveal data-i18n="about.p1">Я Акбар, разработчик-самоучка из Узбекистана. Делаю сайты для местного бизнеса: кофеен, фитнес-клубов, ресторанов, магазинов.</p>

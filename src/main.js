@@ -60,7 +60,6 @@ async function startGL() {
     const url = (p) => new URL(p, document.baseURI).href;
     const gl = await initHeroGL(figure, {
       toneUrl: url("img/portrait-tone.webp"),
-      photoUrl: url(coarse ? "img/portrait-photo-480.webp" : "img/portrait-photo-900.webp"),
       coarse,
     });
     root.classList.add("gl-ready");

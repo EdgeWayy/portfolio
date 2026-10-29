@@ -85,6 +85,7 @@ function renderCases() {
       </div>
       <div class="phone"><img src="img/work/${p.slug}-m.webp" width="360" height="779" loading="lazy" decoding="async" alt=""></div>`;
     art.append(vis);
+    art.append(el("div", "case__shade"));
     root.append(art);
   });
 }

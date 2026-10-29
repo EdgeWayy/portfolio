@@ -4,7 +4,7 @@
 
 | Asset | Source | License |
 |---|---|---|
-| Portrait of Akbar (`public/img/portrait-*`) | Akbar's own photo (`my-photo.png`, not committed). Stylized versions made with `tools/photo/*.py` | Owned by Akbar |
+| Star portraits of Akbar (`public/img/portrait-*`) | Rendered from Akbar's own photo with `tools/photo/*.py`. The photo itself is not published or committed | Owned by Akbar |
 | Demo screenshots (`public/img/work/*`) | Captured from the demos in this repo with `tools/shots.mjs` | Owned by Akbar |
 | Fonts: Unbounded, Onest, JetBrains Mono | Google Fonts via [Fontsource](https://fontsource.org), self-hosted | SIL Open Font License 1.1 |
 | GSAP + ScrollTrigger | [gsap.com](https://gsap.com) (npm) | GSAP Standard "No Charge" license |

@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-10-29T18:59:55.201Z",
+        "reason": "assistant triage: false positive; CSS scale is hero name ~20vw, h2 clamp(36-104px), h3 20-28px, body 16px (src/styles/main.css), every step >1.25x"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-10-29T18:59:55.377Z",
+        "reason": "assistant design decision: bone paper #F3EEE4 is the 'paper' of the Samarkand-tile poster concept in PLAN.md, paired with flat lapis/saffron/ink blocks; not a default surface"
+      }
+    ]
+  }
+}
