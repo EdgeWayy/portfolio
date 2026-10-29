@@ -102,8 +102,8 @@ export const projects = [
       en: "A menu by category, a favourites carousel, a live open-now status in Tashkent time, a gallery with lightbox and counters.",
     },
     result: {
-      ru: "Весь сайт весит около 100 КБ и открывается почти мгновенно даже на мобильном интернете.",
-      en: "The whole site weighs about 100 KB and opens almost instantly, even on mobile data.",
+      ru: "Код сайта весит около 100 КБ, фото подгружаются по мере прокрутки: открывается почти мгновенно даже на мобильном интернете.",
+      en: "The code weighs about 100 KB and photos load as you scroll, so it opens almost instantly, even on mobile data.",
     },
     tech: ["HTML", "CSS", "JavaScript", "i18n"],
   },

@@ -74,6 +74,73 @@ function inject(file, demo, demoRoot) {
   fs.writeFileSync(file, html);
 }
 
+// ---------- vendoring: no runtime requests to third-party CDNs from the demos ----------
+const CACHE = path.join(ROOT, "tools", "_work", "cache");
+fs.mkdirSync(CACHE, { recursive: true });
+
+async function download(url, file) {
+  const cached = path.join(CACHE, file.replace(/[\/:]/g, "_"));
+  if (!fs.existsSync(cached)) {
+    const res = await fetch(url, { headers: { accept: "image/webp,*/*" } });
+    if (!res.ok) throw new Error(`${res.status} ${url}`);
+    fs.writeFileSync(cached, Buffer.from(await res.arrayBuffer()));
+  }
+  return cached;
+}
+
+function textFiles(dir) {
+  return fs.readdirSync(dir, { withFileTypes: true }).flatMap((e) => {
+    const p = path.join(dir, e.name);
+    return e.isDirectory() ? textFiles(p) : /\.(html|js|css)$/.test(e.name) ? [p] : [];
+  });
+}
+
+// cdnjs GSAP -> vendor/gsap/<file> next to the page
+async function vendorGsap(dst) {
+  const re = /https:\/\/cdnjs\.cloudflare\.com\/ajax\/libs\/gsap\/([\d.]+)\/([\w.]+\.js)/g;
+  for (const f of textFiles(dst)) {
+    let text = fs.readFileSync(f, "utf8");
+    const found = [...text.matchAll(re)];
+    if (!found.length && !text.includes("cdnjs.cloudflare.com")) continue;
+    const rel = path.relative(path.dirname(f), path.join(dst, "vendor", "gsap")).split(path.sep).join("/");
+    for (const [url, ver, name] of found) {
+      fs.mkdirSync(path.join(dst, "vendor", "gsap"), { recursive: true });
+      fs.copyFileSync(await download(url, `gsap-${ver}-${name}`), path.join(dst, "vendor", "gsap", name));
+      text = text.replace(url, `${rel}/${name}`);
+    }
+    // the CSP no longer needs the CDN
+    text = text.replace(/ https:\/\/cdnjs\.cloudflare\.com/g, "").replace(/<link rel="(preconnect|dns-prefetch)" href="https:\/\/cdnjs\.cloudflare\.com"[^>]*>\s*/g, "");
+    fs.writeFileSync(f, text);
+  }
+}
+
+// Unsplash hotlinks (Brumelle) -> img/u/<id>-<w>.webp, three sizes per photo
+const U_SIZES = [320, 640, 1100];
+const uSize = (w) => (w <= 360 ? 320 : w <= 720 ? 640 : 1100);
+async function vendorUnsplash(dst) {
+  const ids = new Set();
+  for (const f of textFiles(dst)) {
+    let text = fs.readFileSync(f, "utf8");
+    if (!text.includes("unsplash")) continue;
+    for (const m of text.matchAll(/["'`](\d{9,13}-[0-9a-f]{10,12})["'`]/g)) ids.add(m[1]);
+    text = text.replace(/https:\/\/images\.unsplash\.com\/photo-(\d{9,13}-[0-9a-f]{10,12})\?w=(\d+)[^"'\s,]*/g, (_, id, w) => { ids.add(id); return `img/u/${id}-${uSize(Number(w))}.webp`; });
+    // the JS helper that builds the URLs
+    text = text.replace(/const unsplash = \(id, w\) => `https:\/\/images\.unsplash\.com\/photo-\$\{id\}\?w=\$\{w\}[^`]*`;/,
+      "const unsplash = (id, w) => `img/u/${id}-${w <= 360 ? 320 : w <= 720 ? 640 : 1100}.webp`; // local copies (tools/copy-demos.mjs)");
+    text = text.replace(/<link rel="preconnect" href="https:\/\/images\.unsplash\.com"[^>]*>\s*/g, "").replace(/ https:\/\/images\.unsplash\.com/g, "");
+    fs.writeFileSync(f, text);
+  }
+  if (!ids.size) return;
+  fs.mkdirSync(path.join(dst, "img", "u"), { recursive: true });
+  for (const id of ids) {
+    for (const w of U_SIZES) {
+      const url = `https://images.unsplash.com/photo-${id}?w=${w}&q=68&fm=webp&fit=crop`;
+      fs.copyFileSync(await download(url, `unsplash-${id}-${w}.webp`), path.join(dst, "img", "u", `${id}-${w}.webp`));
+    }
+  }
+  console.log(`  localized ${ids.size} Unsplash photos`);
+}
+
 const filter = process.argv[2];
 for (const demo of DEMOS.filter((d) => !filter || d.slug.includes(filter))) {
   const src = path.join(HOME, demo.src);
@@ -82,6 +149,8 @@ for (const demo of DEMOS.filter((d) => !filter || d.slug.includes(filter))) {
   fs.rmSync(dst, { recursive: true, force: true });
   copyDir(src, dst);
   scrub(dst);
+  await vendorGsap(dst);
+  await vendorUnsplash(dst);
   for (const f of htmlFiles(dst)) inject(f, demo, dst);
   console.log(`copied ${demo.slug} <- ${demo.src}`);
 }

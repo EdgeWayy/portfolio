@@ -204,7 +204,7 @@
   let lang = "ru";
   let activeCat = "coffee";
 
-  const unsplash = (id, w) => `https://images.unsplash.com/photo-${id}?w=${w}&q=70&auto=format&fit=crop`;
+  const unsplash = (id, w) => `img/u/${id}-${w <= 360 ? 320 : w <= 720 ? 640 : 1100}.webp`; // local copies (tools/copy-demos.mjs)
   const srcset = (id, widths = [320, 640, 960, 1400]) => widths.map((w) => `${unsplash(id, w)} ${w}w`).join(", ");
   const t = (key) => I18N[lang][key] ?? I18N.ru[key] ?? "";
   const formatPrice = (n) => "$" + n.toFixed(2);
