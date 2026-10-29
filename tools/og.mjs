@@ -19,7 +19,7 @@ body{width:1200px;height:630px;background:#F3EEE4;color:#121212;font-family:U;po
 .top i{width:10px;height:10px;border-radius:50%;background:#1FA65A}
 .tag{position:absolute;right:44px;top:44px;background:#FF5A1F;padding:12px 18px;border-radius:999px;font:500 16px M;letter-spacing:.06em}
 </style></head><body>
-<div class="top"><i></i>akbar.usta · сайты для бизнеса</div>
+<div class="top"><i></i>akbar · сайты для бизнеса</div>
 <div class="tag">@KrieWoo</div>
 <div class="line">Сайты, которые продают, для бизнеса в&nbsp;Узбекистане</div>
 <div class="name">Акбар</div>

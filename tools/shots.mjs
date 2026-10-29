@@ -38,11 +38,11 @@ try {
       p.on("response", (r) => r.status() >= 400 && errors.push(`${r.status()}: ${r.url()}`));
       await p.goto(`${BASE}demos/${slug}/${page}`, { waitUntil: "load" });
       await p.waitForTimeout(2200);
-      const bar = await p.locator("[data-usta-demo]").count();
+      const bar = await p.locator("[data-akbar-demo]").count();
       if (!bar) errors.push("demo bar missing");
       // the back link must point at the portfolio root
       const home = await p.evaluate(() => {
-        const host = document.querySelector("[data-usta-demo]");
+        const host = document.querySelector("[data-akbar-demo]");
         return host?.shadowRoot?.querySelector("a")?.href || "";
       });
       if (!home.endsWith(`${PREFIX}#work`)) errors.push("bad back link: " + home);
@@ -50,12 +50,12 @@ try {
       for (const e of errors) console.log("    " + e);
       problems += errors.length;
       if (!noShots && page === "index.html") {
-        await p.evaluate(() => document.querySelector("[data-usta-demo]")?.remove());
+        await p.evaluate(() => document.querySelector("[data-akbar-demo]")?.remove());
         await p.screenshot({ path: path.join(OUT, `${slug}-desktop.png`) });
         await p.setViewportSize({ width: 390, height: 844 });
         await p.reload({ waitUntil: "load" });
         await p.waitForTimeout(2200);
-        await p.evaluate(() => document.querySelector("[data-usta-demo]")?.remove());
+        await p.evaluate(() => document.querySelector("[data-akbar-demo]")?.remove());
         await p.screenshot({ path: path.join(OUT, `${slug}-mobile.png`) });
       }
       await ctx.close();

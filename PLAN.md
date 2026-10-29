@@ -1,8 +1,8 @@
-# PLAN: Akbar portfolio ("Usta")
+# PLAN: Akbar portfolio
 
 ## Concept
 
-**Usta** is Uzbek for "master craftsman". Akbar builds websites and Telegram bots for local
+Akbar builds websites and Telegram bots for local
 businesses the way a tile master builds a Samarkand wall: small precise pieces, one pattern.
 
 Visual language: Samarkand tilework meets Swiss print poster.

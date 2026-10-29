@@ -79,7 +79,7 @@ function renderCases() {
     vis.setAttribute("aria-hidden", "true");
     vis.innerHTML = `
       <div class="browser">
-        <div class="browser__bar"><i></i><i></i><i></i><span>akbar.usta/${p.url.replace("/index.html", "")}</span></div>
+        <div class="browser__bar"><i></i><i></i><i></i><span>${p.url.replace("/index.html", "/")}</span></div>
         <img src="img/work/${p.slug}-720.webp" srcset="img/work/${p.slug}-720.webp 720w, img/work/${p.slug}-1200.webp 1200w"
           sizes="(max-width: 960px) 92vw, 52vw" width="1200" height="750" loading="lazy" decoding="async" alt="">
       </div>

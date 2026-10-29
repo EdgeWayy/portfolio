@@ -1,5 +1,5 @@
 /* ==========================================================
-   USTA — design tokens
+   AKBAR — design tokens
    Flat colors only. Bone paper, ink, Registan lapis, bazaar saffron.
    ========================================================== */
 :root {
@@ -494,7 +494,7 @@ p { text-wrap: pretty; }
 /* ---------- footer ---------- */
 .footer { background: var(--ink); color: var(--paper); padding: 56px var(--gutter) 28px; overflow: hidden; }
 .footer__big {
-  display: flex; align-items: center; justify-content: space-between; gap: 2vw;
+  display: flex; align-items: center; justify-content: flex-start; gap: .08em; width: max-content;
   font: 800 15.5vw/.8 var(--f-display); letter-spacing: -.06em; white-space: nowrap;
 }
 .footer__big .star-icon { width: .62em; height: .62em; animation: spin 14s linear infinite; }

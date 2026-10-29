@@ -2,14 +2,14 @@
    Shadow DOM keeps the demo's own CSS from touching it (and the other way round). */
 (() => {
   const me = document.currentScript;
-  if (!me || window.__ustaDemoBar) return;
-  window.__ustaDemoBar = true;
+  if (!me || window.__akbarDemoBar) return;
+  window.__akbarDemoBar = true;
 
   const home = me.dataset.home || "../../";
   const name = me.dataset.name || "Demo";
   const note = me.dataset.note || "";
   let lang = "ru";
-  try { lang = localStorage.getItem("usta-lang") || (navigator.language || "ru").slice(0, 2); } catch (e) {}
+  try { lang = localStorage.getItem("akbar-lang") || (navigator.language || "ru").slice(0, 2); } catch (e) {}
   const en = lang === "en";
   const T = {
     back: en ? "Akbar's portfolio" : "Портфолио Акбара",
@@ -20,7 +20,7 @@
   };
 
   const host = document.createElement("div");
-  host.setAttribute("data-usta-demo", "");
+  host.setAttribute("data-akbar-demo", "");
   Object.assign(host.style, { position: "fixed", left: "12px", bottom: "12px", zIndex: "2147483000" });
   const root = host.attachShadow({ mode: "open" });
   // Constructable stylesheet: works under strict CSP (style-src 'self'), unlike an inline <style>.

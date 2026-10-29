@@ -53,9 +53,9 @@ try {
     d.on("response", (r) => r.status() >= 400 && derr.push(`${r.status()} ${r.url()}`));
     await d.goto(BASE + href, { waitUntil: "load" });
     await d.waitForTimeout(1200);
-    const back = await d.evaluate(() => document.querySelector("[data-usta-demo]")?.shadowRoot?.querySelector("a")?.href);
+    const back = await d.evaluate(() => document.querySelector("[data-akbar-demo]")?.shadowRoot?.querySelector("a")?.href);
     check(!!back && derr.length === 0, `${href} opens, demo bar present ${derr.join(" | ")}`);
-    await d.evaluate(() => document.querySelector("[data-usta-demo]").shadowRoot.querySelector("a").click());
+    await d.evaluate(() => document.querySelector("[data-akbar-demo]").shadowRoot.querySelector("a").click());
     await d.waitForURL(/#work$/, { timeout: 5000 }).catch(() => {});
     check(d.url() === BASE + "#work", `back link returns to ${d.url().replace("http://localhost:4181", "")}`);
     await d.close();

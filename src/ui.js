@@ -121,9 +121,9 @@ function wipe() {
   });
 }
 
-/* ---------- easter egg: type "usta" (or the Konami code) ---------- */
+/* ---------- easter egg: type "akbar" (or the Konami code) ---------- */
 function egg() {
-  const words = ["usta", "уста"];
+  const words = ["akbar", "акбар"];
   const konami = "ArrowUp,ArrowUp,ArrowDown,ArrowDown,ArrowLeft,ArrowRight,ArrowLeft,ArrowRight,b,a";
   let buf = "", keys = [];
   document.addEventListener("keydown", (e) => {
@@ -185,5 +185,5 @@ export function initUI() {
   wipe();
   egg();
   hint();
-  console.log("%c✦ usta %c Привет! Нравится код? Напишите: https://t.me/KrieWoo", "background:#FF5A1F;color:#121212;font-weight:700;padding:4px 8px;border-radius:4px", "color:#1B3BD1");
+  console.log("%c✦ akbar %c Привет! Нравится код? Напишите: https://t.me/KrieWoo", "background:#FF5A1F;color:#121212;font-weight:700;padding:4px 8px;border-radius:4px", "color:#1B3BD1");
 }

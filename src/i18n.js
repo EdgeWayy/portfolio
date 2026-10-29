@@ -2,7 +2,7 @@
    EN lives here. Elements carry data-i18n (innerHTML), data-i18n-aria, data-i18n-ph, data-i18n-alt. */
 const en = {
   skip: "Skip to content",
-  "nav.home": "akbar.usta — home",
+  "nav.home": "akbar — home",
   "nav.label": "Sections",
   "nav.work": "Work",
   "nav.services": "Services",
@@ -26,10 +26,10 @@ const en = {
   "hero.scroll": "Scroll down",
   "marquee.label": "What I do",
   "marquee.a": "<span>Business sites</span><i>✦</i><span>Online stores</span><i>✦</i><span>Admin panels</span><i>✦</i><span>Click · Payme · Uzum</span><i>✦</i><span>Telegram bots</span><i>✦</i><span>RU · UZ · EN</span><i>✦</i>",
-  "about.title": "Who is usta",
+  "about.title": "Hi, I'm Akbar",
   "about.altDots": "Portrait of Akbar made of stars",
   "about.cap": "3,427 stars · 0 photo pixels",
-  "about.big": "<em>Usta</em> is Uzbek for master. The one who builds a pattern from a hundred precise pieces. That is how I build websites.",
+  "about.big": "I build websites the way a <em>master</em> builds a pattern on a Samarkand wall: from a hundred precise pieces, each in its place.",
   "about.p1": "I'm Akbar, a self-taught developer from Uzbekistan. I build websites for local businesses: coffee shops, fitness clubs, restaurants, stores.",
   "about.p2": "I work with AI as a partner: it handles the routine, and I check the design, logic and quality myself. So you get a well-thought-out site faster and cheaper than from an agency.",
   "stats.demos": "live demos right on this site",
@@ -54,6 +54,7 @@ const en = {
   "now.title": "Changelog",
   "now.live": "in progress now",
   "now.tagNow": "now",
+  "now.l1t": "Portfolio",
   "now.l1": "This site: a WebGL portrait of eight-point stars, six demos inside",
   "now.l2": "Flight booking: search, cabin seat map, e-ticket",
   "now.l3": "4-floor atrium, search with transliteration and an admin panel",
@@ -79,7 +80,7 @@ const en = {
   "contact.direct": "Or directly",
   "contact.resp": "I usually reply the same day. Write in Russian, Uzbek or English.",
   "footer.made": "Made by hand (and a bit of AI) in Uzbekistan",
-  "footer.egg": "Type “usta” on your keyboard",
+  "footer.egg": "Type “akbar” on your keyboard",
   "footer.top": "Back to top ↑",
 };
 
@@ -94,7 +95,7 @@ const ui = {
     msgEmpty: "Хочу обсудить проект.",
     need: { site: "сайт-визитка", shop: "интернет-магазин", admin: "админ-панель", pay: "оплата Click / Payme", bot: "Telegram-бот", redesign: "редизайн" },
     budget: { b1: "до $200", b2: "$200–500", b3: "$500–1000", b4: "$1000+", b5: "пока не знаю" },
-    from: "", eggOn: "Режим usta: звёзды повсюду ✦",
+    from: "", eggOn: "Звёзды повсюду ✦",
     hintTouch: "Коснитесь — лупа мастера",
   },
   en: {
@@ -106,7 +107,7 @@ const ui = {
     msgEmpty: "I'd like to discuss a project.",
     need: { site: "business site", shop: "online store", admin: "admin panel", pay: "Click / Payme payments", bot: "Telegram bot", redesign: "redesign" },
     budget: { b1: "under $200", b2: "$200–500", b3: "$500–1000", b4: "$1000+", b5: "not sure yet" },
-    eggOn: "Usta mode: stars everywhere ✦",
+    eggOn: "Stars everywhere ✦",
     hintTouch: "Touch for the master's loupe",
   },
 };
@@ -141,7 +142,7 @@ export function setLang(next, { silent = false } = {}) {
   document.querySelectorAll("[data-i18n-ph]").forEach((el) => { const v = dict[el.dataset.i18nPh]; if (v) el.setAttribute("placeholder", v); });
   document.querySelectorAll("[data-i18n-alt]").forEach((el) => { const v = dict[el.dataset.i18nAlt]; if (v) el.setAttribute("alt", v); });
   document.querySelectorAll("[data-lang]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === lang)));
-  try { localStorage.setItem("usta-lang", lang); } catch (e) {}
+  try { localStorage.setItem("akbar-lang", lang); } catch (e) {}
   if (!silent) listeners.forEach((fn) => fn(lang));
 }
 
@@ -149,7 +150,7 @@ export function initI18n() {
   snapshot();
   // Russian by default (main audience), English only when chosen before
   let saved = "ru";
-  try { saved = localStorage.getItem("usta-lang") || "ru"; } catch (e) {}
+  try { saved = localStorage.getItem("akbar-lang") || "ru"; } catch (e) {}
   setLang(saved, { silent: true });
   document.querySelectorAll("[data-lang]").forEach((b) => b.addEventListener("click", () => setLang(b.dataset.lang)));
 }

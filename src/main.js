@@ -87,7 +87,7 @@ async function boot() {
   const loader = document.getElementById("loader");
   const num = document.getElementById("loader-num");
   let seen = false;
-  try { seen = !!sessionStorage.getItem("usta-seen"); sessionStorage.setItem("usta-seen", "1"); } catch (e) {}
+  try { seen = !!sessionStorage.getItem("akbar-seen"); sessionStorage.setItem("akbar-seen", "1"); } catch (e) {}
   let ready = false;
   (document.fonts?.ready || Promise.resolve()).then(() => { ready = true; });
   const minTime = reduce ? 0 : seen ? 300 : 1000;

@@ -1,8 +1,8 @@
-# akbar.usta: portfolio
+# Akbar: portfolio
 
 Portfolio of **Akbar**, a web developer from Uzbekistan ([@KrieWoo](https://t.me/KrieWoo)).
 
-*Usta* is Uzbek for "master craftsman". The site is built around the eight-point star (khatam) from
+The site is built around the eight-point star (khatam) from
 Samarkand tilework. The hero portrait is a live WebGL grid of stars, and the cursor works as a lens that
 turns into a "master's loupe" with finer saffron stars. No real photo is published, only star renderings. Six real demo sites live inside this repo and open from the portfolio.
 
@@ -173,7 +173,7 @@ tools/                  copy-demos, shots, e2e, og, serve, check-secrets, photo/
 
 ## Easter eggs
 
-- Type `usta` (or `уста`, or the Konami code) anywhere on the page.
+- Type `akbar` (or `акбар`, or the Konami code) anywhere on the page.
 - Open the browser console.
 - Visit any missing page: one tile in the 404 pattern is missing.
 

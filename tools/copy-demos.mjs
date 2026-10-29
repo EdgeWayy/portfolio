@@ -65,11 +65,11 @@ function htmlFiles(dir) {
 
 function inject(file, demo, demoRoot) {
   let html = fs.readFileSync(file, "utf8");
-  if (html.includes("data-usta-demo-bar")) return;
+  if (html.includes("data-akbar-demo-bar")) return;
   // relative path from this page back to /demos/_shared/ and to the portfolio root
   const depth = path.relative(demoRoot, path.dirname(file)).split(path.sep).filter(Boolean).length;
   const up = "../".repeat(depth);
-  const tag = `<script src="${up}../_shared/demo-bar.js" data-usta-demo-bar data-home="${up}../../" data-name="${demo.name}"${demo.note ? ` data-note="${demo.note}"` : ""} defer></script>`;
+  const tag = `<script src="${up}../_shared/demo-bar.js" data-akbar-demo-bar data-home="${up}../../" data-name="${demo.name}"${demo.note ? ` data-note="${demo.note}"` : ""} defer></script>`;
   html = html.includes("</body>") ? html.replace("</body>", `${tag}\n</body>`) : html + tag;
   fs.writeFileSync(file, html);
 }
