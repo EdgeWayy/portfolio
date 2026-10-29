@@ -89,10 +89,9 @@ async function boot() {
   const num = document.getElementById("loader-num");
   let seen = false;
   try { seen = !!sessionStorage.getItem("usta-seen"); sessionStorage.setItem("usta-seen", "1"); } catch (e) {}
-  const img = document.querySelector(".hero__img");
   let ready = false;
-  Promise.all([document.fonts?.ready, img.decode?.().catch(() => {})]).then(() => { ready = true; });
-  const minTime = reduce ? 0 : seen ? 350 : 1400;
+  (document.fonts?.ready || Promise.resolve()).then(() => { ready = true; });
+  const minTime = reduce ? 0 : seen ? 300 : 1000;
   const t0 = performance.now();
 
   await new Promise((resolve) => {
@@ -114,7 +113,9 @@ async function boot() {
   heroScroll();
   setTimeout(() => { root.classList.add("loaded"); ScrollTrigger.refresh(); }, reduce ? 0 : 950);
   // give the intro a head start, then build the WebGL portrait
-  setTimeout(startGL, reduce ? 0 : 500);
+  const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 200));
+  const later = () => idle(startGL, { timeout: 1500 });
+  document.readyState === "complete" ? setTimeout(later, 300) : window.addEventListener("load", () => setTimeout(later, 300), { once: true });
 }
 
 boot();

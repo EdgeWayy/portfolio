@@ -2,7 +2,7 @@
    EN lives here. Elements carry data-i18n (innerHTML), data-i18n-aria, data-i18n-ph, data-i18n-alt. */
 const en = {
   skip: "Skip to content",
-  "nav.home": "Akbar, home",
+  "nav.home": "akbar.usta — home",
   "nav.label": "Sections",
   "nav.work": "Work",
   "nav.services": "Services",

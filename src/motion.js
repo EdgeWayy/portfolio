@@ -10,9 +10,8 @@ export let lenis = null;
 
 /* Wrap each word in .w > .wi so it can slide up from a mask. */
 export function split(node) {
-  const text = node.textContent;
-  node.setAttribute("aria-label", text.replace(/\s+/g, " ").trim());
-  node.innerHTML = node.innerHTML
+  const text = node.textContent.replace(/\s+/g, " ").trim();
+  node.innerHTML = `<span class="sr-only">${text}</span>` + node.innerHTML
     .split(/([ \t\n\r]+)/)  // &nbsp; is not split: words joined by it stay together
     .map((part) => (/^[ \t\n\r]+$/.test(part) || !part ? part : `<span class="w" aria-hidden="true"><span class="wi">${part}</span></span>`))
     .join("");
@@ -43,11 +42,11 @@ export function heroIntro() {
   tl.from(name, { yPercent: 105, duration: 1.4 }, 0)
     .from(words, { yPercent: 110, duration: 1.1, stagger: 0.045 }, 0.15)
     .from(".hero__lead, .hero__ctas > *, .hero__meta", { y: 24, opacity: 0, duration: 1, stagger: 0.07 }, 0.45)
-    .from(".hero__portrait", { scale: 0.94, opacity: 0, duration: 1.4 }, 0.1);
+    .from(".hero__portrait", { scale: 0.94, duration: 1.4 }, 0.1); // no opacity: the image is the LCP element
   // the name lives in an overflow mask so it rises from the baseline
   name.parentElement.style.overflow = "hidden";
   tl.add(() => { name.parentElement.style.overflow = ""; });
-  onLang(() => { line.querySelectorAll(".wi").length || split(line); });
+  onLang(() => split(line));
   return tl;
 }
 
@@ -61,7 +60,7 @@ function reveals() {
     });
   });
   // headings get re-split after a language switch, already visible
-  onLang(() => document.querySelectorAll("[data-split]").forEach((n) => split(n)));
+  onLang(() => document.querySelectorAll("[data-split]:not(.hero__line)").forEach((n) => split(n)));
 
   gsap.utils.toArray("[data-reveal]").forEach((node) => {
     gsap.to(node, { y: 0, opacity: 1, duration: 1, ease: "expo.out", scrollTrigger: { trigger: node, start: "top 90%" } });

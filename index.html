@@ -21,7 +21,7 @@
   <meta property="og:locale:alternate" content="en_US">
   <meta name="twitter:card" content="summary_large_image">
 
-  <link rel="preload" as="image" href="img/portrait-halftone-480.webp" imagesrcset="img/portrait-halftone-480.webp 480w, img/portrait-halftone-900.webp 900w" imagesizes="(max-width: 760px) 80vw, 40vw" type="image/webp">
+  <link rel="preload" as="image" fetchpriority="high" href="img/portrait-halftone-480.webp" imagesrcset="img/portrait-halftone-480.webp 480w, img/portrait-halftone-640.webp 640w, img/portrait-halftone-900.webp 900w" imagesizes="(max-width: 760px) 80vw, 40vw" type="image/webp">
 
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"Person","name":"Akbar","jobTitle":"Web developer","knowsLanguage":["ru","uz","en"],
@@ -56,7 +56,7 @@
   <a class="skip" href="#main" data-i18n="skip">Перейти к содержимому</a>
 
   <header class="nav is-pre" id="nav">
-    <a class="nav__logo" href="#top" aria-label="Akbar, на главную" data-i18n-aria="nav.home">
+    <a class="nav__logo" href="#top" aria-label="akbar.usta — на главную" data-i18n-aria="nav.home">
       <svg class="star-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 2l5.2 9.4 10.4-3-3 10.4L46 24l-9.4 5.2 3 10.4-10.4-3L24 46l-5.2-9.4-10.4 3 3-10.4L2 24l9.4-5.2-3-10.4 10.4 3z"/></svg>
       <span>akbar<b>.usta</b></span>
     </a>
@@ -107,7 +107,7 @@
       </h1>
 
       <figure class="hero__portrait" id="portrait">
-        <img class="hero__img" src="img/portrait-halftone-480.webp" srcset="img/portrait-halftone-480.webp 480w, img/portrait-halftone-900.webp 900w" sizes="(max-width: 760px) 80vw, 40vw" width="900" height="1125" alt="Портрет Акбара из восьмиконечных звёзд" data-i18n-alt="hero.alt" fetchpriority="high">
+        <img class="hero__img" src="img/portrait-halftone-480.webp" srcset="img/portrait-halftone-480.webp 480w, img/portrait-halftone-640.webp 640w, img/portrait-halftone-900.webp 900w" sizes="(max-width: 760px) 80vw, 40vw" width="900" height="1125" alt="Портрет Акбара из восьмиконечных звёзд" data-i18n-alt="hero.alt" fetchpriority="high">
         <canvas class="hero__gl" aria-hidden="true"></canvas>
         <figcaption class="hero__hint mono" data-i18n="hero.hint">Наведите — увидите оригинал</figcaption>
       </figure>
@@ -146,9 +146,9 @@
       </div>
       <div class="about__grid">
         <div class="compare" id="compare" style="--pos:50%">
-          <img src="img/portrait-photo-900.webp" srcset="img/portrait-photo-480.webp 480w, img/portrait-photo-900.webp 900w" sizes="(max-width: 760px) 92vw, 42vw" width="900" height="1125" loading="lazy" alt="Фото Акбара" data-i18n-alt="about.altPhoto">
+          <img src="img/portrait-photo-900.webp" srcset="img/portrait-photo-480.webp 480w, img/portrait-photo-640.webp 640w, img/portrait-photo-900.webp 900w" sizes="(max-width: 760px) 92vw, 42vw" width="900" height="1125" loading="lazy" alt="Фото Акбара" data-i18n-alt="about.altPhoto">
           <div class="compare__top">
-            <img src="img/portrait-suzani-900.webp" srcset="img/portrait-suzani-480.webp 480w, img/portrait-suzani-900.webp 900w" sizes="(max-width: 760px) 92vw, 42vw" width="900" height="1125" loading="lazy" alt="" aria-hidden="true">
+            <img src="img/portrait-suzani-900.webp" srcset="img/portrait-suzani-480.webp 480w, img/portrait-suzani-640.webp 640w, img/portrait-suzani-900.webp 900w" sizes="(max-width: 760px) 92vw, 42vw" width="900" height="1125" loading="lazy" alt="" aria-hidden="true">
           </div>
           <div class="compare__handle" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M24 2l5.2 9.4 10.4-3-3 10.4L46 24l-9.4 5.2 3 10.4-10.4-3L24 46l-5.2-9.4-10.4 3 3-10.4L2 24l9.4-5.2-3-10.4 10.4 3z"/></svg></div>
           <input class="compare__range" type="range" min="0" max="100" value="50" aria-label="Сравнить узор и фото" data-i18n-aria="about.range">
