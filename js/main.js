@@ -97,6 +97,12 @@ function heroScroll() {
 async function boot() {
   const loader = document.getElementById("loader");
   const num = document.getElementById("loader-num");
+  const star = loader.querySelector(".loader__star path");
+  // one source of truth: the counter value also drives the star's stroke
+  const draw = (pct) => {
+    num.textContent = String(pct).padStart(3, "0");
+    star.style.strokeDashoffset = 100 - pct;
+  };
   const seen = root.classList.contains("seen");
   try { sessionStorage.setItem("akbar-seen", "1"); } catch (e) {}
   let ready = false;
@@ -109,19 +115,31 @@ async function boot() {
       const elapsed = now - t0;
       const p = minTime ? Math.min(1, elapsed / minTime) : 1;
       const shown = ready ? p : Math.min(p, 0.9);
-      num.textContent = String(Math.round(shown * 100)).padStart(3, "0");
-      if ((ready && p >= 1) || elapsed > (seen ? 1200 : 4000)) resolve();
+      const done = (ready && p >= 1) || elapsed > (seen ? 1200 : 4000);
+      draw(done ? 100 : Math.round(shown * 100));
+      if (done) resolve();
       else requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
   });
 
+  // hold the finished star + 100 for a beat, then fade out
+  if (!reduce && !seen) {
+    await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+    await new Promise((r) => setTimeout(r, 400));
+  }
   fitAll();
   loader.classList.add("is-out");
   setTimeout(() => document.getElementById("nav").classList.remove("is-pre"), reduce || seen ? 0 : 350);
   if (!reduce && document.querySelector(".hero")) heroIntro();
   heroScroll();
-  setTimeout(() => { root.classList.add("loaded"); ScrollTrigger.refresh(); }, reduce ? 0 : 950);
+  let shown = false;
+  const show = () => { if (shown) return; shown = true; root.classList.add("loaded"); ScrollTrigger.refresh(); };
+  if (reduce) show();
+  else {
+    loader.addEventListener("transitionend", (e) => { if (e.target === loader) show(); });
+    setTimeout(show, 1200); // fallback if transitionend never fires
+  }
   // give the intro a head start, then build the WebGL portrait
   const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 200));
   const later = () => idle(startGL, { timeout: 1500 });
