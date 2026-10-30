@@ -138,7 +138,7 @@ function egg() {
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
     toast(t("eggOn"));
     if (reduce) return;
-    const colors = ["#FF5A1F", "#1B3BD1", "#121212"];
+    const colors = ["#C9A35E", "#8FA8C2", "#ECE7DC"];
     for (let i = 0; i < 46; i++) {
       const s = document.createElementNS("http://www.w3.org/2000/svg", "svg");
       s.setAttribute("viewBox", "0 0 48 48");
@@ -187,5 +187,5 @@ export function initUI() {
   wipe();
   egg();
   hint();
-  console.log("%c✦ akbar %c Привет! Нравится код? Напишите: https://t.me/KrieWoo", "background:#FF5A1F;color:#121212;font-weight:700;padding:4px 8px;border-radius:4px", "color:#1B3BD1");
+  console.log("%c✦ akbar %c Привет! Нравится код? Напишите: https://t.me/KrieWoo", "background:#C9A35E;color:#0F1318;font-weight:700;padding:4px 8px;border-radius:4px", "color:#8FA8C2");
 }

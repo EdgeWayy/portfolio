@@ -17,7 +17,7 @@ Visual language: Samarkand tilework meets Swiss print poster.
 
 ## Hero (the wow in 3 seconds)
 
-WebGL fragment shader renders Akbar's portrait as a grid of 8-point stars (lapis on bone).
+WebGL fragment shader renders Akbar's portrait as a grid of 8-point stars (juniper teal on pistachio chalk since the 2026-10 redesign; originally lapis on bone).
 Star size = darkness of the photo. Cursor (or finger) is a lens that reveals the original
 photo, the grid ripples around it. Scrolling grows the stars until the portrait dissolves into
 a tile pattern. Fallback: pre-rendered halftone WebP (no WebGL, reduced motion, Save-Data).

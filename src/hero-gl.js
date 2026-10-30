@@ -147,9 +147,9 @@ export async function initHeroGL(figure, { toneUrl, coarse }) {
   const U = (n) => gl.getUniformLocation(prog, n);
   const uni = Object.fromEntries(["uTone", "uRes", "uDpr", "uMouse", "uLens", "uHover", "uTime", "uScroll", "uIntro", "uCell", "uInk", "uRing", "uPaper"].map((n) => [n, U(n)]));
   gl.uniform1i(uni.uTone, 0);
-  gl.uniform3fv(uni.uInk, hex("#1B3BD1"));
-  gl.uniform3fv(uni.uRing, hex("#1B3BD1"));
-  gl.uniform3fv(uni.uPaper, hex("#F3EEE4"));
+  gl.uniform3fv(uni.uInk, hex("#1D2B3A"));
+  gl.uniform3fv(uni.uRing, hex("#9C7A3C"));
+  gl.uniform3fv(uni.uPaper, hex("#E9E4D8"));
   gl.clearColor(0, 0, 0, 0);
 
   const dpr = Math.min(window.devicePixelRatio || 1, coarse ? 1.5 : 1.75);

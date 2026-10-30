@@ -6,6 +6,7 @@ import "./styles/main.css";
 import { initI18n, onLang } from "./i18n.js";
 import { renderAll } from "./render.js";
 import { initUI } from "./ui.js";
+import { initPay } from "./pay.js";
 import { initSmoothScroll, initMotion, initStill, heroIntro, gsap, ScrollTrigger } from "./motion.js";
 import { initCursor, initMagnetic } from "./cursor.js";
 
@@ -22,6 +23,7 @@ initI18n();
 renderAll();
 if (!reduce) initSmoothScroll();
 initUI();
+initPay();
 initCursor();
 initMagnetic();
 reduce ? initStill() : initMotion();
@@ -36,17 +38,20 @@ function fitWidth(box, inner, max = Infinity) {
   inner.style.fontSize = `${Math.min(max, fs * (avail / w))}px`;
 }
 function fitAll() {
-  const hero = document.querySelector(".hero");
+  // the name fills its own grid column: full width on phones, the left column on desktop
   const name = document.querySelector(".hero__name");
-  const heroInner = hero.clientWidth - parseFloat(getComputedStyle(hero).paddingLeft) * 2;
-  const fs = parseFloat(getComputedStyle(name).fontSize);
   const inner = name.querySelector(".hero__name-in");
-  name.style.fontSize = `${fs * (heroInner / inner.getBoundingClientRect().width) * 0.995}px`;
+  name.style.fontSize = "";
+  const fs = parseFloat(getComputedStyle(name).fontSize);
+  const avail = name.clientWidth;
+  name.style.fontSize = `${fs * (avail / inner.getBoundingClientRect().width) * 0.99}px`;
   fitWidth(document.querySelector(".footer"), document.querySelector(".footer__big"));
 }
 let fitRaf = 0;
 const refit = () => { cancelAnimationFrame(fitRaf); fitRaf = requestAnimationFrame(() => { fitAll(); ScrollTrigger.refresh(); }); };
-window.addEventListener("resize", refit);
+// phones fire resize when the URL bar shows or hides: only a width change can change the fit
+let lastW = innerWidth;
+window.addEventListener("resize", () => { if (innerWidth !== lastW) { lastW = innerWidth; refit(); } });
 onLang(refit);
 
 /* ---------- WebGL portrait ---------- */
@@ -59,7 +64,7 @@ async function startGL() {
     const figure = document.getElementById("portrait");
     const url = (p) => new URL(p, document.baseURI).href;
     const gl = await initHeroGL(figure, {
-      toneUrl: url("img/portrait-tone.webp"),
+      toneUrl: url("img/portrait-tone-dots.webp"),
       coarse,
     });
     root.classList.add("gl-ready");
@@ -78,7 +83,8 @@ async function startGL() {
 /* ---------- hero parallax ---------- */
 function heroScroll() {
   if (reduce) return;
-  gsap.to(".hero__name-in", { yPercent: 30, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true } });
+  // No parallax on the name: pushing it down slid it under the portrait and out through the hero's clip edge,
+  // where it was cut flat mid-scroll. The intro tween is now the only thing that moves .hero__name-in.
   gsap.to(".hero__line, .hero__bottom", { y: -60, opacity: 0.2, ease: "none", scrollTrigger: { trigger: ".hero", start: "center center", end: "bottom top", scrub: true } });
 }
 

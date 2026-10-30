@@ -3,14 +3,14 @@
    public/img/work/<slug>-720.webp, -1200.webp, -m.webp (npm run shots does it), then copy one object below.
 
    slug     folder name in public/demos/ and screenshot prefix
-   accent   card color: "saffron" | "lapis" | "paper" | "ink"
+   accent   card color: "blush" | "mist" | "paper" | "sand"
    url      path to the demo, relative to the site root */
 export const projects = [
   {
     slug: "lumina-mall",
     url: "demos/lumina-mall/index.html",
     title: "Lumina Mall",
-    accent: "lapis",
+    accent: "mist",
     kind: { ru: "Интерактивная карта ТЦ + админ-панель", en: "Interactive mall map + admin panel" },
     problem: {
       ru: "Посетитель не может быстро найти магазин, а владельцу ТЦ нечем самому обновлять витрины, товары и фото.",
@@ -31,7 +31,7 @@ export const projects = [
     slug: "skynavoi-flights",
     url: "demos/skynavoi-flights/index.html",
     title: "SkyNavoi",
-    accent: "saffron",
+    accent: "blush",
     kind: { ru: "Бронирование авиабилетов", en: "Flight booking" },
     problem: {
       ru: "Региональной авиакомпании нужен понятный путь покупки билета с телефона — без звонков в кассу.",
@@ -71,7 +71,7 @@ export const projects = [
     slug: "vortaq-fitness",
     url: "demos/vortaq-fitness/index.html",
     title: "Vortaq",
-    accent: "ink",
+    accent: "sand",
     kind: { ru: "Сайт фитнес-клуба", en: "Fitness club website" },
     problem: {
       ru: "Клубу нужен сайт, который продаёт пробную тренировку и сразу передаёт заявку менеджеру.",
@@ -91,7 +91,7 @@ export const projects = [
     slug: "brumelle-coffee",
     url: "demos/brumelle-coffee/index.html",
     title: "Brumelle",
-    accent: "saffron",
+    accent: "blush",
     kind: { ru: "Сайт кофейни", en: "Coffee shop website" },
     problem: {
       ru: "Кофейне нужна быстрая визитка: меню, часы работы и кнопка звонка прямо на первом экране.",
@@ -111,7 +111,7 @@ export const projects = [
     slug: "nagiwa-sushi",
     url: "demos/nagiwa-sushi/index.html",
     title: "Nagiwa",
-    accent: "lapis",
+    accent: "mist",
     kind: { ru: "Сайт японского ресторана", en: "Japanese restaurant website" },
     problem: {
       ru: "Ресторану нужен атмосферный сайт, который продаёт ужин ещё до визита.",

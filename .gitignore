@@ -8,3 +8,5 @@ dist/
 /tools/_work/
 /.playwright-mcp/
 /test-results/
+/public/img/portrait-tone.webp
+!.env.example

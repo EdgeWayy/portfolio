@@ -8,7 +8,7 @@ const portfolioCsp = (html) => withCsp(html, {
   "default-src": "'self'",
   "script-src": ["'self'", ...inlineScriptHashes(html)],
   "style-src": ["'self'", ...inlineStyleHashes(html)],
-  "img-src": ["'self'", "data:"],
+  "img-src": ["'self'", "data:", "blob:"],   // blob: the payment screenshot preview (stays in the browser)
   "font-src": ["'self'", "data:"],          // Vite inlines tiny font subsets as data: URLs
   "connect-src": "'self'",
   "object-src": "'none'",

@@ -39,7 +39,7 @@ export function heroIntro() {
   const name = document.querySelector(".hero__name-in");
   const line = document.querySelector(".hero__line");
   const words = split(line);
-  tl.from(name, { yPercent: 105, duration: 1.4 }, 0)
+  tl.from(name, { yPercent: 140, duration: 1.4 }, 0)  // 140: fully below the padded mask on the first frame
     .from(words, { yPercent: 110, duration: 1.1, stagger: 0.045 }, 0.15)
     .from(".hero__lead, .hero__ctas > *, .hero__meta", { y: 24, opacity: 0, duration: 1, stagger: 0.07 }, 0.45)
     .from(".hero__portrait", { scale: 0.94, duration: 1.4 }, 0.1); // no opacity: the image is the LCP element

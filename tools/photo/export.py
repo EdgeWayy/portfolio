@@ -1,6 +1,6 @@
 """Export the dot-portrait assets to public/img/.  PYTHONPATH=tools/photo python tools/photo/export.py
 Only star/dot renderings leave this script: no real photo is published.
-  portrait-tone.webp        96x120, 8 gray levels: the grid the WebGL shader turns into stars (a mosaic, not a photo)
+  tools/_work/portrait-tone.from-photo.webp  96x120 tone grid, private; the site uses portrait-tone-dots.webp (from_dots.py)
   portrait-halftone-*.webp  lapis stars on transparent (hero fallback, OG image)"""
 import numpy as np
 from pathlib import Path
@@ -26,6 +26,7 @@ t = soft_tone(g, m)
 tone = Image.fromarray((t * 255).astype(np.uint8))
 small = np.asarray(tone.resize((96, 120), Image.BOX), np.float32) / 255
 small = np.round(small * 7) / 7                          # posterize: 8 levels
-Image.fromarray((small * 255).astype(np.uint8)).save(OUT / "portrait-tone.webp", lossless=True)
+# private: this grid comes from the photo, so it stays out of public/ (the site uses portrait-tone-dots.webp, see from_dots.py)
+Image.fromarray((small * 255).astype(np.uint8)).save(Path("tools/_work/portrait-tone.from-photo.webp"), lossless=True)
 save(khatam(t, cell=15, bg=None), "portrait-halftone", [480, 640, 900])
 print(sorted(p.name for p in OUT.iterdir() if p.is_file()))

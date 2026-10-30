@@ -34,8 +34,8 @@ export const services = [
     icon: "pay",
     title: { ru: "Приём оплаты", en: "Online payments" },
     text: {
-      ru: "Click, Payme, Uzum: оплата на сайте с понятным статусом заказа для вас и клиента.",
-      en: "Click, Payme, Uzum: payment on the site with a clear order status for you and the customer.",
+      ru: "Click, Payme, Uzum, карты Uzcard и Humo, Visa и Mastercard: оплата на сайте с понятным статусом заказа для вас и клиента.",
+      en: "Click, Payme, Uzum, Uzcard and Humo cards, Visa and Mastercard: payment on the site with a clear order status for you and the customer.",
     },
     price: { ru: "от $100", en: "from $100" },
     time: { ru: "3–5 дней", en: "3–5 days" },
