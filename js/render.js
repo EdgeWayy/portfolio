@@ -38,6 +38,7 @@ const ICONS = {
 
 function renderCases() {
   const root = document.getElementById("cases");
+  if (!root) return;
   projects.forEach((p, i) => {
     const art = el("article", `case case--${p.accent}`);
     art.style.setProperty("--i", i);
@@ -98,6 +99,7 @@ function renderCases() {
 
 function renderServices() {
   const root = document.getElementById("svc");
+  if (!root) return;
   for (const s of services) {
     const item = el("article", "svc__item");
     const top = el("div", "svc__top");
@@ -115,6 +117,7 @@ function renderServices() {
 
 function renderFaq() {
   const root = document.getElementById("faq-list");
+  if (!root) return;
   faq.forEach((f, i) => {
     const d = el("details", "qa");
     if (i === 0) d.open = true;

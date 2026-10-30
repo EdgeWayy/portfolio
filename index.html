@@ -1,107 +1,27 @@
 <!doctype html>
-<html lang="ru" class="no-js">
+<html lang="ru" class="no-js" data-page="index">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Акбар — сайты для бизнеса в Узбекистане</title>
-  <meta name="description" content="Акбар — веб-разработчик из Узбекистана. Сайты, интернет-магазины, админ-панели и оплата Click / Payme для местного бизнеса. Быстро, на трёх языках, с телефона в первую очередь.">
-  <meta name="theme-color" content="#0F1318">
-  <meta name="color-scheme" content="dark">
-  <meta name="author" content="Akbar">
-  <meta name="copyright" content="© 2026 Akbar. All rights reserved.">
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <link rel="manifest" href="site.webmanifest">
-
-  <meta property="og:type" content="website">
+  <meta name="description" content="Акбар — веб-разработчик из Узбекистана. Сайты, интернет-магазины, Telegram-боты и админ-панели для местного бизнеса. Быстро, на трёх языках, с телефона в первую очередь.">
   <meta property="og:title" content="Акбар — сайты для бизнеса">
   <meta property="og:description" content="Сайты, магазины и админ-панели для бизнеса в Узбекистане. Шесть живых демо внутри.">
   <meta property="og:url" content="https://edgewayy.github.io/portfolio/">
-  <meta property="og:site_name" content="Akbar">
-  <!-- absolute URL: link previews (Telegram, WhatsApp) ignore relative images. Bump ?v= after re-rendering og.jpg -->
-  <meta property="og:image" content="https://edgewayy.github.io/portfolio/og.jpg?v=2">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:locale" content="ru_RU">
-  <meta property="og:locale:alternate" content="en_US">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://edgewayy.github.io/portfolio/og.jpg?v=2">
   <link rel="canonical" href="https://edgewayy.github.io/portfolio/">
-
   <link rel="preload" as="image" fetchpriority="high" href="img/portrait-dots-480.webp" imagesrcset="img/portrait-dots-480.webp 480w, img/portrait-dots-640.webp 640w, img/portrait-dots-900.webp 900w" imagesizes="(max-width: 760px) 80vw, 40vw" type="image/webp">
-
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"Person","name":"Akbar","jobTitle":"Web developer","knowsLanguage":["ru","uz","en"],
-   "address":{"@type":"PostalAddress","addressCountry":"UZ"},"sameAs":["https://t.me/KrieWoo"]}
+   "address":{"@type":"PostalAddress","addressCountry":"UZ"},"sameAs":["https://t.me/KrieWoo","https://github.com/EdgeWayy"]}
   </script>
-
-  <!-- critical: loader and no-js state, before the CSS bundle arrives -->
-  <style>
-    html{background:#0F1318;color:#ECE7DC}
-    .loader{position:fixed;inset:0;z-index:100;background:#0F1318;color:#ECE7DC;display:grid;place-items:center}
-    .no-js .loader,.loaded .loader{display:none}
-    .loader__star{width:72px;height:72px}
-    .loader__star path{fill:none;stroke:#C9A35E;stroke-width:1.2;stroke-dasharray:120;stroke-dashoffset:120;animation:ld 1.1s cubic-bezier(.6,0,.2,1) forwards}
-    @keyframes ld{to{stroke-dashoffset:0}}
-    @media (prefers-reduced-motion:reduce){.loader__star path{animation:none;stroke-dashoffset:0}}
-  </style>
-  <script>document.documentElement.classList.replace("no-js","js");try{var l=localStorage.getItem("akbar-lang");if(l==="en")document.documentElement.lang="en"}catch(e){}</script>
-  <script type="module" src="/src/main.js"></script>
+  <!-- @include head -->
 </head>
 <body>
-  <div class="loader" id="loader" aria-hidden="true">
-    <div class="loader__inner">
-      <svg class="loader__star" viewBox="0 0 48 48"><path d="M24 2l5.2 9.4 10.4-3-3 10.4L46 24l-9.4 5.2 3 10.4-10.4-3L24 46l-5.2-9.4-10.4 3 3-10.4L2 24l9.4-5.2-3-10.4 10.4 3z"/></svg>
-      <div class="loader__count"><span id="loader-num">000</span></div>
-      <div class="loader__word">akbar</div>
-    </div>
-  </div>
-
-  <div class="wipe" id="wipe" aria-hidden="true"><div class="wipe__pattern"></div></div>
-  <div class="cursor is-hidden" aria-hidden="true"><div class="cursor__dot"></div><div class="cursor__ring"><span class="cursor__label"></span></div></div>
-
-  <a class="skip" href="#main" data-i18n="skip">Перейти к содержимому</a>
-
-  <header class="nav is-pre" id="nav">
-    <a class="nav__logo" href="#top" aria-label="akbar — на главную" data-i18n-aria="nav.home">
-      <svg class="star-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 2l5.2 9.4 10.4-3-3 10.4L46 24l-9.4 5.2 3 10.4-10.4-3L24 46l-5.2-9.4-10.4 3 3-10.4L2 24l9.4-5.2-3-10.4 10.4 3z"/></svg>
-      <span>akbar</span>
-    </a>
-    <nav class="nav__links" aria-label="Разделы" data-i18n-aria="nav.label">
-      <a href="#work" data-i18n="nav.work">Работы</a>
-      <a href="#services" data-i18n="nav.services">Услуги</a>
-      <a href="#process" data-i18n="nav.process">Процесс</a>
-      <a href="#faq" data-i18n="nav.faq">FAQ</a>
-    </nav>
-    <div class="nav__right">
-      <div class="lang" role="group" aria-label="Язык" data-i18n-aria="nav.lang">
-        <button type="button" data-lang="ru" aria-pressed="true">RU</button>
-        <button type="button" data-lang="en" aria-pressed="false">EN</button>
-      </div>
-      <a class="btn btn--ink btn--sm magnetic nav__cta" href="https://t.me/KrieWoo" target="_blank" rel="noopener" data-cursor="Telegram">
-        <span data-i18n="nav.cta">Написать</span>
-      </a>
-      <button class="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Меню" data-i18n-aria="nav.menu"><span></span><span></span></button>
-    </div>
-  </header>
-
-  <div class="menu" id="menu" hidden>
-    <nav aria-label="Меню" data-i18n-aria="nav.menu">
-      <a href="#work"><i>01</i><span data-i18n="nav.work">Работы</span></a>
-      <a href="#services"><i>02</i><span data-i18n="nav.services">Услуги</span></a>
-      <a href="#process"><i>03</i><span data-i18n="nav.process">Процесс</span></a>
-      <a href="#faq"><i>04</i><span data-i18n="nav.faq">FAQ</span></a>
-      <a href="#contact"><i>05</i><span data-i18n="nav.contact">Контакт</span></a>
-    </nav>
-    <a class="btn btn--ink btn--lg menu__tg" href="https://t.me/KrieWoo" target="_blank" rel="noopener">
-      <svg class="tg" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.4 3.6 2.9 10.8c-1.2.5-1.2 1.2 0 1.6l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.5l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.3-.5-1.9-1.6-1.4zM9.6 14.4l-.4 4.1-1.4-4.6 10.6-6.7z"/></svg>
-      <span>@KrieWoo</span>
-    </a>
-  </div>
+  <!-- @include header -->
 
   <main id="main">
     <!-- ============ HERO ============ -->
-    <section class="hero" id="top" aria-labelledby="hero-title">
+    <section class="hero" id="hero" aria-labelledby="hero-title">
       <div class="hero__meta mono">
         <span class="dot-live" aria-hidden="true"></span>
         <span data-i18n="hero.status">Принимаю заказы · ноябрь 2026</span>
@@ -125,11 +45,11 @@
       <div class="hero__bottom">
         <p class="hero__lead" data-i18n="hero.lead">Делаю быстрые сайты, магазины и админ-панели для кафе, клубов, ресторанов и магазинов. Дизайн с нуля, три языка, оплата Click и Payme.</p>
         <div class="hero__ctas">
-          <a class="btn btn--clay btn--lg magnetic" href="#contact" data-cursor="Go">
+          <a class="btn btn--clay btn--lg magnetic" href="contact.html" data-cursor="Go">
             <span data-i18n="hero.cta">Обсудить проект</span>
             <svg class="btn__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
           </a>
-          <a class="btn btn--line btn--lg magnetic" href="#work" data-i18n="hero.cta2">Смотреть работы</a>
+          <a class="btn btn--line btn--lg magnetic" href="projects.html" data-i18n="hero.cta2">Смотреть работы</a>
         </div>
       </div>
     </section>
@@ -148,153 +68,25 @@
       </div>
     </section>
 
-    <!-- ============ ABOUT ============ -->
-    <section class="about section" id="about" aria-labelledby="about-title">
+    <!-- ============ INTRO + PAGE LINKS ============ -->
+    <section class="intro section" id="intro" aria-labelledby="intro-title">
       <div class="sec-head">
-        <span class="sec-num mono">00</span>
-        <h2 class="sec-title" id="about-title" data-split data-i18n="about.title">Привет, я Акбар</h2>
+        <span class="sec-num mono">01</span>
+        <h2 class="sec-title" id="intro-title" data-split data-i18n="home.title">Коротко обо мне</h2>
       </div>
       <div class="about__grid">
         <p class="about__big" data-reveal data-i18n="about.big">Я собираю сайты так, как <em>мастер</em> собирает узор на стене Самарканда: из сотни точных деталей, где каждая на своём месте.</p>
-        <div class="about__text">
-          <p data-reveal data-i18n="about.p1">Я Акбар, веб-разработчик из Узбекистана. Делаю сайты, интернет-магазины и Telegram-ботов для местного бизнеса: кофеен, фитнес-клубов, ресторанов, магазинов. Веду проект целиком — от идеи и дизайна до запуска и поддержки.</p>
-          <p data-reveal data-i18n="about.p2">Работаю с ИИ как с напарником: он берёт на себя рутину, а дизайн, логику и качество я проверяю сам. Поэтому вы получаете продуманный сайт быстрее и дешевле, чем в агентстве.</p>
-          <ul class="stats">
-            <li><b class="stat" data-count="6">6</b><span data-i18n="stats.demos">живых демо прямо на этом сайте</span></li>
-            <li><b class="stat" data-count="3">3</b><span data-i18n="stats.langs">языка в каждом проекте: RU · UZ · EN</span></li>
-            <li><b class="stat" data-count="100" data-suffix="%">100%</b><span data-i18n="stats.mobile">mobile-first: сначала телефон, потом ноутбук</span></li>
-            <li><b class="stat" data-count="0">0</b><span data-i18n="stats.templates">шаблонов: каждый дизайн с чистого листа</span></li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ WORK ============ -->
-    <section class="work section section--sand" id="work" aria-labelledby="work-title">
-      <div class="sec-head">
-        <span class="sec-num mono">01</span>
-        <h2 class="sec-title" id="work-title" data-split data-i18n="work.title">Работы, которые можно открыть</h2>
-        <p class="sec-sub" data-i18n="work.sub">Каждое демо живёт внутри этого сайта. Нажмите — и пощупайте настоящий интерфейс, а не картинку.</p>
-      </div>
-      <div class="cases" id="cases"><!-- rendered from src/data/projects.js --></div>
-    </section>
-
-    <!-- ============ SERVICES ============ -->
-    <section class="services section" id="services" aria-labelledby="services-title">
-      <div class="sec-head">
-        <span class="sec-num mono">02</span>
-        <h2 class="sec-title" id="services-title" data-split data-i18n="services.title">Что я делаю и сколько это стоит</h2>
-        <p class="sec-sub" data-i18n="services.sub">Цены ориентировочные. Точную сумму называю после короткого разговора о задаче — бесплатно и без обязательств.</p>
-      </div>
-      <div class="svc" id="svc"><!-- rendered from src/data/services.js --></div>
-    </section>
-
-    <!-- ============ PROCESS ============ -->
-    <section class="process section section--mist" id="process" aria-labelledby="process-title">
-      <div class="sec-head">
-        <span class="sec-num mono">03</span>
-        <h2 class="sec-title" id="process-title" data-split data-i18n="process.title">Как мы будем работать</h2>
-      </div>
-      <ol class="steps" id="steps">
-        <li class="step"><span class="step__n mono">01</span><div><h3 data-i18n="process.s1t">Знакомство</h3><p data-i18n="process.s1">15 минут в Telegram: что за бизнес, кто клиенты, что сайт должен делать. Называю цену и срок.</p></div></li>
-        <li class="step"><span class="step__n mono">02</span><div><h3 data-i18n="process.s2t">Первый экран</h3><p data-i18n="process.s2">Через 2–3 дня показываю дизайн главного экрана на вашем телефоне. Правим, пока не понравится.</p></div></li>
-        <li class="step"><span class="step__n mono">03</span><div><h3 data-i18n="process.s3t">Разработка</h3><p data-i18n="process.s3">Собираю весь сайт и присылаю ссылку на рабочую версию. Вы видите прогресс, а не ждёте вслепую.</p></div></li>
-        <li class="step"><span class="step__n mono">04</span><div><h3 data-i18n="process.s4t">Запуск</h3><p data-i18n="process.s4">Домен, хостинг, карта, аналитика, оплата. Проверяю скорость и работу на разных телефонах.</p></div></li>
-        <li class="step"><span class="step__n mono">05</span><div><h3 data-i18n="process.s5t">Поддержка</h3><p data-i18n="process.s5">После запуска остаюсь на связи: мелкие правки, новые цены и фото. Объясню, как менять тексты самому.</p></div></li>
-      </ol>
-    </section>
-
-    <!-- ============ NOW ============ -->
-    <section class="now section" id="now" aria-labelledby="now-title">
-      <div class="sec-head sec-head--row">
-        <span class="sec-num mono">04</span>
-        <h2 class="sec-title sec-title--sm" id="now-title" data-i18n="now.title">Журнал изменений</h2>
-        <span class="now__live mono"><span class="dot-live" aria-hidden="true"></span><span data-i18n="now.live">сейчас в работе</span></span>
-      </div>
-      <ul class="log">
-        <li><time class="mono" datetime="2026-10">10.2026</time><b data-i18n="now.l1t">Портфолио</b><span data-i18n="now.l1">Этот сайт: WebGL-портрет из восьмиконечных звёзд, шесть демо внутри</span><i class="mono tag-now" data-i18n="now.tagNow">в работе</i></li>
-        <li><time class="mono" datetime="2026-10">10.2026</time><b>SkyNavoi</b><span data-i18n="now.l2">Бронирование авиабилетов: поиск, схема салона, электронный билет</span></li>
-        <li><time class="mono" datetime="2026-10">10.2026</time><b>Lumina Mall v2</b><span data-i18n="now.l3">Атриум на 4 этажа, поиск с транслитом и админ-панель</span></li>
-        <li><time class="mono" datetime="2026-10">10.2026</time><b>Lirevo · Brumelle · Vortaq · Nagiwa</b><span data-i18n="now.l4">Цены в USD, три языка, аудит безопасности форм</span></li>
-      </ul>
-    </section>
-
-    <!-- ============ FAQ ============ -->
-    <section class="faq section" id="faq" aria-labelledby="faq-title">
-      <div class="sec-head">
-        <span class="sec-num mono">05</span>
-        <h2 class="sec-title" id="faq-title" data-split data-i18n="faq.title">Частые вопросы</h2>
-      </div>
-      <div class="faq__list" id="faq-list"><!-- rendered from src/data/faq.js --></div>
-    </section>
-
-    <!-- ============ CONTACT ============ -->
-    <section class="contact section section--blush" id="contact" aria-labelledby="contact-title">
-      <div class="sec-head">
-        <span class="sec-num mono">06</span>
-        <h2 class="sec-title" id="contact-title" data-split data-i18n="contact.title">Расскажите о задаче — отвечу в Telegram</h2>
-      </div>
-      <div class="contact__grid">
-        <form class="quote" id="quote" novalidate>
-          <fieldset>
-            <legend class="mono" data-i18n="contact.need">Что нужно</legend>
-            <div class="chips" data-name="need">
-              <label><input type="checkbox" value="site"><span data-i18n="contact.n1">Сайт-визитка</span></label>
-              <label><input type="checkbox" value="shop"><span data-i18n="contact.n2">Интернет-магазин</span></label>
-              <label><input type="checkbox" value="admin"><span data-i18n="contact.n3">Админ-панель</span></label>
-              <label><input type="checkbox" value="pay"><span data-i18n="contact.n4">Оплата Click / Payme</span></label>
-              <label><input type="checkbox" value="bot"><span data-i18n="contact.n5">Telegram-бот</span></label>
-              <label><input type="checkbox" value="redesign"><span data-i18n="contact.n6">Редизайн</span></label>
-              <label><input type="checkbox" value="booking"><span data-i18n="contact.n7">Онлайн-запись</span></label>
-              <label><input type="checkbox" value="qr"><span data-i18n="contact.n8">QR-меню</span></label>
-              <label><input type="checkbox" value="seo"><span data-i18n="contact.n9">SEO и карты</span></label>
-              <label><input type="checkbox" value="support"><span data-i18n="contact.n10">Поддержка</span></label>
-            </div>
-          </fieldset>
-          <fieldset>
-            <legend class="mono" data-i18n="contact.budget">Бюджет</legend>
-            <div class="chips" data-name="budget">
-              <label><input type="radio" name="budget" value="b1"><span>&lt; $200</span></label>
-              <label><input type="radio" name="budget" value="b2"><span>$200–500</span></label>
-              <label><input type="radio" name="budget" value="b3"><span>$500–1000</span></label>
-              <label><input type="radio" name="budget" value="b4"><span>$1000+</span></label>
-              <label><input type="radio" name="budget" value="b5"><span data-i18n="contact.b5">Пока не знаю</span></label>
-            </div>
-          </fieldset>
-          <div class="field">
-            <label for="q-name" class="mono" data-i18n="contact.name">Имя и бизнес</label>
-            <input id="q-name" name="name" type="text" autocomplete="name" maxlength="80" placeholder="Например: Дильноза, кофейня в Навои" data-i18n-ph="contact.namePh">
-          </div>
-          <div class="field">
-            <label for="q-msg" class="mono" data-i18n="contact.msg">Пара слов о задаче</label>
-            <textarea id="q-msg" name="msg" rows="3" maxlength="600" placeholder="Нужен сайт с меню и кнопкой заказа…" data-i18n-ph="contact.msgPh"></textarea>
-          </div>
-          <div class="quote__actions">
-            <button class="btn btn--ink btn--lg magnetic" type="submit" data-cursor="Telegram">
-              <svg class="tg" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.4 3.6 2.9 10.8c-1.2.5-1.2 1.2 0 1.6l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.5l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.3-.5-1.9-1.6-1.4zM9.6 14.4l-.4 4.1-1.4-4.6 10.6-6.7z"/></svg>
-              <span data-i18n="contact.send">Отправить в Telegram</span>
-            </button>
-            <button class="btn btn--line-ink" type="button" id="q-copy" data-i18n="contact.copy">Скопировать текст</button>
-          </div>
-          <p class="quote__note" id="q-note" role="status" aria-live="polite" data-i18n="contact.note">Откроется чат с @KrieWoo с готовым сообщением. Ничего не отправляется без вас.</p>
-        </form>
-        <aside class="contact__aside">
-          <p class="mono" data-i18n="contact.direct">Или напрямую</p>
-          <a class="contact__tg magnetic" href="https://t.me/KrieWoo" target="_blank" rel="noopener" data-cursor="Open">@KrieWoo</a>
-          <p data-i18n="contact.resp">Обычно отвечаю в тот же день. Пишите на русском, узбекском или английском.</p>
-        </aside>
+        <nav class="hub" aria-label="Страницы сайта" data-i18n-aria="hub.label">
+          <a href="projects.html"><i class="mono">02</i><b data-i18n="nav.work">Работы</b><span data-i18n="hub.work">Шесть живых демо: магазины, кафе, бронирование</span></a>
+          <a href="services.html"><i class="mono">03</i><b data-i18n="nav.services">Услуги</b><span data-i18n="hub.services">Что я делаю, сколько стоит и как мы работаем</span></a>
+          <a href="about.html"><i class="mono">04</i><b data-i18n="nav.about">Обо мне</b><span data-i18n="hub.about">Кто я, навыки и инструменты</span></a>
+          <a href="faq.html"><i class="mono">05</i><b data-i18n="nav.faq">FAQ</b><span data-i18n="hub.faq">Цены, сроки, хостинг, языки</span></a>
+          <a href="contact.html"><i class="mono">06</i><b data-i18n="nav.contact">Контакт</b><span data-i18n="hub.contact">Расскажите о задаче — отвечу в Telegram</span></a>
+        </nav>
       </div>
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="footer__big" aria-hidden="true"><span>akbar</span><svg class="star-icon" viewBox="0 0 48 48"><path d="M24 2l5.2 9.4 10.4-3-3 10.4L46 24l-9.4 5.2 3 10.4-10.4-3L24 46l-5.2-9.4-10.4 3 3-10.4L2 24l9.4-5.2-3-10.4 10.4 3z"/></svg></div>
-    <div class="footer__row mono">
-      <span data-i18n="footer.copy">© 2026 Akbar. Все права защищены.</span>
-      <span data-i18n="footer.made">Сделано вручную в Узбекистане</span>
-      <span class="footer__egg" data-i18n="footer.egg">Наберите «akbar» на клавиатуре</span>
-      <a href="#top" data-i18n="footer.top">Наверх ↑</a>
-    </div>
-  </footer>
+  <!-- @include footer -->
 </body>
 </html>

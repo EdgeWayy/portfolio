@@ -1,0 +1,52 @@
+  <div id="top"></div>
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__inner">
+      <svg class="loader__star" viewBox="0 0 48 48"><path d="M24 2l5.2 9.4 10.4-3-3 10.4L46 24l-9.4 5.2 3 10.4-10.4-3L24 46l-5.2-9.4-10.4 3 3-10.4L2 24l9.4-5.2-3-10.4 10.4 3z"/></svg>
+      <div class="loader__count"><span id="loader-num">000</span></div>
+      <div class="loader__word">akbar</div>
+    </div>
+  </div>
+
+  <div class="wipe" id="wipe" aria-hidden="true"><div class="wipe__pattern"></div></div>
+  <div class="cursor is-hidden" aria-hidden="true"><div class="cursor__dot"></div><div class="cursor__ring"><span class="cursor__label"></span></div></div>
+
+  <a class="skip" href="#main" data-i18n="skip">Перейти к содержимому</a>
+
+  <header class="nav is-pre" id="nav">
+    <a class="nav__logo" href="./" aria-label="akbar — на главную" data-i18n-aria="nav.home">
+      <svg class="star-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 2l5.2 9.4 10.4-3-3 10.4L46 24l-9.4 5.2 3 10.4-10.4-3L24 46l-5.2-9.4-10.4 3 3-10.4L2 24l9.4-5.2-3-10.4 10.4 3z"/></svg>
+      <span>akbar</span>
+    </a>
+    <nav class="nav__links" aria-label="Разделы" data-i18n-aria="nav.label">
+      <a href="projects.html" data-nav="projects" data-i18n="nav.work">Работы</a>
+      <a href="services.html" data-nav="services" data-i18n="nav.services">Услуги</a>
+      <a href="about.html" data-nav="about" data-i18n="nav.about">Обо мне</a>
+      <a href="faq.html" data-nav="faq" data-i18n="nav.faq">FAQ</a>
+      <a href="contact.html" data-nav="contact" data-i18n="nav.contact">Контакт</a>
+    </nav>
+    <div class="nav__right">
+      <div class="lang" role="group" aria-label="Язык" data-i18n-aria="nav.lang">
+        <button type="button" data-lang="ru" aria-pressed="true">RU</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+      <a class="btn btn--ink btn--sm magnetic nav__cta" href="https://t.me/KrieWoo" target="_blank" rel="noopener" data-cursor="Telegram">
+        <span data-i18n="nav.cta">Написать</span>
+      </a>
+      <button class="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Меню" data-i18n-aria="nav.menu"><span></span><span></span></button>
+    </div>
+  </header>
+
+  <div class="menu" id="menu" hidden>
+    <nav aria-label="Меню" data-i18n-aria="nav.menu">
+      <a href="./" data-nav="index"><i>01</i><span data-i18n="nav.homeShort">Главная</span></a>
+      <a href="projects.html" data-nav="projects"><i>02</i><span data-i18n="nav.work">Работы</span></a>
+      <a href="services.html" data-nav="services"><i>03</i><span data-i18n="nav.services">Услуги</span></a>
+      <a href="about.html" data-nav="about"><i>04</i><span data-i18n="nav.about">Обо мне</span></a>
+      <a href="faq.html" data-nav="faq"><i>05</i><span data-i18n="nav.faq">FAQ</span></a>
+      <a href="contact.html" data-nav="contact"><i>06</i><span data-i18n="nav.contact">Контакт</span></a>
+    </nav>
+    <a class="btn btn--ink btn--lg menu__tg" href="https://t.me/KrieWoo" target="_blank" rel="noopener">
+      <svg class="tg" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.4 3.6 2.9 10.8c-1.2.5-1.2 1.2 0 1.6l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.5l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.3-.5-1.9-1.6-1.4zM9.6 14.4l-.4 4.1-1.4-4.6 10.6-6.7z"/></svg>
+      <span>@KrieWoo</span>
+    </a>
+  </div>

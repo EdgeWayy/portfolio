@@ -121,6 +121,7 @@ function counters() {
 /* ---------- process line ---------- */
 function processLine() {
   const steps = document.getElementById("steps");
+  if (!steps) return;
   const items = [...steps.querySelectorAll(".step")];
   ScrollTrigger.create({
     trigger: steps, start: "top 75%", end: "bottom 55%", scrub: true,
@@ -133,6 +134,7 @@ function processLine() {
 
 /* ---------- stacked case cards (desktop) ---------- */
 function cases() {
+  if (!document.getElementById("cases")) return;
   const mm = gsap.matchMedia();
   mm.add("(min-width: 960px)", () => {
     const cards = gsap.utils.toArray(".case");
@@ -178,6 +180,7 @@ function cases() {
 
 /* ---------- footer name ---------- */
 function footer() {
+  if (!document.querySelector(".footer__big")) return;
   gsap.from(".footer__big > *", {
     yPercent: 100, opacity: 0, duration: 1.2, ease: "expo.out", stagger: 0.08,
     scrollTrigger: { trigger: ".footer", start: "top bottom" },
@@ -200,6 +203,7 @@ export function initMotion() {
 /* Reduced motion: no smooth scroll, no scrubbing, just a still marquee and final numbers. */
 export function initStill() {
   const steps = document.getElementById("steps");
+  if (!steps) return;
   steps.style.setProperty("--p", 1);
   steps.querySelectorAll(".step").forEach((s) => s.classList.add("is-on"));
 }

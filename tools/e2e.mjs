@@ -27,21 +27,43 @@ try {
   check(errors.length === 0, `portfolio loads without console errors ${errors.join(" | ")}`);
   check(await p.evaluate(() => document.documentElement.classList.contains("gl-ready")), "WebGL portrait running");
 
-  // every internal link answers 200
-  const hrefs = await p.evaluate(() => [...new Set([...document.querySelectorAll("a[href]")].map((a) => a.href))]);
-  for (const h of hrefs.filter((h) => h.startsWith("http://localhost"))) {
-    const res = await p.request.get(h.split("#")[0]);
-    check(res.status() === 200, `link ${h.replace(BASE, "")} -> ${res.status()}`);
+  // every page: loads clean, its nav link is marked active, every internal link and image answers 200
+  const PAGES = { "": "index", "projects.html": "projects", "services.html": "services", "about.html": "about", "faq.html": "faq", "contact.html": "contact" };
+  const checked = new Set();
+  for (const [file, id] of Object.entries(PAGES)) {
+    errors.length = 0;
+    await p.goto(BASE + file, { waitUntil: "load" });
+    await p.waitForTimeout(1200);
+    const info = await p.evaluate(() => ({
+      title: document.title,
+      active: [...document.querySelectorAll('[aria-current="page"]')].map((a) => a.dataset.nav),
+      nav: [...document.querySelectorAll(".nav__links a")].length,
+      footer: !!document.querySelector(".footer__big"),
+      over: document.documentElement.scrollWidth - innerWidth,
+    }));
+    const activeOk = id === "index" ? info.active.every((n) => n === "index") : info.active.length >= 1 && info.active.every((n) => n === id);
+    check(errors.length === 0 && activeOk && info.nav === 5 && info.footer && info.over === 0,
+      `${file || "index"}: "${info.title}", active=${info.active.join(",")} ${errors.join(" | ")}`);
+    const hrefs = await p.evaluate(() => [...new Set([...document.querySelectorAll("a[href]")].map((a) => a.href.split("#")[0]))]);
+    for (const h of hrefs.filter((h) => h.startsWith("http://localhost") && !checked.has(h))) {
+      checked.add(h);
+      const res = await p.request.get(h);
+      check(res.status() === 200, `link ${h.replace(BASE, "") || "./"} -> ${res.status()}`);
+    }
+    const imgs = await p.evaluate(() => [...document.querySelectorAll("img")].map((i) => i.currentSrc || i.src));
+    for (const src of imgs.filter((x) => !checked.has(x))) { checked.add(src); const r = await p.request.get(src); check(r.status() === 200, `img ${src.replace(BASE, "")}`); }
   }
-  // images
-  const imgs = await p.evaluate(() => [...document.querySelectorAll("img")].map((i) => i.currentSrc || i.src));
-  for (const src of imgs) { const r = await p.request.get(src); check(r.status() === 200, `img ${src.replace(BASE, "")}`); }
 
-  // language toggle
+  // language toggle (home hero, then the projects page keeps EN)
+  await p.goto(BASE, { waitUntil: "load" });
+  await p.waitForTimeout(2500);
   await p.click('[data-lang="en"]');
   await p.waitForTimeout(400);
-  const en = await p.evaluate(() => ({ lang: document.documentElement.lang, h: document.querySelector(".hero__line").textContent, open: document.querySelector(".case .btn span").textContent }));
-  check(en.lang === "en" && /Websites/.test(en.h) && /Open/.test(en.open), `EN toggle: "${en.h.slice(0, 30)}…" / "${en.open}"`);
+  const h = await p.evaluate(() => document.querySelector(".hero__line").textContent);
+  await p.goto(BASE + "projects.html", { waitUntil: "load" });
+  await p.waitForTimeout(1200);
+  const en = await p.evaluate(() => ({ lang: document.documentElement.lang, title: document.title, open: document.querySelector(".case .btn span").textContent }));
+  check(en.lang === "en" && /Websites/.test(h) && /Open/.test(en.open) && /^Work/.test(en.title), `EN toggle: "${h.slice(0, 30)}…" / "${en.open}" / "${en.title}"`);
   await p.click('[data-lang="ru"]');
 
   // portfolio -> every demo -> back
@@ -56,8 +78,8 @@ try {
     const back = await d.evaluate(() => document.querySelector("[data-akbar-demo]")?.shadowRoot?.querySelector("a")?.href);
     check(!!back && derr.length === 0, `${href} opens, demo bar present ${derr.join(" | ")}`);
     await d.evaluate(() => document.querySelector("[data-akbar-demo]").shadowRoot.querySelector("a").click());
-    await d.waitForURL(/#work$/, { timeout: 5000 }).catch(() => {});
-    check(d.url() === BASE + "#work", `back link returns to ${d.url().replace("http://localhost:4181", "")}`);
+    await d.waitForURL(/projects\.html$/, { timeout: 5000 }).catch(() => {});
+    check(d.url() === BASE + "projects.html", `back link returns to ${d.url().replace("http://localhost:4181", "")}`);
     await d.close();
   }
 

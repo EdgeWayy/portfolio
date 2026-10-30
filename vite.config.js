@@ -31,12 +31,36 @@ function csp() {
   };
 }
 
+// Shared markup lives once in partials/: "<!-- @include header -->" in a page is replaced by partials/header.html.
+// Links with data-nav="<page>" get aria-current="page" on that page, so the active link is right without JS.
+const PAGES = ["index", "projects", "services", "about", "faq", "contact"];
+function includes() {
+  const read = (name) => fs.readFileSync(path.resolve("partials", `${name}.html`), "utf8").trim();
+  return {
+    name: "portfolio-includes",
+    transformIndexHtml: {
+      order: "pre",
+      handler(html, ctx) {
+        const page = path.basename(ctx.filename, ".html");
+        return html
+          .replace(/<!--\s*@include\s+([\w-]+)\s*-->/g, (_, name) => read(name))
+          .replace(new RegExp(`data-nav="${page}"`, "g"), `data-nav="${page}" aria-current="page"`);
+      },
+    },
+    // edits to a partial reload every page in dev
+    handleHotUpdate({ file, server }) {
+      if (file.includes(`${path.sep}partials${path.sep}`) || file.includes("/partials/")) server.ws.send({ type: "full-reload" });
+    },
+  };
+}
+
 // GitHub Pages serves the site from /<repo-name>/. Relative base ("./") works for any repo name.
 // To pin an absolute base instead: BASE_PATH=/my-repo/ npm run build
 export default defineConfig({
   base: process.env.BASE_PATH || "./",
-  plugins: [csp()],
+  plugins: [includes(), csp()],
   build: {
+    rollupOptions: { input: Object.fromEntries(PAGES.map((p) => [p, path.resolve(`${p}.html`)])) },
     target: "es2020",
     assetsInlineLimit: 2048,
     chunkSizeWarningLimit: 700,

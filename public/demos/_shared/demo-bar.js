@@ -51,7 +51,7 @@
   }
   root.innerHTML += `
   <div class="bar" role="region" aria-label="${T.demo}">
-    <a class="full" href="${home}#work" title="${T.hint}">
+    <a class="full" href="${home}projects.html" title="${T.hint}">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#FF5A1F" d="M12 1l2.6 4.7L19.8 4.2l-1.5 5.2L23 12l-4.7 2.6 1.5 5.2-5.2-1.5L12 23l-2.6-4.7-5.2 1.5 1.5-5.2L1 12l4.7-2.6L4.2 4.2l5.2 1.5z"/></svg>
       <span aria-hidden="true">←</span><span class="label">${T.back}</span>
     </a>

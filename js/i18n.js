@@ -9,6 +9,20 @@ const en = {
   "nav.process": "Process",
   "nav.faq": "FAQ",
   "nav.contact": "Contact",
+  "nav.about": "About",
+  "nav.homeShort": "Home",
+  "home.title": "About me, briefly",
+  "hub.label": "Site pages",
+  "hub.work": "Six live demos: stores, cafes, booking",
+  "hub.services": "What I do, what it costs and how we work",
+  "hub.about": "Who I am, skills and tools",
+  "hub.faq": "Prices, deadlines, hosting, languages",
+  "hub.contact": "Tell me about the task, I'll reply on Telegram",
+  "skills.title": "Skills and tools",
+  "skills.front": "Websites and interfaces",
+  "skills.back": "Bots and server",
+  "skills.launch": "Launch and growth",
+  "contact.links": "Links",
   "nav.lang": "Language",
   "nav.cta": "Message me",
   "nav.menu": "Menu",
@@ -90,7 +104,10 @@ const en = {
 // Strings used only from JS
 const ui = {
   ru: {
-    title: "Акбар — сайты для бизнеса в Узбекистане",
+    titles: {
+      index: "Акбар — сайты для бизнеса в Узбекистане", projects: "Работы — Акбар", services: "Услуги и цены — Акбар",
+      about: "Обо мне — Акбар", faq: "Частые вопросы — Акбар", contact: "Контакт — Акбар",
+    },
     task: "Задача", solution: "Решение", result: "Результат", tech: "Технологии",
     open: "Открыть демо", demo: "Демо", copied: "Текст скопирован. Вставьте его в чат с @KrieWoo.",
     copyFail: "Не удалось скопировать. Выделите текст вручную.",
@@ -103,7 +120,10 @@ const ui = {
     hintTouch: "Коснитесь — лупа мастера",
   },
   en: {
-    title: "Akbar — websites for businesses in Uzbekistan",
+    titles: {
+      index: "Akbar — websites for businesses in Uzbekistan", projects: "Work — Akbar", services: "Services and prices — Akbar",
+      about: "About — Akbar", faq: "FAQ — Akbar", contact: "Contact — Akbar",
+    },
     task: "Task", solution: "Solution", result: "Result", tech: "Tech",
     open: "Open live demo", demo: "Demo", copied: "Text copied. Paste it into a chat with @KrieWoo.",
     copyFail: "Could not copy. Select the text by hand.",
@@ -138,7 +158,7 @@ export function setLang(next, { silent = false } = {}) {
   lang = next === "en" ? "en" : "ru";
   const dict = lang === "en" ? en : ru;
   document.documentElement.lang = lang;
-  document.title = t("title");
+  document.title = t("titles")[document.documentElement.dataset.page] ?? t("titles").index;
   document.querySelectorAll("[data-i18n]").forEach((el) => {
     const v = dict[el.dataset.i18n];
     if (v != null && el.innerHTML !== v) el.innerHTML = v;

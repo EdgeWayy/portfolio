@@ -1,7 +1,7 @@
 import "@fontsource-variable/unbounded";
 import "@fontsource-variable/onest";
 import "@fontsource/jetbrains-mono/500.css";
-import "./styles/main.css";
+import "../css/style.css";
 
 import { initI18n, onLang } from "./i18n.js";
 import { renderAll } from "./render.js";
@@ -36,14 +36,15 @@ function fitWidth(box, inner, max = Infinity) {
   inner.style.fontSize = `${Math.min(max, fs * (avail / w))}px`;
 }
 function fitAll() {
-  // the name fills its own grid column: full width on phones, the left column on desktop
+  fitWidth(document.querySelector(".footer"), document.querySelector(".footer__big"));
+  // the name fills its own grid column: full width on phones, the left column on desktop (home page only)
   const name = document.querySelector(".hero__name");
+  if (!name) return;
   const inner = name.querySelector(".hero__name-in");
   name.style.fontSize = "";
   const fs = parseFloat(getComputedStyle(name).fontSize);
   const avail = name.clientWidth;
   name.style.fontSize = `${fs * (avail / inner.getBoundingClientRect().width) * 0.99}px`;
-  fitWidth(document.querySelector(".footer"), document.querySelector(".footer__big"));
 }
 let fitRaf = 0;
 const refit = () => { cancelAnimationFrame(fitRaf); fitRaf = requestAnimationFrame(() => { fitAll(); ScrollTrigger.refresh(); }); };
@@ -54,7 +55,7 @@ onLang(refit);
 
 /* ---------- WebGL portrait ---------- */
 async function startGL() {
-  if (reduce || weak) return;
+  if (reduce || weak || !document.getElementById("portrait")) return;
   const probe = document.createElement("canvas");
   if (!(probe.getContext("webgl2") || probe.getContext("webgl"))) return;
   try {
@@ -80,7 +81,7 @@ async function startGL() {
 
 /* ---------- hero parallax ---------- */
 function heroScroll() {
-  if (reduce) return;
+  if (reduce || !document.querySelector(".hero")) return;
   // No parallax on the name: pushing it down slid it under the portrait and out through the hero's clip edge,
   // where it was cut flat mid-scroll. The intro tween is now the only thing that moves .hero__name-in.
   // Desktop only: on phones the buttons sit low in a tall hero, so this fade had already dimmed them
@@ -91,14 +92,16 @@ function heroScroll() {
 }
 
 /* ---------- loader ---------- */
+// The counter loader plays on the first page of a visit only. Later pages already have .seen/.loaded
+// from the inline head script (loader hidden from the first paint) and just wait for the fonts.
 async function boot() {
   const loader = document.getElementById("loader");
   const num = document.getElementById("loader-num");
-  let seen = false;
-  try { seen = !!sessionStorage.getItem("akbar-seen"); sessionStorage.setItem("akbar-seen", "1"); } catch (e) {}
+  const seen = root.classList.contains("seen");
+  try { sessionStorage.setItem("akbar-seen", "1"); } catch (e) {}
   let ready = false;
   (document.fonts?.ready || Promise.resolve()).then(() => { ready = true; });
-  const minTime = reduce ? 0 : seen ? 300 : 1000;
+  const minTime = reduce || seen ? 0 : 1000;
   const t0 = performance.now();
 
   await new Promise((resolve) => {
@@ -107,7 +110,7 @@ async function boot() {
       const p = minTime ? Math.min(1, elapsed / minTime) : 1;
       const shown = ready ? p : Math.min(p, 0.9);
       num.textContent = String(Math.round(shown * 100)).padStart(3, "0");
-      if ((ready && p >= 1) || elapsed > 4000) resolve();
+      if ((ready && p >= 1) || elapsed > (seen ? 1200 : 4000)) resolve();
       else requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
@@ -115,8 +118,8 @@ async function boot() {
 
   fitAll();
   loader.classList.add("is-out");
-  setTimeout(() => document.getElementById("nav").classList.remove("is-pre"), reduce ? 0 : 350);
-  if (!reduce) heroIntro();
+  setTimeout(() => document.getElementById("nav").classList.remove("is-pre"), reduce || seen ? 0 : 350);
+  if (!reduce && document.querySelector(".hero")) heroIntro();
   heroScroll();
   setTimeout(() => { root.classList.add("loaded"); ScrollTrigger.refresh(); }, reduce ? 0 : 950);
   // give the intro a head start, then build the WebGL portrait

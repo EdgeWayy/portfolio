@@ -18,16 +18,7 @@ function nav() {
   };
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
-
-  // active section dot
-  const links = [...document.querySelectorAll(".nav__links a")];
-  const io = new IntersectionObserver((entries) => {
-    for (const en of entries) {
-      if (!en.isIntersecting) continue;
-      links.forEach((a) => a.classList.toggle("is-active", a.getAttribute("href") === `#${en.target.id}`));
-    }
-  }, { rootMargin: "-45% 0px -50% 0px" });
-  links.forEach((a) => { const s = document.querySelector(a.getAttribute("href")); if (s) io.observe(s); });
+  // the active page link is marked at build time (aria-current="page", see vite.config.js)
 }
 
 /* ---------- mobile menu ---------- */
@@ -66,6 +57,7 @@ function anchors() {
 /* ---------- Tashkent clock in the hero ---------- */
 function clock() {
   const node = document.getElementById("clock");
+  if (!node) return;
   const fmt = new Intl.DateTimeFormat("ru-RU", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Tashkent" });
   const tick = () => { node.textContent = fmt.format(new Date()); };
   tick();
@@ -75,6 +67,7 @@ function clock() {
 /* ---------- quote form -> Telegram with a prefilled message ---------- */
 function quote() {
   const form = document.getElementById("quote");
+  if (!form) return;
   const note = document.getElementById("q-note");
   const build = () => {
     const need = [...form.querySelectorAll('[data-name="need"] input:checked')].map((i) => t("need")[i.value]);
@@ -174,6 +167,7 @@ export function toast(text) {
 /* ---------- touch devices get a different hint ---------- */
 function hint() {
   const h = document.querySelector(".hero__hint");
+  if (!h) return;
   const coarse = matchMedia("(pointer: coarse)").matches;
   const set = () => { if (coarse) h.textContent = t("hintTouch"); };
   set();

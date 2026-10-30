@@ -37,13 +37,13 @@ npm run test         # every demo page under a subpath + portfolio links, demos 
 | What | Where |
 |---|---|
 | Texts in Russian (hero, about, process, contact, footer) | `index.html`. Every translatable element has a `data-i18n` key. |
-| Texts in English | `src/i18n.js`, the `en` object (same keys). Strings used from JS are in `ui`. |
-| Case studies (Work section) | `src/data/projects.js` |
-| Services and prices | `src/data/services.js` |
-| FAQ | `src/data/faq.js` |
+| Texts in English | `js/i18n.js`, the `en` object (same keys). Strings used from JS are in `ui`. |
+| Case studies (Work section) | `js/data/projects.js` |
+| Services and prices | `js/data/services.js` |
+| FAQ | `js/data/faq.js` |
 | Changelog ("Журнал изменений") | `index.html`, section `#now` |
-| Telegram username | `index.html` (search `KrieWoo`), `src/ui.js` (`const TG`), `public/404.html` is generic |
-| Colors and fonts | `src/styles/main.css`, the `:root` tokens at the top |
+| Telegram username | `index.html` (search `KrieWoo`), `js/ui.js` (`const TG`), `public/404.html` is generic |
+| Colors and fonts | `css/style.css`, the `:root` tokens at the top |
 | Social preview image | `npm run og` re-renders `public/og.jpg` from `tools/og.mjs` |
 
 Prices, process promises ("first screen in 2–3 days") and the "Принимаю заказы · ноябрь 2026"
@@ -109,7 +109,7 @@ are never changed. `npm run demos` re-copies all of them into `public/demos/<slu
 4. Run `npm run demos -- my-barbershop`.
 5. Add its pages to `PAGES` in `tools/shots.mjs`, then run `npm run shots`. This tests the pages under a
    subpath and writes the screenshots to `public/img/work/my-barbershop-*.webp`.
-6. Add a case study object to `src/data/projects.js` with `slug: "my-barbershop"` and
+6. Add a case study object to `js/data/projects.js` with `slug: "my-barbershop"` and
    `url: "demos/my-barbershop/index.html"`.
 7. `npm run test`, then commit.
 
@@ -154,21 +154,30 @@ Then in **Settings → Pages**, set **Source** to "Deploy from a branch", branch
 
 ### After the first deploy
 
-Social networks need an absolute image URL for the link preview. In `index.html`, change
-`<meta property="og:image" content="og.jpg">` to `https://<your-user>.github.io/<repo>/og.jpg`
-and add `<meta property="og:url" content="https://<your-user>.github.io/<repo>/">`.
+Social networks need an absolute image URL for the link preview. It lives in `partials/head.html`
+(`og:image`, `twitter:image`); each page sets its own `og:url` and `canonical`.
 
 ## Project structure
 
 ```
-index.html              page markup + Russian texts
-src/main.js             boot: loader, fitting the giant name, WebGL start
-src/hero-gl.js          WebGL star-halftone portrait (lazy loaded, ~3 KB gzipped)
-src/motion.js           Lenis smooth scroll, GSAP reveals, marquee, counters, stacked cards
-src/ui.js               nav, menu, compare slider, quote form, clock, demo page wipe, easter egg
-src/cursor.js           custom cursor + magnetic buttons (desktop only)
-src/render.js           builds Work / Services / FAQ from src/data/
-src/i18n.js             RU <-> EN
+index.html              home: hero, marquee, short intro, links to the other pages
+projects.html           the six case studies + changelog
+services.html           services and prices + how we work
+about.html              about me, stats, skills
+faq.html                frequent questions
+contact.html            quote form, Telegram, GitHub
+index.old.html          the original one-page site, kept as a backup (not built or deployed)
+partials/               head, header (loader, nav, mobile menu) and footer, shared by every page:
+                        "<!-- @include header -->" is replaced at build time (vite.config.js),
+                        and the current page's nav link gets aria-current="page"
+css/style.css           all styles
+js/main.js              entry: boot, loader (first page of a visit only), fitting the giant name, WebGL start
+js/hero-gl.js           WebGL star-halftone portrait (lazy loaded, ~3 KB gzipped)
+js/motion.js            Lenis smooth scroll, GSAP reveals, marquee, counters, stacked cards
+js/ui.js                nav, menu, quote form, clock, demo page wipe, easter egg
+js/cursor.js            custom cursor + magnetic buttons (desktop only)
+js/render.js            builds Work / Services / FAQ from js/data/ (only on the pages that have them)
+js/i18n.js              RU <-> EN, page titles
 public/demos/           the six demo sites (copies)
 public/img/             portrait + case-study screenshots
 tools/                  copy-demos, shots, e2e, og, serve, check-secrets, photo/

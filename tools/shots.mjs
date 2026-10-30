@@ -40,12 +40,12 @@ try {
       await p.waitForTimeout(2200);
       const bar = await p.locator("[data-akbar-demo]").count();
       if (!bar) errors.push("demo bar missing");
-      // the back link must point at the portfolio root
+      // the back link must point at the portfolio projects page
       const home = await p.evaluate(() => {
         const host = document.querySelector("[data-akbar-demo]");
         return host?.shadowRoot?.querySelector("a")?.href || "";
       });
-      if (!home.endsWith(`${PREFIX}#work`)) errors.push("bad back link: " + home);
+      if (!home.endsWith(`${PREFIX}projects.html`)) errors.push("bad back link: " + home);
       console.log(`${errors.length ? "✗" : "✓"} ${slug}/${page}`);
       for (const e of errors) console.log("    " + e);
       problems += errors.length;

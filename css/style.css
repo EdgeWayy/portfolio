@@ -178,7 +178,7 @@ p { text-wrap: pretty; }
 .nav__links { display: none; gap: 4px; }
 .nav__links a { position: relative; display: inline-flex; align-items: center; min-height: var(--tap); padding: 0 14px; font-weight: 500; font-size: 15px; border-radius: 999px; transition: background-color .25s; }
 .nav__links a:hover { background: var(--paper-2); }
-.nav__links a.is-active::after { content: ""; position: absolute; left: 50%; bottom: 5px; width: 5px; height: 5px; margin-left: -2.5px; border-radius: 50%; background: var(--clay); }
+.nav__links a[aria-current="page"]::after { content: ""; position: absolute; left: 50%; bottom: 5px; width: 5px; height: 5px; margin-left: -2.5px; border-radius: 50%; background: var(--clay); }
 .nav__right { display: flex; align-items: center; gap: 8px; }
 .lang { display: inline-flex; padding: 2px; border-radius: 999px; box-shadow: inset 0 0 0 1.5px var(--line-strong); }
 .lang button { min-width: var(--tap); min-height: var(--tap); padding: 0 10px; border-radius: 999px; font: 600 13px/1 var(--f-mono); letter-spacing: .06em; color: var(--muted); transition: background-color .25s, color .25s; }
@@ -203,6 +203,7 @@ p { text-wrap: pretty; }
 .menu nav a i { min-width: 28px; font: 500 13px/1 var(--f-mono); color: var(--teal); font-style: normal; }
 .menu nav a::after { content: "→"; margin-left: auto; font: 400 22px/1 var(--f-body); color: var(--muted); }
 .menu nav a:active { color: var(--teal); }
+.menu nav a[aria-current="page"] { color: var(--clay); }
 .menu__tg { margin-top: auto; width: 100%; }
 .menu-open .nav { background: var(--sand); box-shadow: none; }
 .menu-open .burger { background: var(--clay); box-shadow: none; }
@@ -295,6 +296,12 @@ p { text-wrap: pretty; }
 
 /* ---------- sections ---------- */
 .section { position: relative; padding: var(--sec-pad) var(--gutter); }
+/* pages without a hero: the first section clears the fixed nav */
+main > .section:first-child { padding-top: calc(var(--nav-h) + clamp(40px, 8vw, 120px)); }
+
+/* page transition: later pages of a visit fade in (the first one has the loader) */
+@keyframes page-in { from { opacity: 0; } }
+.seen main, .seen .footer { animation: page-in .5s var(--ease) both; }
 .section--sand { background: var(--sand); }
 .section--mist { background: var(--mist); }
 .section--blush { background: var(--blush); }
@@ -326,6 +333,25 @@ p { text-wrap: pretty; }
   .about__grid { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); }
   .about__big { position: sticky; top: calc(var(--nav-h) + 32px); }
 }
+
+/* ---------- home: links to the other pages (same rows as the mobile menu) ---------- */
+.hub { display: grid; border-top: 1.5px solid var(--ink); align-self: start; }
+.hub a {
+  display: grid; grid-template-columns: 36px minmax(0, 1fr) auto; gap: 4px 14px; align-items: baseline;
+  min-height: 64px; padding: 18px 0; border-bottom: 1px solid var(--line); transition: color .25s;
+}
+.hub i { font-style: normal; color: var(--teal); }
+.hub b { font: 700 clamp(22px, 2.4vw, 34px)/1.1 var(--f-display); letter-spacing: -.03em; }
+.hub span { grid-column: 2; color: var(--muted); }
+.hub a::after { content: "→"; grid-column: 3; grid-row: 1 / 3; align-self: center; font-size: 22px; color: var(--muted); transition: transform .35s var(--ease), color .25s; }
+@media (hover: hover) { .hub a:hover { color: var(--clay); } .hub a:hover::after { color: var(--clay); transform: translateX(4px); } }
+.hub a:active { color: var(--clay); }
+
+/* ---------- about: skills ---------- */
+.skills__grid { display: grid; gap: 32px; }
+.skills__group { display: grid; gap: 14px; align-content: start; padding-top: 18px; border-top: 1px solid var(--line-strong); }
+.skills__group h3 { font: 700 var(--fs-h3)/1.15 var(--f-display); letter-spacing: -.03em; }
+@media (min-width: 760px) { .skills__grid { grid-template-columns: repeat(3, 1fr); gap: 4vw; } }
 
 /* ---------- work / case studies ---------- */
 .cases { display: grid; gap: 20px; }
@@ -504,7 +530,11 @@ p { text-wrap: pretty; }
 .contact__aside { display: grid; gap: 16px; align-content: start; }
 .contact__tg { justify-self: start; display: inline-block; padding: 4px 0; font: 800 clamp(40px, 7vw, 96px)/.95 var(--f-display); letter-spacing: -.05em; border-bottom: 4px solid var(--clay); }
 .contact__tg:hover { color: var(--clay); }
-.contact__aside p:last-child { max-width: 34ch; }
+.contact__aside p { max-width: 34ch; }
+.contact__links { display: grid; border-top: 1px solid var(--line-strong); }
+.contact__links a { display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 56px; border-bottom: 1px solid var(--line-strong); font-weight: 600; }
+.contact__links span { color: var(--muted); font-weight: 400; }
+.contact__links a:hover, .contact__links a:hover span { color: var(--clay); }
 @media (min-width: 960px) {
   .contact__grid { grid-template-columns: 1.15fr .85fr; gap: 6vw; }
 }
