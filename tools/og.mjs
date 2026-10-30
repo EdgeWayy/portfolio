@@ -11,19 +11,21 @@ const html = `<!doctype html><html><head><style>
 @font-face{font-family:M;src:url(${font("@fontsource/jetbrains-mono/files/jetbrains-mono-latin-500-normal.woff2")})}
 @font-face{font-family:M;src:url(${font("@fontsource/jetbrains-mono/files/jetbrains-mono-cyrillic-500-normal.woff2")});unicode-range:U+0400-04FF}
 *{margin:0;box-sizing:border-box}
-body{width:1200px;height:630px;background:#F3EEE4;color:#121212;font-family:U;position:relative;overflow:hidden}
-.p{position:absolute;right:20px;bottom:-30px;height:620px}
-.name{position:absolute;left:44px;bottom:-22px;font-weight:800;font-size:226px;letter-spacing:-.06em;line-height:.8}
-.line{position:absolute;left:52px;top:118px;font-weight:600;font-size:46px;line-height:1.02;letter-spacing:-.035em;width:640px}
-.top{position:absolute;left:52px;top:46px;font:500 16px M;letter-spacing:.08em;text-transform:uppercase;display:flex;gap:12px;align-items:center}
-.top i{width:10px;height:10px;border-radius:50%;background:#1FA65A}
-.tag{position:absolute;right:44px;top:44px;background:#FF5A1F;padding:12px 18px;border-radius:999px;font:500 16px M;letter-spacing:.06em}
+/* same look as the hero: graphite ground, ivory name, brass tag, navy dots on a light print panel */
+body{width:1200px;height:630px;background:#0F1318;color:#ECE7DC;font-family:U;position:relative;overflow:hidden}
+.panel{position:absolute;right:48px;top:48px;width:427px;height:534px;background:#E9E4D8;border-radius:10px;overflow:hidden}
+.panel img{width:100%;height:100%;object-fit:cover}
+.top{position:absolute;left:56px;top:56px;font:500 17px M;letter-spacing:.08em;text-transform:uppercase;display:flex;gap:12px;align-items:center;color:#9AA2AC}
+.top i{width:10px;height:10px;border-radius:50%;background:#4FB37A}
+.name{position:absolute;left:50px;top:150px;font-weight:800;font-size:150px;letter-spacing:-.055em;line-height:.9}
+.line{position:absolute;left:56px;top:330px;font-weight:600;font-size:38px;line-height:1.12;letter-spacing:-.03em;width:620px;color:#D9D4C9}
+.tag{position:absolute;left:56px;bottom:56px;background:#C9A35E;color:#0F1318;padding:14px 22px;border-radius:999px;font:500 19px M;letter-spacing:.06em}
 </style></head><body>
 <div class="top"><i></i>akbar · сайты для бизнеса</div>
-<div class="tag">@KrieWoo</div>
-<div class="line">Сайты, которые продают, для бизнеса в&nbsp;Узбекистане</div>
 <div class="name">Акбар</div>
-<img class="p" src="${img("portrait-halftone-900.webp")}">
+<div class="line">Сайты, которые продают, для бизнеса в&nbsp;Узбекистане</div>
+<div class="tag">t.me/KrieWoo</div>
+<div class="panel"><img src="${img("portrait-dots-900.webp")}"></div>
 </body></html>`;
 const b = await chromium.launch();
 const p = await b.newPage({ viewport: { width: 1200, height: 630 } });
