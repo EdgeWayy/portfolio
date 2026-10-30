@@ -329,6 +329,11 @@ p { text-wrap: pretty; }
 
 /* ---------- work / case studies ---------- */
 .cases { display: grid; gap: 20px; }
+/* phones: stacked cards, enabled from motion.js only when animation runs (reduced motion keeps a plain list) */
+@media (max-width: 959px) {
+  .cases.is-stack { gap: 0; }
+  .cases.is-stack .case { position: sticky; top: var(--stick, 72px); margin-bottom: 24px; transform-origin: 50% 100%; will-change: transform; }
+}
 .case {
   --c-bg: var(--paper); --c-fg: var(--ink); --c-mut: var(--muted); --c-acc: var(--teal); --c-line: var(--line);
   position: relative; display: grid; gap: 24px; padding: clamp(20px, 3.4vw, 48px);

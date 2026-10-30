@@ -145,6 +145,32 @@ function cases() {
       gsap.to(card.querySelector(".case__shade"), { opacity: 0.45, ease: "none", scrollTrigger: { ...st } });
     });
   });
+  // Phones: the same stack, adapted to cards taller than the screen. Each card sticks once its BOTTOM
+  // reaches the bottom of the screen (negative --stick), so it is read in full before the next one
+  // slides over it; it then shrinks toward its visible bottom edge and dims.
+  mm.add("(max-width: 959px)", () => {
+    const root = document.getElementById("cases");
+    const cards = gsap.utils.toArray(".case");
+    const setStick = () => cards.forEach((card) => {
+      const navH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--nav-h")) || 64;
+      card.style.setProperty("--stick", `${Math.min(navH + 8, innerHeight - card.offsetHeight - 12)}px`);
+    });
+    root.classList.add("is-stack");
+    setStick();
+    ScrollTrigger.addEventListener("refreshInit", setStick);
+    cards.forEach((card, i) => {
+      const next = cards[i + 1];
+      if (!next) return;
+      const st = { trigger: next, start: "top bottom", end: "top 25%", scrub: true };
+      gsap.to(card, { scale: 0.94, ease: "none", scrollTrigger: st });
+      gsap.to(card.querySelector(".case__shade"), { opacity: 0.5, ease: "none", scrollTrigger: { ...st } });
+    });
+    return () => {
+      ScrollTrigger.removeEventListener("refreshInit", setStick);
+      root.classList.remove("is-stack");
+      cards.forEach((card) => card.style.removeProperty("--stick"));
+    };
+  });
   gsap.utils.toArray(".case .phone").forEach((ph) => {
     gsap.fromTo(ph, { yPercent: 14 }, { yPercent: -10, ease: "none", scrollTrigger: { trigger: ph.closest(".case"), start: "top bottom", end: "bottom top", scrub: true } });
   });
