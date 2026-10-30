@@ -1,0 +1,11 @@
+Copyright (c) 2026 Akbar. All rights reserved.
+
+This repository holds the source of Akbar's personal portfolio website, including its design,
+texts, images (the dot portrait among them) and the demo sites under public/demos/.
+
+No license is granted. You may view the code on GitHub, but you may not copy, modify,
+redistribute, or reuse any part of it, in whole or in part, without written permission
+from the author. Contact: https://t.me/KrieWoo
+
+Third-party components keep their own licenses: fonts and libraries installed through npm,
+and the photos and assets listed in CREDITS.md.

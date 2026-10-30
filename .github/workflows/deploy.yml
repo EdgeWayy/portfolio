@@ -26,23 +26,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      # Payment details: repo Settings -> Secrets and variables -> Actions -> Variables (names in .env.example).
-      # Unset variables show "details on Telegram" on the site instead of a number.
       - run: npm run build
-        env:
-          VITE_PAY_HOLDER: ${{ vars.VITE_PAY_HOLDER }}
-          VITE_PAY_AMOUNT: ${{ vars.VITE_PAY_AMOUNT }}
-          VITE_PAY_CURRENCY: ${{ vars.VITE_PAY_CURRENCY }}
-          VITE_PAY_CLICK_URL: ${{ vars.VITE_PAY_CLICK_URL }}
-          VITE_PAY_PAYME_URL: ${{ vars.VITE_PAY_PAYME_URL }}
-          VITE_PAY_UZUM_URL: ${{ vars.VITE_PAY_UZUM_URL }}
-          VITE_PAY_UZCARD: ${{ vars.VITE_PAY_UZCARD }}
-          VITE_PAY_HUMO: ${{ vars.VITE_PAY_HUMO }}
-          VITE_PAY_ABROAD_CARD: ${{ vars.VITE_PAY_ABROAD_CARD }}
-          VITE_PAY_RU_URL: ${{ vars.VITE_PAY_RU_URL }}
-          VITE_PAY_KZ_URL: ${{ vars.VITE_PAY_KZ_URL }}
-          VITE_PAY_VISA: ${{ vars.VITE_PAY_VISA }}
-          VITE_PAY_INTL_URL: ${{ vars.VITE_PAY_INTL_URL }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

@@ -75,21 +75,6 @@ PYTHONPATH=tools/photo python tools/photo/export.py    # final WebP files -> pub
 
 `cutout.py` crops a 4:5 head-and-shoulders frame. Adjust the crop box in it for a different photo.
 
-## Payment section
-
-Card numbers and payment links are **not** in the code. `src/data/payments.js` reads them from
-`VITE_PAY_*` env variables; the names and placeholders are in `.env.example`.
-
-- Local: `cp .env.example .env.local`, replace the `XXXX` values, restart `npm run dev`. `.env.local` is git-ignored.
-- GitHub Pages: repo **Settings → Secrets and variables → Actions → Variables**, add the same names.
-  `deploy.yml` passes them to the build.
-- Empty or `XXXX` values show "I'll send the details on Telegram" instead of a number.
-- Whatever you fill in is printed on the public page. Use receiving details only (card number, holder name,
-  payment links), never a PIN, CVV or SMS code. `npm run check` fails if a card number is written into source.
-- Send a client a ready link with the amount: `https://<site>/?amount=1500000&cur=UZS#pay`.
-- The screenshot never leaves the browser: on phones it goes through the share sheet to Telegram,
-  on desktop the chat opens with the text and the client attaches the image there.
-
 ## Demo sites
 
 Demos are **copies**. The originals in `C:\Users\kriew\portfolio-new\...` and `C:\Users\kriew\new-site-with-skill`

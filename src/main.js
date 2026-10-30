@@ -6,7 +6,6 @@ import "./styles/main.css";
 import { initI18n, onLang } from "./i18n.js";
 import { renderAll } from "./render.js";
 import { initUI } from "./ui.js";
-import { initPay } from "./pay.js";
 import { initSmoothScroll, initMotion, initStill, heroIntro, gsap, ScrollTrigger } from "./motion.js";
 import { initCursor, initMagnetic } from "./cursor.js";
 
@@ -23,7 +22,6 @@ initI18n();
 renderAll();
 if (!reduce) initSmoothScroll();
 initUI();
-initPay();
 initCursor();
 initMagnetic();
 reduce ? initStill() : initMotion();
@@ -85,7 +83,11 @@ function heroScroll() {
   if (reduce) return;
   // No parallax on the name: pushing it down slid it under the portrait and out through the hero's clip edge,
   // where it was cut flat mid-scroll. The intro tween is now the only thing that moves .hero__name-in.
-  gsap.to(".hero__line, .hero__bottom", { y: -60, opacity: 0.2, ease: "none", scrollTrigger: { trigger: ".hero", start: "center center", end: "bottom top", scrub: true } });
+  // Desktop only: on phones the buttons sit low in a tall hero, so this fade had already dimmed them
+  // to 20% by the time they scrolled into view (the "dull buttons" bug).
+  gsap.matchMedia().add("(min-width: 960px)", () => {
+    gsap.to(".hero__line, .hero__bottom", { y: -60, opacity: 0.2, ease: "none", scrollTrigger: { trigger: ".hero", start: "center center", end: "bottom top", scrub: true } });
+  });
 }
 
 /* ---------- loader ---------- */

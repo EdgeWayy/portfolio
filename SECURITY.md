@@ -56,6 +56,24 @@ not copied here) keeps the Telegram bot token on the server. It validates input,
 and rate-limits by IP. If you deploy it for a client, set `BOT_TOKEN`, `CHAT_ID` and `ALLOWED_ORIGINS` as
 **server environment variables**, never in front-end code.
 
+## Review of 2026-10-30
+
+| Check | Result |
+|---|---|
+| API keys and secrets in files | none (`npm run check`, which now also fails on card numbers) |
+| Secrets in the full git history | none (tokens, keys, `*_TOKEN=`/`PASSWORD=` patterns) |
+| `.env` files | `.env` and `.env.*` are git-ignored; no real `.env` was ever committed |
+| Original photo `my-photo.png` | git-ignored, never committed. The site loads only dot images (`portrait-dots-*`, `portrait-tone-dots.webp`). The photo-based `portrait-tone.webp` was untracked; it still exists in commits made before 2026-10-30 |
+| Dependencies | `npm audit`: 0 vulnerabilities |
+| Passwords | only the Lumina demo admin has one: salted, stretched SHA-256, constant-time compare |
+| Admin route | Lumina `admin.html`: session check on load and on every action, idle timeout, `noindex` |
+| Rate limiting | Lumina login lockout (5 tries, doubling to 15 min); Vortaq form 60 s cooldown; quote form 10 s cooldown (new) |
+| Input handling | quote form strips control characters and caps length; demos escape user input before `innerHTML` (Lirevo checkout, SkyNavoi ticket); no `eval`, `new Function` or `document.write` |
+| CORS | not applicable: no API on this site. The only request is SkyNavoi reading its own `data/flights.json` (same origin) |
+| Security headers | CSP `<meta>` on every built page (portfolio, 404, all demo pages); `public/_headers` for hosts that support headers |
+| Debug mode | Vite build without source maps; Lumina `DEBUG: false`; fixed: Vortaq demo printed the visitor's name and phone to the console |
+| Removed | the Payment section and its config (no card details anywhere in the repo) |
+
 ## Re-run the checks
 
 ```bash

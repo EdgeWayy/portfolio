@@ -151,7 +151,7 @@ const LEAD_COOLDOWN_MS = 60 * 1000; // client-side throttle; the server enforces
 
 async function sendLead(lead) {
   if (!CONFIG_LEAD_ENDPOINT) {
-    console.log("[Vortaq] Demo mode, lead not sent:", lead);
+    console.info("[Vortaq] Demo mode: the form works, nothing is sent.");
     await new Promise((resolve) => setTimeout(resolve, 700));
     return true;
   }

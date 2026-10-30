@@ -7,6 +7,8 @@
   <meta name="description" content="Акбар — веб-разработчик из Узбекистана. Сайты, интернет-магазины, админ-панели и оплата Click / Payme для местного бизнеса. Быстро, на трёх языках, с телефона в первую очередь.">
   <meta name="theme-color" content="#0F1318">
   <meta name="color-scheme" content="dark">
+  <meta name="author" content="Akbar">
+  <meta name="copyright" content="© 2026 Akbar. All rights reserved.">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
@@ -65,7 +67,6 @@
       <a href="#services" data-i18n="nav.services">Услуги</a>
       <a href="#process" data-i18n="nav.process">Процесс</a>
       <a href="#faq" data-i18n="nav.faq">FAQ</a>
-      <a href="#pay" data-i18n="nav.pay">Оплата</a>
     </nav>
     <div class="nav__right">
       <div class="lang" role="group" aria-label="Язык" data-i18n-aria="nav.lang">
@@ -86,7 +87,6 @@
       <a href="#process"><i>03</i><span data-i18n="nav.process">Процесс</span></a>
       <a href="#faq"><i>04</i><span data-i18n="nav.faq">FAQ</span></a>
       <a href="#contact"><i>05</i><span data-i18n="nav.contact">Контакт</span></a>
-      <a href="#pay"><i>06</i><span data-i18n="nav.pay">Оплата</span></a>
     </nav>
     <a class="btn btn--ink btn--lg menu__tg" href="https://t.me/KrieWoo" target="_blank" rel="noopener">
       <svg class="tg" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.4 3.6 2.9 10.8c-1.2.5-1.2 1.2 0 1.6l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.5l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.3-.5-1.9-1.6-1.4zM9.6 14.4l-.4 4.1-1.4-4.6 10.6-6.7z"/></svg>
@@ -138,7 +138,7 @@
       </div>
       <div class="marquee marquee--teal" data-speed="-1">
         <div class="marquee__track">
-          <span>HTML</span><i>✦</i><span>CSS</span><i>✦</i><span>JavaScript</span><i>✦</i><span>GSAP</span><i>✦</i><span>WebGL</span><i>✦</i><span>Vite</span><i>✦</i><span>Python</span><i>✦</i><span>FastAPI</span><i>✦</i><span>IndexedDB</span><i>✦</i><span>Claude AI</span><i>✦</i>
+          <span>HTML</span><i>✦</i><span>CSS</span><i>✦</i><span>JavaScript</span><i>✦</i><span>GSAP</span><i>✦</i><span>WebGL</span><i>✦</i><span>Vite</span><i>✦</i><span>Python</span><i>✦</i><span>FastAPI</span><i>✦</i><span>IndexedDB</span><i>✦</i><span>SEO</span><i>✦</i>
         </div>
       </div>
     </section>
@@ -152,7 +152,7 @@
       <div class="about__grid">
         <p class="about__big" data-reveal data-i18n="about.big">Я собираю сайты так, как <em>мастер</em> собирает узор на стене Самарканда: из сотни точных деталей, где каждая на своём месте.</p>
         <div class="about__text">
-          <p data-reveal data-i18n="about.p1">Я Акбар, разработчик-самоучка из Узбекистана. Делаю сайты для местного бизнеса: кофеен, фитнес-клубов, ресторанов, магазинов.</p>
+          <p data-reveal data-i18n="about.p1">Я Акбар, веб-разработчик из Узбекистана. Делаю сайты, интернет-магазины и Telegram-ботов для местного бизнеса: кофеен, фитнес-клубов, ресторанов, магазинов. Веду проект целиком — от идеи и дизайна до запуска и поддержки.</p>
           <p data-reveal data-i18n="about.p2">Работаю с ИИ как с напарником: он берёт на себя рутину, а дизайн, логику и качество я проверяю сам. Поэтому вы получаете продуманный сайт быстрее и дешевле, чем в агентстве.</p>
           <ul class="stats">
             <li><b class="stat" data-count="6">6</b><span data-i18n="stats.demos">живых демо прямо на этом сайте</span></li>
@@ -240,6 +240,10 @@
               <label><input type="checkbox" value="pay"><span data-i18n="contact.n4">Оплата Click / Payme</span></label>
               <label><input type="checkbox" value="bot"><span data-i18n="contact.n5">Telegram-бот</span></label>
               <label><input type="checkbox" value="redesign"><span data-i18n="contact.n6">Редизайн</span></label>
+              <label><input type="checkbox" value="booking"><span data-i18n="contact.n7">Онлайн-запись</span></label>
+              <label><input type="checkbox" value="qr"><span data-i18n="contact.n8">QR-меню</span></label>
+              <label><input type="checkbox" value="seo"><span data-i18n="contact.n9">SEO и карты</span></label>
+              <label><input type="checkbox" value="support"><span data-i18n="contact.n10">Поддержка</span></label>
             </div>
           </fieldset>
           <fieldset>
@@ -276,93 +280,13 @@
         </aside>
       </div>
     </section>
-
-    <!-- ============ PAYMENT ============ -->
-    <!-- Card numbers and links come from src/data/payments.js (env variables, see .env.example), never from this file. -->
-    <section class="pay section" id="pay" aria-labelledby="pay-title">
-      <div class="sec-head">
-        <span class="sec-num mono">07</span>
-        <h2 class="sec-title" id="pay-title" data-split data-i18n="pay.title">Оплата проекта</h2>
-        <p class="sec-sub" data-i18n="pay.sub">Сумму и срок фиксируем в Telegram. Потом выберите удобный способ: реквизиты и шаги появятся ниже.</p>
-      </div>
-      <div class="pay__grid">
-        <form class="pay__form" id="pay-form" novalidate>
-          <fieldset>
-            <legend class="mono" data-i18n="pay.method">Способ оплаты</legend>
-            <div class="pay__group">
-              <span class="pay__group-label mono" data-i18n="pay.groupUz">В Узбекистане</span>
-              <div class="chips" data-name="method" id="pay-uz"><!-- rendered from src/data/payments.js --></div>
-            </div>
-            <div class="pay__group">
-              <span class="pay__group-label mono" data-i18n="pay.groupAbroad">Из-за рубежа</span>
-              <div class="chips" data-name="method" id="pay-abroad"><!-- rendered from src/data/payments.js --></div>
-            </div>
-          </fieldset>
-
-          <div class="field">
-            <label for="p-amount" class="mono" data-i18n="pay.amount">Сумма</label>
-            <div class="pay__amount">
-              <input id="p-amount" name="amount" type="text" inputmode="decimal" autocomplete="off" maxlength="16" placeholder="Например: 1 500 000" data-i18n-ph="pay.amountPh">
-              <select id="p-cur" name="currency" aria-label="Валюта" data-i18n-aria="pay.currency">
-                <option value="UZS">UZS</option>
-                <option value="USD">USD</option>
-                <option value="RUB">RUB</option>
-                <option value="KZT">KZT</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="pay__card" id="pay-info" aria-live="polite"><!-- instructions for the chosen method --></div>
-
-          <fieldset>
-            <legend class="mono" data-i18n="pay.proof">Подтверждение оплаты</legend>
-            <div class="field">
-              <label for="p-txid" class="mono" data-i18n="pay.txid">ID транзакции или номер чека</label>
-              <input id="p-txid" name="txid" type="text" autocomplete="off" maxlength="64" spellcheck="false" placeholder="Например: 1234567890" data-i18n-ph="pay.txidPh">
-            </div>
-            <label class="drop" id="p-drop">
-              <input id="p-file" name="screenshot" type="file" accept="image/*">
-              <b data-i18n="pay.attach">Прикрепить скриншот оплаты</b>
-              <small data-i18n="pay.attachHint">PNG или JPG до 10 МБ. Файл никуда не загружается: он остаётся у вас и уходит только в Telegram.</small>
-            </label>
-            <div class="proof" id="p-proof" hidden>
-              <span id="p-fname"></span>
-              <button type="button" id="p-remove" aria-label="Убрать скриншот" data-i18n-aria="pay.remove">×</button>
-            </div>
-            <div class="field">
-              <label for="p-name" class="mono" data-i18n="pay.name">Имя и проект</label>
-              <input id="p-name" name="name" type="text" autocomplete="name" maxlength="80" placeholder="Например: Дильноза, сайт кофейни" data-i18n-ph="pay.namePh">
-            </div>
-          </fieldset>
-
-          <div class="quote__actions">
-            <button class="btn btn--clay btn--lg magnetic" type="submit" data-cursor="Telegram">
-              <svg class="tg" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.4 3.6 2.9 10.8c-1.2.5-1.2 1.2 0 1.6l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.5l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.3-.5-1.9-1.6-1.4zM9.6 14.4l-.4 4.1-1.4-4.6 10.6-6.7z"/></svg>
-              <span data-i18n="pay.send">Отправить подтверждение</span>
-            </button>
-            <button class="btn btn--line-ink" type="button" id="p-copy" data-i18n="contact.copy">Скопировать текст</button>
-          </div>
-          <p class="quote__note" id="p-note" role="status" aria-live="polite" data-i18n="pay.note">Откроется чат с @KrieWoo с готовым сообщением. Скриншот прикрепите в чате, если телефон не предложит отправить его сам.</p>
-        </form>
-
-        <aside class="pay__aside">
-          <p class="mono" data-i18n="pay.howTitle">Как это работает</p>
-          <ol class="pay__how">
-            <li><i>01</i><span data-i18n="pay.how1">Договариваемся о задаче, сумме и сроке в Telegram.</span></li>
-            <li><i>02</i><span data-i18n="pay.how2">Вы оплачиваете согласованную сумму удобным способом.</span></li>
-            <li><i>03</i><span data-i18n="pay.how3">Присылаете скриншот или ID транзакции. Я подтверждаю получение и начинаю работу.</span></li>
-          </ol>
-          <p class="pay__safe" data-i18n="pay.safe">Реквизиты — только здесь и в чате с @KrieWoo. Если кто-то присылает другие номера от моего имени, не платите и напишите мне.</p>
-        </aside>
-      </div>
-    </section>
   </main>
 
   <footer class="footer">
     <div class="footer__big" aria-hidden="true"><span>akbar</span><svg class="star-icon" viewBox="0 0 48 48"><path d="M24 2l5.2 9.4 10.4-3-3 10.4L46 24l-9.4 5.2 3 10.4-10.4-3L24 46l-5.2-9.4-10.4 3 3-10.4L2 24l9.4-5.2-3-10.4 10.4 3z"/></svg></div>
     <div class="footer__row mono">
-      <span>© 2026 Akbar</span>
-      <span data-i18n="footer.made">Сделано вручную (и немного с ИИ) в Узбекистане</span>
+      <span data-i18n="footer.copy">© 2026 Akbar. Все права защищены.</span>
+      <span data-i18n="footer.made">Сделано вручную в Узбекистане</span>
       <span class="footer__egg" data-i18n="footer.egg">Наберите «akbar» на клавиатуре</span>
       <a href="#top" data-i18n="footer.top">Наверх ↑</a>
     </div>

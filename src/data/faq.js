@@ -15,10 +15,10 @@ export const faq = [
     },
   },
   {
-    q: { ru: "Вы используете ИИ. Это не шаблон?", en: "You use AI. Isn't it a template?" },
+    q: { ru: "Это не готовый шаблон?", en: "Isn't it just a template?" },
     a: {
-      ru: "Нет. ИИ ускоряет рутину: вёрстку, переводы, проверки. Дизайн, структура и каждое решение — мои, и я проверяю всё вручную на реальных телефонах. Посмотрите демо выше: среди них нет двух похожих.",
-      en: "No. AI speeds up routine work: markup, translations, checks. The design, structure and every decision are mine, and I test everything by hand on real phones. Look at the demos above: no two are alike.",
+      ru: "Нет. Дизайн, структура и каждое решение — мои, каждый проект делаю с чистого листа и проверяю вручную на реальных телефонах. Посмотрите демо выше: среди них нет двух похожих.",
+      en: "No. The design, structure and every decision are mine: every project starts from a blank page, and I test it by hand on real phones. Look at the demos above: no two are alike.",
     },
   },
   {

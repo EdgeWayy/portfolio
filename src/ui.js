@@ -90,8 +90,12 @@ function quote() {
     lines.push(msg ? `${t("msgTask")}: ${msg}` : t("msgEmpty"));
     return lines.join("\n");
   };
+  let lastSent = 0;
   form.addEventListener("submit", (e) => {
     e.preventDefault();
+    // one chat per 10 s: stops accidental double taps and scripted floods from this page
+    if (Date.now() - lastSent < 10000) { note.textContent = t("wait"); return; }
+    lastSent = Date.now();
     const url = `https://t.me/${TG}?text=${encodeURIComponent(build())}`;
     window.open(url, "_blank", "noopener");
   });

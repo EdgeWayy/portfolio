@@ -47,6 +47,8 @@ const REPLACE = [
   [/if \(saved && TRANSLATIONS\[saved\]\)/g, "if (saved && Object.prototype.hasOwnProperty.call(TRANSLATIONS, saved))"],
   // Vortaq: optional logo image that does not exist (the text logo is the real one) -> avoid a 404
   [/<img class="logo__img" src="images\/logo\.png"[^>]*>\s*/g, ""],
+  // Vortaq: demo mode must not print the visitor's name and phone to the console
+  [/console\.log\("\[Vortaq\] Demo mode, lead not sent:", lead\);/g, 'console.info("[Vortaq] Demo mode: the form works, nothing is sent.");'],
 ];
 
 function scrub(dir) {
