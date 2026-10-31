@@ -161,7 +161,12 @@ export function runGate() {
     aura.style.setProperty("--d", `${Math.round(Math.min(bw * 1.6, W * 1.15))}px`);
     const canBuzz = typeof navigator.vibrate === "function" && matchMedia("(pointer: coarse)").matches;
     let buzz = 0;
-    const st = { press: 1, glow: 1 };
+    const st = { press: 1, glow: 1, hover: 0 };
+    // mouse position for the magnetic blocks (mouse only; touch has no hover)
+    const mouse = { x: 0, y: 0, on: false, w: 0 };
+    const onMove = (e) => { if (e.pointerType !== "mouse") return; mouse.x = e.clientX; mouse.y = e.clientY; mouse.on = true; };
+    const onOut = (e) => { if (!e.relatedTarget) mouse.on = false; };
+    if (!reduce) { window.addEventListener("pointermove", onMove, { passive: true }); document.addEventListener("mouseout", onOut); }
     let mode = "idle"; // idle | hold | release | done
     let release = null, pressTween = null;
     let floatW = 1;      // idle float weight: blends out while holding, back in afterwards
@@ -177,7 +182,8 @@ export function runGate() {
       const z = build(p);
       // write only what changed (an idle gate then costs almost nothing per frame)
       if (!reduce) {
-        const o = (Math.pow(p, 0.8) * st.glow).toFixed(3), sc = (0.55 + 0.75 * z).toFixed(3);
+        // glow: charges with the hold; a soft hint of it while the mouse is over the button
+        const o = Math.max(Math.pow(p, 0.8) * st.glow, st.hover * 0.45).toFixed(3), sc = (0.55 + 0.75 * z + 0.12 * st.hover).toFixed(3);
         if (o !== prev.o) { aura.style.setProperty("--o", o); prev.o = o; }
         if (sc !== prev.s) { aura.style.setProperty("--s", sc); prev.s = sc; }
       }
@@ -201,6 +207,7 @@ export function runGate() {
 
       // idle float blends out while holding and back in after a release (exponential smoothing, no jumps)
       floatW += ((mode === "idle" || mode === "release" ? 1 : 0) - floatW) * (1 - Math.exp(-4 * dt));
+      mouse.w += ((mouse.on && mode !== "hold" && mode !== "done" ? 1 : 0) - mouse.w) * (1 - Math.exp(-6 * dt));
       // synchronized gentle breathing after ~70%
       const bk = mode === "hold" ? Math.max(0, (p - 0.7) / 0.3) : 0;
       const breathe = 1 + 0.03 * bk * (0.5 - 0.5 * Math.cos(time * Math.PI * 2 * 1.1));
@@ -217,8 +224,18 @@ export function runGate() {
           k.op = Math.max(0, 1 - (time - shock) / 0.5);
         } else {
           const reach = k.dist * k.reach * drift;
-          const tx = (k.ux + k.oy * 0.5) * reach + k.ox * reach * 0.3;
-          const ty = (k.uy - k.ox * 0.5) * reach + k.oy * reach * 0.3;
+          let tx = (k.ux + k.oy * 0.5) * reach + k.ox * reach * 0.3;
+          let ty = (k.uy - k.ox * 0.5) * reach + k.oy * reach * 0.3;
+          // magnetic: blocks near the mouse lean toward it (through the same spring, so the pull has weight);
+          // it fades out while the button is held, like the idle float
+          if (mouse.w > 0.001) {
+            const mx = mouse.x - (k.hx + k.size / 2), my = mouse.y - (k.hy + k.size / 2);
+            const d = Math.hypot(mx, my), R = k.near ? 260 : 200;
+            if (d < R && d > 1) {
+              const f = Math.min(Math.pow(1 - d / R, 2) * (k.near ? 34 : 18), d * 0.4) * mouse.w;
+              tx += (mx / d) * f; ty += (my / d) * f;
+            }
+          }
           for (let s = 0; s < steps; s++) {
             // spring-damper: a = w^2 (target - x) - 2 z w v   (semi-implicit Euler)
             k.vx += (k.w * k.w * (tx - k.x) - 2 * k.z * k.w * k.vx) * h;
@@ -266,9 +283,9 @@ export function runGate() {
         // spring back: a little past 1 (~0.97), then settle (~0.6s); the glow fades out; blocks spring home
         mode = "release";
         pressTween?.kill();
-        release = gsap.timeline()
+        release = gsap.timeline({ onComplete: () => { if (mode === "release") mode = "idle"; } })
           .to(btn, { scale: 0.97, x: 0, y: 0, rotation: 0, duration: 0.28, ease: "power2.out" })
-          .to(btn, { scale: 1, duration: 0.32, ease: "power2.inOut" });
+          .to(btn, { scale: hovered ? HOVER_SCALE : 1, duration: 0.32, ease: "power2.inOut" });
         gsap.to(st, { glow: 0, duration: 0.35, ease: "power1.out" });
       }
     };
@@ -279,6 +296,25 @@ export function runGate() {
     const onKeyDown = (e) => { if (!isKey(e)) return; e.preventDefault(); if (!e.repeat) start(); };
     const onKeyUp = (e) => { if (isKey(e)) { e.preventDefault(); stop(); } };
     const noMenu = (e) => e.preventDefault();
+    // hover (mouse): the button lifts a little, its border brightens and a soft glow appears
+    const HOVER_SCALE = 1.04;
+    let hovered = false;
+    const onEnter = (e) => {
+      if (e.pointerType !== "mouse" || done || reduce) return;
+      hovered = true;
+      btn.classList.add("is-hover");
+      gsap.to(st, { hover: 1, duration: 0.35, ease: "power2.out", overwrite: "auto" });
+      if (!holding && mode !== "release") gsap.to(btn, { scale: HOVER_SCALE, duration: 0.35, ease: "power2.out", overwrite: "auto" });
+    };
+    const onLeave = (e) => {
+      if (e.pointerType !== "mouse" || !hovered) return;
+      hovered = false;
+      btn.classList.remove("is-hover");
+      gsap.to(st, { hover: 0, duration: 0.35, ease: "power2.out", overwrite: "auto" });
+      if (!holding && !done && mode !== "release") gsap.to(btn, { scale: 1, duration: 0.35, ease: "power2.out", overwrite: "auto" });
+    };
+    btn.addEventListener("pointerenter", onEnter);
+    btn.addEventListener("pointerleave", onLeave);
     btn.addEventListener("pointerdown", onDown);
     ["pointerup", "pointercancel", "pointerleave"].forEach((t) => btn.addEventListener(t, stop));
     btn.addEventListener("keydown", onKeyDown);
@@ -298,6 +334,8 @@ export function runGate() {
     window.addEventListener("touchmove", block, opts);
     window.addEventListener("keydown", blockKeys, true);
     activeCleanup = () => {
+      window.removeEventListener("pointermove", onMove);
+      document.removeEventListener("mouseout", onOut);
       window.removeEventListener("wheel", block, opts);
       window.removeEventListener("touchmove", block, opts);
       window.removeEventListener("keydown", blockKeys, true);

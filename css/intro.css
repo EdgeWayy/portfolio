@@ -14,14 +14,13 @@
 /* white sheet behind the writing; fades to the (still empty) page as the icons start to fly */
 .ak-intro__cover { position: absolute; inset: 0; background: #FFFFFF; opacity: 0; }
 
-/* the written name + underline, centered */
+/* the written name, centered */
 .ak-intro__sig {
   position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
   display: grid; justify-items: start;
   will-change: opacity;
 }
 .ak-intro__sig svg { display: block; overflow: visible; }
-.ak-intro__swoosh { display: block; overflow: visible; }
 
 
 /* the loader's own star, moved here to act as the pen */

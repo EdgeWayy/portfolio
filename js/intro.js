@@ -2,7 +2,7 @@
    1. the loader turns white; its own star shrinks, turns navy with a bolder outline and becomes a pen,
    2. the pen writes "Akbar" (capital A, then "kbar"): it travels the letters' centerline, lifting between strokes,
       and the ink appears right behind it,
-   3. the pen draws a hand-drawn swoosh under the name,
+   3. the pen taps a dot after the name ("Akbar."),
    4. small icons scatter over the screen, then fly block by block from the top and land on the real page elements;
       each element appears in place as its icons arrive, and the icons melt into it.
    Remove: delete this file, js/intro-word.js, css/intro.css and the marked "intro" lines in js/main.js. */
@@ -105,46 +105,6 @@ function makeWord(width) {
   defs.append(mask);
   svg.append(defs, svgEl("path", { d: word, fill: NAVY, mask: "url(#ak-intro-ink)" }));
   return { svg, strokes, scale };
-}
-
-/* A quick pen swoosh: starts a touch low, wobbles gently, rises at the end and hooks back with a tiny overshoot.
-   Drawn as a filled shape that tapers toward both ends (round tips), uncovered by a stroke mask along its centerline. */
-function makeSwoosh(L, Wd, parent) {
-  const h = Math.max(16, L * 0.07) + Wd;
-  const padX = Wd + 4;
-  const svg = svgEl("svg", { width: L + padX * 2, height: h, viewBox: `${-padX} 0 ${L + padX * 2} ${h}`, class: "ak-intro__swoosh", "aria-hidden": "true" });
-  const y = (f) => (Wd / 2 + (h - Wd) * f).toFixed(1);
-  const x = (f) => (L * f).toFixed(1);
-  const d = `M0 ${y(0.66)} C${x(0.16)} ${y(0.8)} ${x(0.33)} ${y(0.5)} ${x(0.52)} ${y(0.56)}`
-    + ` S${x(0.84)} ${y(0.46)} ${x(0.985)} ${y(0.27)} Q${x(1.012)} ${y(0.22)} ${x(0.997)} ${y(0.36)}`;
-  const center = svgEl("path", { d, fill: "none" });
-  const mask = svgEl("mask", { id: "ak-intro-swoosh", maskUnits: "userSpaceOnUse", x: -padX, y: 0, width: L + padX * 2, height: h });
-  const reveal = svgEl("path", { d, fill: "none", stroke: "#fff", "stroke-width": Wd * 1.9, "stroke-linecap": "round", "stroke-linejoin": "round" });
-  mask.append(reveal);
-  const defs = svgEl("defs");
-  defs.append(center, mask);
-  svg.append(defs);
-  parent.append(svg); // measured in place
-  // width along the stroke: full in the middle, ~40% at the tips
-  const len = center.getTotalLength();
-  const N = 96, left = [], right = [];
-  let top = Infinity;
-  for (let i = 0; i <= N; i++) {
-    const t = i / N, l = t * len;
-    const p = center.getPointAtLength(l);
-    const q = center.getPointAtLength(Math.min(len, l + 0.5)), o = center.getPointAtLength(Math.max(0, l - 0.5));
-    const dx = q.x - o.x, dy = q.y - o.y, m = Math.hypot(dx, dy) || 1;
-    const half = (Wd / 2) * (0.4 + 0.6 * Math.pow(Math.sin(Math.PI * t), 0.55));
-    left.push(`${(p.x - (dy / m) * half).toFixed(2)} ${(p.y + (dx / m) * half).toFixed(2)}`);
-    right.push(`${(p.x + (dy / m) * half).toFixed(2)} ${(p.y - (dx / m) * half).toFixed(2)}`);
-    top = Math.min(top, p.y - half);
-  }
-  const ends = [center.getPointAtLength(0), center.getPointAtLength(len)];
-  const g = svgEl("g", { fill: NAVY, mask: "url(#ak-intro-swoosh)" });
-  g.append(svgEl("path", { d: `M${left.join("L")}L${right.reverse().join("L")}Z` }));
-  ends.forEach((e) => g.append(svgEl("circle", { cx: e.x, cy: e.y, r: (Wd / 2) * 0.4 })));
-  svg.append(g);
-  return { svg, center, reveal, len, top };
 }
 
 /* The pen's route: ink chunks in order, with a lift (no ink) between strokes. Lengths in SVG units. */
@@ -262,16 +222,13 @@ export async function playIntro(loader, { prepare } = {}) {
 
   // the name takes ~56% of the width on desktop, ~80% on phones
   const { svg, strokes, scale } = makeWord(Math.min(W * (phone ? 0.8 : 0.56), 1100));
-  // underline: 2.25x the original line (max(2px, .2vw)), placed so its top stays clear of the lowest letter
-  const lineW = Math.max(4.5, W * 0.0045);
   sig.append(svg);
-  const sw = makeSwoosh((ink[2] - ink[0]) * scale * 1.02, lineW, sig);
-  const swooshSvg = sw.svg, swoosh = sw.center, swooshLen = sw.len;
-  const gap = phone ? 5 : 7;
-  swooshSvg.style.marginLeft = `${(ink[0] - box[0]) * scale - (lineW + 4)}px`;
-  swooshSvg.style.marginTop = `${-(box[1] + box[3] - ink[3]) * scale + gap - sw.top}px`;
-  sw.reveal.style.strokeDasharray = `${swooshLen} ${swooshLen + 1}`;
-  sw.reveal.style.strokeDashoffset = swooshLen;
+  // the full stop after the name: a slightly oval, slightly tilted dot sitting on the baseline right after the "r"
+  // (font units; about the weight of the letters' thick strokes)
+  const DOT = { x: ink[2] + 95, y: -30, rx: 31, ry: 27 };
+  const dot = svgEl("ellipse", { cx: DOT.x, cy: DOT.y, rx: DOT.rx, ry: DOT.ry, fill: NAVY, transform: `rotate(-18 ${DOT.x} ${DOT.y})` });
+  svg.append(dot);
+  gsap.set(dot, { scale: 0, transformOrigin: "50% 50%" });
 
   const items = route(strokes);
   const total = items.reduce((a, it) => a + it.len, 0);
@@ -333,22 +290,16 @@ export async function playIntro(loader, { prepare } = {}) {
   await play(write);
   items.forEach((it) => { if (!it.lift) it.path.style.strokeDashoffset = 0; });
 
-  /* ----- 3. the pen draws the swoosh under the name (~0.7s), riding its tip ----- */
-  const sm = swooshSvg.getScreenCTM(); // the centerline has no transform of its own
-  const s0 = toScreen(swoosh.getPointAtLength(0), sm);
-  const line = { t: 0 };
-  const under = gsap.timeline();
-  under.to(star, { ...at(s0.x, s0.y), rotation: 200, duration: 0.4, ease: "power2.inOut" })
-    .to(line, {
-      t: 1, duration: 0.7, ease: "power2.out",
-      onUpdate() {
-        sw.reveal.style.strokeDashoffset = swooshLen * (1 - line.t);
-        const p = toScreen(swoosh.getPointAtLength(swooshLen * line.t), sm);
-        gsap.set(star, { ...at(p.x, p.y), rotation: 200 + line.t * 90 });
-      },
-    })
+  /* ----- 3. the pen hops to the end and taps the full stop (~1s) ----- */
+  const d0 = toScreen({ x: DOT.x, y: DOT.y });
+  const penScale = penSize / S0;
+  const tap = gsap.timeline();
+  tap.to(star, { ...at(d0.x, d0.y - penSize * 0.5), rotation: 240, duration: 0.35, ease: "power2.inOut" })
+    .to(star, { ...at(d0.x, d0.y), scale: penScale * 0.86, duration: 0.12, ease: "power2.in" })          // tap
+    .to(dot, { scale: 1, duration: 0.32, ease: "back.out(3)" }, "-=0.02")                               // the dot pops in
+    .to(star, { ...at(d0.x + penSize * 0.7, d0.y - penSize * 0.9), scale: penScale, rotation: 300, duration: 0.4, ease: "power2.out" }, "<")
     .to({}, { duration: 0.3 });
-  await play(under);
+  await play(tap);
 
   /* ----- 4. icons scatter, then assemble the real page block by block from the top (~4s) ----- */
   // the page was left unpainted under the gate/loader/pen (perf); give it back right before measuring (same frame)
