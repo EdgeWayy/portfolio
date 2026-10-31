@@ -26,7 +26,7 @@ export function abortGate() {
   activeCleanup?.();
   activeCleanup = null;
   document.querySelectorAll(".ak-gate").forEach((n) => n.remove());
-  document.documentElement.classList.remove("ak-gate-flow");
+  document.documentElement.classList.remove("ak-gate-flow", "ak-hide-site");
   document.documentElement.classList.add("ak-gate-done");
 }
 
@@ -58,6 +58,7 @@ export function runGate() {
   const html = document.documentElement;
   if (!shouldShowGate()) { html.classList.add("ak-gate-done"); return Promise.resolve(); }
   html.classList.add("ak-gate-flow"); // the loader that follows is shown on white
+  html.classList.add("ak-hide-site"); // the covered page is not painted while the gate/loader/intro are on top (perf)
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   return new Promise((resolve) => {
@@ -68,15 +69,18 @@ export function runGate() {
     gate.innerHTML = `<div class="ak-gate__field" aria-hidden="true"></div>
       <div class="ak-gate__aura" aria-hidden="true"></div>
       <span class="ak-gate__burst" aria-hidden="true"></span>
+      <span class="ak-gate__shadow" aria-hidden="true"></span>
       <div class="ak-gate__btn" role="button" tabindex="0">
         <span class="ak-gate__layer"><span class="ak-gate__t is-idle"></span><span class="ak-gate__t is-hold"></span></span>
-        <span class="ak-gate__layer ak-gate__fill" aria-hidden="true"><span class="ak-gate__t is-idle"></span><span class="ak-gate__t is-hold"></span></span>
+        <span class="ak-gate__fill" aria-hidden="true"><span class="ak-gate__layer ak-gate__fill-in"><span class="ak-gate__t is-idle"></span><span class="ak-gate__t is-hold"></span></span></span>
         <span class="ak-gate__shine" aria-hidden="true"></span>
       </div>
       <span class="ak-gate__open" aria-hidden="true"></span>`;
     document.body.append(gate);
     const btn = gate.querySelector(".ak-gate__btn");
     const fill = gate.querySelector(".ak-gate__fill");
+    const fillIn = gate.querySelector(".ak-gate__fill-in");
+    const shadow = gate.querySelector(".ak-gate__shadow");
     const field = gate.querySelector(".ak-gate__field");
     const aura = gate.querySelector(".ak-gate__aura");
     const burst = gate.querySelector(".ak-gate__burst");
@@ -143,9 +147,13 @@ export function runGate() {
     gsap.fromTo(blocks.map((k) => k.el.firstChild), { opacity: 0 }, { opacity: 1, duration: reduce ? 0.01 : 0.8, stagger: reduce ? 0 : 0.02, ease: "power1.out" });
 
     /* ----- the hold: the fill fills at a constant speed; everything else reads its progress ----- */
-    gsap.set(fill, { clipPath: "inset(0% 100% 0% 0%)" });
+    // the fill is a window sliding in from the left while its content slides the other way: a left-to-right
+    // reveal done with transforms only (no clip-path repaint per frame)
+    gsap.set(fill, { xPercent: -100 });
+    gsap.set(fillIn, { xPercent: 100 });
     const hold = gsap.timeline({ paused: true, onComplete: finish });
-    hold.to(fill, { clipPath: "inset(0% 0% 0% 0%)", duration: HOLD, ease: "none" }, 0);
+    hold.to(fill, { xPercent: 0, duration: HOLD, ease: "none" }, 0)
+      .to(fillIn, { xPercent: 0, duration: HOLD, ease: "none" }, 0);
 
     const build = gsap.parseEase("power2.in"); // slow at first, stronger toward the end
     const bw = b.width;
@@ -159,6 +167,7 @@ export function runGate() {
     let floatW = 1;      // idle float weight: blends out while holding, back in afterwards
     let shock = -1;      // time (s) the shockwave started
     let last = 0;
+    const prev = {}; // last written values (skip writes that would not change anything)
 
     /* One loop: button (scale, tension shake), glow, shine, and every block's physics. One transform per element. */
     const tick = (time) => {
@@ -166,12 +175,15 @@ export function runGate() {
       last = time;
       const p = hold.progress();
       const z = build(p);
+      // write only what changed (an idle gate then costs almost nothing per frame)
       if (!reduce) {
-        aura.style.setProperty("--o", (Math.pow(p, 0.8) * st.glow).toFixed(3));
-        aura.style.setProperty("--s", (0.55 + 0.75 * z).toFixed(3));
+        const o = (Math.pow(p, 0.8) * st.glow).toFixed(3), sc = (0.55 + 0.75 * z).toFixed(3);
+        if (o !== prev.o) { aura.style.setProperty("--o", o); prev.o = o; }
+        if (sc !== prev.s) { aura.style.setProperty("--s", sc); prev.s = sc; }
       }
-      shine.style.transform = `translate3d(${(p * bw - 16).toFixed(1)}px,0,0)`;
-      shine.style.opacity = p > 0.004 && p < 0.996 && mode !== "done" ? "1" : "0";
+      const sx = (p * bw - 16).toFixed(1), so = p > 0.004 && p < 0.996 && mode !== "done" ? "1" : "0";
+      if (sx !== prev.sx) { shine.style.transform = `translate3d(${sx}px,0,0)`; prev.sx = sx; }
+      if (so !== prev.so) { shine.style.opacity = so; prev.so = so; }
 
       if (mode === "hold" && !reduce) {
         // tension on the button only: in the last 40% a tiny tremble that grows toward the end (max ~1.5px / 0.3deg)
@@ -183,6 +195,8 @@ export function runGate() {
           x: n1 * 1.5 * k, y: n2 * 1.1 * k, rotation: Math.sin(time * 83) * 0.3 * k,
         });
       }
+      // the shadow lives on its own layer and follows the button (so the soft shadow is never repainted)
+      if (btn.style.transform !== prev.bt) { shadow.style.transform = prev.bt = btn.style.transform; }
       if (reduce) return;
 
       // idle float blends out while holding and back in after a release (exponential smoothing, no jumps)

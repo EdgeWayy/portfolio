@@ -12,6 +12,8 @@ html.js:not(.seen):not(.ak-gate-done)::after {
 }
 /* after the gate, the counter loader is shown on white (navy digits, the same orange star) */
 html.ak-gate-flow .loader { background: #FFFFFF; color: #0B1F3A; }
+/* the page is fully covered while the gate, the loader and the pen are on screen: don't paint it (perf on weak phones) */
+html.ak-hide-site #nav, html.ak-hide-site main, html.ak-hide-site .footer { visibility: hidden; }
 
 .ak-gate {
   position: fixed; inset: 0; z-index: 200; overflow: hidden; contain: strict;
@@ -38,6 +40,7 @@ html.ak-gate-flow .loader { background: #FFFFFF; color: #0B1F3A; }
 }
 .ak-gate__glyph.is-dim { color: rgba(255, 255, 255, .7); }
 .ak-gate__glyph.is-blinking { animation: ak-gate-blink 2s steps(1, end) infinite; }
+.ak-gate__blk.is-near .ak-gate__glyph.is-blinking { will-change: opacity; } /* sharp blocks: blink without repaint */
 @keyframes ak-gate-blink {
   0% { opacity: 1; }
   55% { opacity: .15; }
@@ -51,7 +54,6 @@ html.ak-gate-flow .loader { background: #FFFFFF; color: #0B1F3A; }
   border-radius: 999px; overflow: hidden;
   background: #0B1F3A; color: #FFFFFF;
   border: 1.5px solid rgba(255, 255, 255, .25);
-  box-shadow: 0 18px 44px rgba(0, 0, 0, .35), 0 3px 10px rgba(0, 0, 0, .25);
   font: 600 22px/1 var(--f-display, system-ui, sans-serif); letter-spacing: -.01em;
   cursor: pointer;
   user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
@@ -62,6 +64,17 @@ html.ak-gate-flow .loader { background: #FFFFFF; color: #0B1F3A; }
   .ak-gate__btn { width: 70vw; height: 84px; margin: -42px 0 0 -35vw; font-size: 20px; }
 }
 
+/* the button's soft shadow on its own layer (follows the button's transform), so it is never repainted */
+.ak-gate__shadow {
+  position: absolute; left: 50%; top: 50%;
+  width: 284px; height: 96px; margin: -48px 0 0 -142px; border-radius: 999px;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, .35), 0 3px 10px rgba(0, 0, 0, .25);
+  pointer-events: none; will-change: transform;
+}
+@media (max-width: 640px) {
+  .ak-gate__shadow { width: 70vw; height: 84px; margin: -42px 0 0 -35vw; }
+}
+
 /* charging glow: a big soft orange circle behind the button (flat color fading to transparent, no filter) */
 .ak-gate__aura { position: absolute; left: 50%; top: 50%; width: 0; height: 0; pointer-events: none; }
 .ak-gate__aura::before {
@@ -70,6 +83,7 @@ html.ak-gate-flow .loader { background: #FFFFFF; color: #0B1F3A; }
   border-radius: 50%;
   background: radial-gradient(circle, rgba(242, 161, 84, .55) 0%, rgba(242, 161, 84, .3) 34%, rgba(242, 161, 84, 0) 70%);
   transform: scale(var(--s, .55)); opacity: var(--o, 0);
+  will-change: transform, opacity; /* its own layer: the big gradient is drawn once */
 }
 /* completion burst: a flat soft-orange ring in the button's shape that races out past the screen edges */
 .ak-gate__burst {
@@ -88,13 +102,16 @@ html.ak-gate-flow .loader { background: #FFFFFF; color: #0B1F3A; }
 }
 /* a soft light at the leading edge of the fill (clipped by the pill) */
 .ak-gate__shine {
-  position: absolute; left: 0; top: 0; bottom: 0; width: 18px; opacity: 0; pointer-events: none;
+  position: absolute; left: 0; top: 0; bottom: 0; width: 18px; opacity: 0; pointer-events: none; will-change: transform, opacity;
   background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, .3) 80%, rgba(255, 255, 255, .12));
 }
 
 /* two identical label layers: white on navy below, navy on orange above, revealed left to right */
 .ak-gate__layer { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
-.ak-gate__fill { background: #F2A154; color: #0B1F3A; clip-path: inset(0% 100% 0% 0%); }
+/* the fill: a window sliding in from the left whose content slides the other way (transform only, same look) */
+/* (the starting offsets -100% / +100% are set by js/gate.js before the first paint) */
+.ak-gate__fill { position: absolute; inset: 0; overflow: hidden; pointer-events: none; will-change: transform; }
+.ak-gate__fill-in { background: #F2A154; color: #0B1F3A; will-change: transform; }
 .ak-gate__t { grid-area: 1 / 1; transition: opacity .25s ease, transform .25s ease; }
 .ak-gate__t.is-hold { opacity: 0; transform: translateY(6px); }
 .ak-gate__btn.is-holding .ak-gate__t.is-idle { opacity: 0; transform: translateY(-6px); }

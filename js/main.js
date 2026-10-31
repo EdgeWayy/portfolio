@@ -99,6 +99,7 @@ function heroScroll() {
 async function boot() {
   // gate screen: the loader and the intro wait until the button has been held (if it ever breaks, the site goes on)
   await runGate().catch((e) => { console.warn("gate:", e); abortGate(); });
+  setTimeout(rescue, 25000); // gate screen: safety net, the loader + intro normally finish in ~11s
   const loader = document.getElementById("loader");
   const num = document.getElementById("loader-num");
   const star = loader.querySelector(".loader__star path");
@@ -141,6 +142,7 @@ async function boot() {
   };
   const assembled = shouldPlayIntro({ reduce, seen }) && await playIntro(loader, { prepare: settlePage }) // intro sequence
     .catch((e) => { console.warn("intro:", e); abortIntro(); return false; }); // if it ever breaks, the page is given back intact
+  root.classList.remove("ak-hide-site"); // gate screen: the page was not painted under the gate/loader (perf)
   loader.classList.add("is-out");
   setTimeout(() => document.getElementById("nav").classList.remove("is-pre"), reduce || seen ? 0 : 350);
   if (!reduce && document.querySelector(".hero") && !assembled) heroIntro();
@@ -158,4 +160,14 @@ async function boot() {
   document.readyState === "complete" ? setTimeout(later, 300) : window.addEventListener("load", () => setTimeout(later, 300), { once: true });
 }
 
-boot();
+// gate screen / intro sequence safety net: if the loader or the intro ever errors or stalls, show the site anyway
+function rescue() {
+  if (root.classList.contains("loaded")) return;
+  console.warn("boot: rescue");
+  abortIntro();
+  abortGate();
+  document.getElementById("loader")?.classList.add("is-out");
+  document.getElementById("nav")?.classList.remove("is-pre");
+  root.classList.add("loaded");
+}
+boot().catch((e) => { console.warn("boot:", e); rescue(); });

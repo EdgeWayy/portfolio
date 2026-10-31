@@ -54,6 +54,7 @@ let activeUnlock = null; // the scroll lock of a running intro (released by abor
 export function abortIntro() {
   activeUnlock?.();
   activeUnlock = null;
+  document.documentElement.classList.remove("ak-hide-site");
   document.querySelectorAll(".ak-intro").forEach((n) => n.remove());
   for (const sel of ["#nav", "main", ".footer"]) {
     const root = document.querySelector(sel);
@@ -79,15 +80,15 @@ function lockScroll() {
 }
 
 /* A small icon in one of the site colors; navy and white ones get a contrasting outline so they read on white and dark. */
-function makeIcon(name, size, { c, halo }) {
+// (markup only: all icons are parsed in one go, which is much cheaper than building them one by one)
+function iconMarkup(name, size, { c, halo }) {
   const def = typeof ICONS[name] === "string" ? { d: ICONS[name] } : ICONS[name];
-  const svg = svgEl("svg", { viewBox: def.box || "0 0 24 24", width: size, height: size, class: "ak-intro__icon" });
   const k = def.box ? 2 : 1; // the 48-unit star needs doubled line widths
   const layer = (stroke, sw, fill) =>
     `<g fill="${fill}" stroke="${stroke}" stroke-width="${sw * k}" stroke-linecap="round" stroke-linejoin="round">${def.d}</g>`;
-  if (def.solid) svg.innerHTML = halo ? layer(halo, 3, c) : layer("none", 0, c);
-  else svg.innerHTML = (halo ? layer(halo, 4.6, "none") : "") + layer(c, 2.2, "none");
-  return svg;
+  const body = def.solid ? (halo ? layer(halo, 3, c) : layer("none", 0, c))
+    : (halo ? layer(halo, 4.6, "none") : "") + layer(c, 2.2, "none");
+  return `<svg class="ak-intro__icon" viewBox="${def.box || "0 0 24 24"}" width="${size}" height="${size}">${body}</svg>`;
 }
 
 /* The word as SVG: filled letters, uncovered by a mask made of the pen's centerline chunks. */
@@ -350,13 +351,17 @@ export async function playIntro(loader, { prepare } = {}) {
   await play(under);
 
   /* ----- 4. icons scatter, then assemble the real page block by block from the top (~4s) ----- */
+  // the page was left unpainted under the gate/loader/pen (perf); give it back right before measuring (same frame)
+  document.documentElement.classList.remove("ak-hide-site");
   prepare?.();
   const { roots, blocks } = measurePage(W, H);
   const hidden = roots.map((el) => [el, el.style.visibility]);
   roots.forEach((el) => { el.style.visibility = "hidden"; }); // under the white sheet, nothing visible changes yet
 
   // lots of small icons (fewer if the quick frame-rate check during the writing found a slow device)
-  const slow = (await fpsProbe) < 45;
+  // low-memory phones get the reduced count right away; others only if the check found dropped frames
+  const lowMem = navigator.deviceMemory && navigator.deviceMemory <= 4;
+  const slow = lowMem || (await fpsProbe) < 50;
   const count = Math.max(blocks.length, Math.round((phone ? 155 : 300) * (slow ? 0.6 : 1)));
   const weights = blocks.map(({ r }) => Math.sqrt(Math.max(1, Math.min(r.width, W) * Math.min(r.height, H))));
   const wsum = weights.reduce((a, b) => a + b, 0) || 1;
@@ -366,12 +371,13 @@ export async function playIntro(loader, { prepare } = {}) {
 
   // scattered start positions, sorted top to bottom so top icons build the top of the page
   const scatter = targets.map(() => ({ x: rand(0.04, 0.96) * W, y: rand(0.04, 0.96) * H })).sort((a, b) => a.y - b.y);
+  const sizes = targets.map(() => Math.round(phone ? rand(9, 14) : rand(11, 17)));
+  iconBox.innerHTML = targets.map((t, i) => iconMarkup(ICON_NAMES[i % ICON_NAMES.length], sizes[i], PALETTE[i % PALETTE.length])).join("");
+  const els = iconBox.children;
   const icons = targets.map((t, i) => {
-    const size = Math.round(phone ? rand(9, 14) : rand(11, 17));
-    const el = makeIcon(ICON_NAMES[i % ICON_NAMES.length], size, PALETTE[i % PALETTE.length]);
+    const size = sizes[i], el = els[i];
     const sx = scatter[i].x - size / 2, sy = scatter[i].y - size / 2;
     el.style.transform = `translate3d(${sx}px,${sy}px,0) scale(0)`;
-    iconBox.append(el);
     return { el, gi: t.gi, sx, sy, tx: t.x - size / 2, ty: t.y - size / 2, r0: rand(-90, 90), curve: i % 2, done: false, idle: false };
   });
 
