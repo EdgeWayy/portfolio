@@ -25,7 +25,9 @@ try {
   await p.goto(BASE, { waitUntil: "load" });
   await p.waitForTimeout(3500);
   check(errors.length === 0, `portfolio loads without console errors ${errors.join(" | ")}`);
-  check(await p.evaluate(() => document.documentElement.classList.contains("gl-ready")), "WebGL portrait running");
+  // the portrait starts after the first-visit intro (js/intro.js), so wait for it instead of a fixed delay
+  const gl = await p.waitForFunction(() => document.documentElement.classList.contains("gl-ready"), null, { timeout: 15000 }).then(() => true, () => false);
+  check(gl, "WebGL portrait running");
 
   // every page: loads clean, its nav link is marked active, every internal link and image answers 200
   const PAGES = { "": "index", "projects.html": "projects", "services.html": "services", "about.html": "about", "faq.html": "faq", "contact.html": "contact" };

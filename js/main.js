@@ -8,6 +8,7 @@ import { renderAll } from "./render.js";
 import { initUI } from "./ui.js";
 import { initSmoothScroll, initMotion, initStill, heroIntro, gsap, ScrollTrigger } from "./motion.js";
 import { initCursor, initMagnetic } from "./cursor.js";
+import { playIntro, shouldPlayIntro } from "./intro.js"; // intro sequence (remove with js/intro.js + css/intro.css)
 
 const root = document.documentElement;
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -129,6 +130,7 @@ async function boot() {
     await new Promise((r) => setTimeout(r, 400));
   }
   fitAll();
+  if (shouldPlayIntro({ reduce, seen })) await playIntro(loader); // intro sequence
   loader.classList.add("is-out");
   setTimeout(() => document.getElementById("nav").classList.remove("is-pre"), reduce || seen ? 0 : 350);
   if (!reduce && document.querySelector(".hero")) heroIntro();
