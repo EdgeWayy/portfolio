@@ -19,6 +19,7 @@ const browser = await chromium.launch({ args: ["--use-gl=angle", "--enable-webgl
 for (const [name, opts] of Object.entries(DEVICES)) {
   if (only && only !== name) continue;
   const ctx = await browser.newContext(opts);
+  await ctx.addInitScript(() => { try { sessionStorage.setItem("akbar-intro-seen", "1"); } catch (e) {} }); // skip the gate + intro
   const p = await ctx.newPage();
   const errs = [];
   p.on("console", (m) => (m.type() === "error" || m.type() === "warning") && errs.push(`${m.type()}: ${m.text()}`));

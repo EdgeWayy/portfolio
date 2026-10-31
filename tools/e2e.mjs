@@ -16,6 +16,7 @@ const check = (ok, msg) => { console.log(`${ok ? "✓" : "✗"} ${msg}`); if (!o
 
 try {
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  await ctx.addInitScript(() => { try { sessionStorage.setItem("akbar-intro-seen", "1"); } catch (e) {} }); // skip the gate + intro
   const p = await ctx.newPage();
   const errors = [];
   p.on("console", (m) => m.type() === "error" && errors.push(m.text()));
@@ -94,6 +95,7 @@ try {
 
   // mobile + reduced motion: static portrait, no WebGL, content visible
   const m = await browser.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, reducedMotion: "reduce" });
+  await m.addInitScript(() => { try { sessionStorage.setItem("akbar-intro-seen", "1"); } catch (e) {} }); // skip the gate + intro
   const mp = await m.newPage();
   await mp.goto(BASE, { waitUntil: "load" });
   await mp.waitForTimeout(1500);

@@ -1,38 +1,33 @@
 /* ==========================================================
    Intro sequence (js/intro.js). Plays once per session, right after the
-   counter loader hits 100. Self-contained: delete this file, js/intro.js and
-   the two marked lines in js/main.js to remove it.
+   counter loader hits 100. Self-contained: delete this file, js/intro.js,
+   js/intro-word.js and the two marked lines in js/main.js to remove it.
+   Colors: navy #0B1F3A, the logo's orange #C9A35E, white.
    ========================================================== */
 .ak-intro {
   --intro-navy: #0B1F3A;
-  --intro-orange: #C9A35E; /* the loader's own stroke color */
+  --intro-orange: #C9A35E;
   position: fixed; inset: 0; z-index: 101; pointer-events: none; overflow: hidden;
   contain: strict;
 }
-.ak-intro__bg { position: absolute; inset: 0; background: #FFFFFF; opacity: 0; will-change: opacity; }
 
-/* signature: [logo slot] Akbar, with the underline below the name */
+/* white sheet behind the writing; fades to the (still empty) page as the icons start to fly */
+.ak-intro__cover { position: absolute; inset: 0; background: #FFFFFF; opacity: 0; }
+
+/* the written name + underline, centered */
 .ak-intro__sig {
-  position: absolute; left: 50%; top: 46%; transform: translate(-50%, -50%);
-  display: flex; align-items: center; color: var(--intro-navy);
-  will-change: transform, opacity;
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  display: grid; justify-items: start;
+  will-change: opacity;
 }
-.ak-intro__mark { flex: none; }
-.ak-intro__name { position: relative; display: grid; }
-.ak-intro__name svg { display: block; overflow: visible; clip-path: inset(-20% 100% -20% 0); }
-.ak-intro__name text { fill: var(--intro-navy); fill-opacity: 0; stroke: var(--intro-navy); stroke-linecap: round; stroke-linejoin: round; }
-.ak-intro__line {
-  height: 1.5px; background: var(--intro-navy); border-radius: 1px;
-  transform: scaleX(0); transform-origin: 0 50%; will-change: transform;
-}
+.ak-intro__sig svg { display: block; overflow: visible; }
+.ak-intro__swoosh { display: block; overflow: visible; }
 
-/* the icons that build the page */
+
+/* the loader's own star, moved here to act as the pen */
+.ak-intro__pen { position: absolute; inset: 0; }
+.ak-intro__pen .loader__star { position: absolute; left: 0; top: 0; margin: 0; will-change: transform; }
+
+/* the icons that assemble the page */
 .ak-intro__icons { position: absolute; inset: 0; }
-.ak-intro__icon {
-  position: absolute; left: 0; top: 0; opacity: 0;
-  fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
-  will-change: transform, opacity; backface-visibility: hidden;
-}
-.ak-intro__icon.is-solid { fill: currentColor; stroke: none; }
-.ak-intro__icon.is-navy { color: var(--intro-navy); }
-.ak-intro__icon.is-orange { color: var(--intro-orange); }
+.ak-intro__icon { position: absolute; left: 0; top: 0; overflow: visible; will-change: transform; backface-visibility: hidden; }

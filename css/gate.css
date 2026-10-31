@@ -1,0 +1,67 @@
+/* ==========================================================
+   Gate screen (js/gate.js): shown before the intro on the first page of a
+   visit. Hold the button for 3 seconds to open the site.
+   Self-contained: delete this file, js/gate.js and the marked "gate"
+   lines in js/main.js to remove it.
+   Colors: white, navy #0B1F3A, orange, soft yellow and soft teal accents.
+   ========================================================== */
+
+/* white from the very first paint, before the gate is built (first page of a visit only) */
+html.js:not(.seen):not(.ak-gate-done)::after {
+  content: ""; position: fixed; inset: 0; z-index: 199; background: #FFFFFF;
+}
+
+.ak-gate {
+  position: fixed; inset: 0; z-index: 200; background: #FFFFFF; overflow: hidden;
+  contain: strict;
+}
+
+/* living code: floating code symbols with a soft static glow.
+   Far ones are small, blurred and faint; near ones are big and sharp. Only transform/opacity animate. */
+.ak-gate__code { position: absolute; inset: 0; pointer-events: none; }
+.ak-gate__sym { position: absolute; left: 0; top: 0; white-space: nowrap; }
+.ak-gate.is-moving .ak-gate__sym.is-near { will-change: transform, opacity; }
+.ak-gate__bob {
+  display: block; font-family: "JetBrains Mono", ui-monospace, Consolas, monospace; font-weight: 500; line-height: 1;
+  transform: rotate(var(--r, 0deg));
+  animation: ak-gate-bob var(--d, 6s) ease-in-out var(--delay, 0s) infinite alternate;
+}
+.ak-gate__sym.is-far .ak-gate__bob { filter: blur(6px); opacity: .45; }
+.ak-gate__bob.is-breathing { animation: ak-gate-bob var(--d, 6s) ease-in-out var(--delay, 0s) infinite alternate, ak-gate-breathe 7s ease-in-out var(--delay, 0s) infinite alternate; }
+.ak-gate__sym.is-far .ak-gate__bob.is-breathing { animation: ak-gate-bob var(--d, 6s) ease-in-out var(--delay, 0s) infinite alternate, ak-gate-breathe-far 7s ease-in-out var(--delay, 0s) infinite alternate; }
+@keyframes ak-gate-bob {
+  from { transform: translate3d(0, 0, 0) rotate(calc(var(--r, 0deg) - 3deg)); }
+  to { transform: translate3d(var(--ax, 0px), var(--ay, -8px), 0) rotate(calc(var(--r, 0deg) + 3deg)); }
+}
+@keyframes ak-gate-breathe { from { opacity: 1; } to { opacity: .2; } }
+@keyframes ak-gate-breathe-far { from { opacity: .45; } to { opacity: .08; } }
+
+/* the hold button: a symmetric stretched pill */
+.ak-gate__btn {
+  position: absolute; left: 50%; top: 50%;
+  width: 284px; height: 96px; margin: -48px 0 0 -142px;
+  border-radius: 999px; overflow: hidden;
+  background: #0B1F3A; color: #FFFFFF;
+  box-shadow: 0 18px 44px rgba(11, 31, 58, .22), 0 3px 10px rgba(11, 31, 58, .16);
+  font: 600 22px/1 var(--f-display, system-ui, sans-serif); letter-spacing: -.01em;
+  cursor: pointer;
+  user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
+  touch-action: none; -webkit-tap-highlight-color: transparent;
+}
+.ak-gate__btn:focus-visible { outline: 3px solid #F2A154; outline-offset: 5px; }
+@media (max-width: 640px) {
+  .ak-gate__btn { width: 70vw; height: 84px; margin: -42px 0 0 -35vw; font-size: 20px; }
+}
+
+/* two identical label layers: white on navy below, navy on orange above, revealed left to right */
+.ak-gate__layer { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
+.ak-gate__fill { background: #F2A154; color: #0B1F3A; clip-path: inset(0% 100% 0% 0%); }
+.ak-gate__t { grid-area: 1 / 1; transition: opacity .25s ease, transform .25s ease; }
+.ak-gate__t.is-hold { opacity: 0; transform: translateY(6px); }
+.ak-gate__btn.is-holding .ak-gate__t.is-idle { opacity: 0; transform: translateY(-6px); }
+.ak-gate__btn.is-holding .ak-gate__t.is-hold { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ak-gate__bob, .ak-gate__bob.is-breathing, .ak-gate__sym.is-far .ak-gate__bob.is-breathing { animation: none; }
+  .ak-gate__t { transition: none; }
+}

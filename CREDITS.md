@@ -7,6 +7,7 @@
 | Star portraits of Akbar (`public/img/portrait-*`) | Rendered from Akbar's own photo with `tools/photo/*.py`. The photo itself is not published or committed | Owned by Akbar |
 | Demo screenshots (`public/img/work/*`) | Captured from the demos in this repo with `tools/shots.mjs` | Owned by Akbar |
 | Fonts: Unbounded, Onest, JetBrains Mono | Google Fonts via [Fontsource](https://fontsource.org), self-hosted | SIL Open Font License 1.1 |
+| Intro name "Akbar" (`js/intro-word.js`) | Letter outlines of [Allura](https://github.com/google/fonts/tree/main/ofl/allura), converted to SVG paths | SIL Open Font License 1.1 |
 | GSAP + ScrollTrigger | [gsap.com](https://gsap.com) (npm) | GSAP Standard "No Charge" license |
 | Lenis | [darkroomengineering/lenis](https://github.com/darkroomengineering/lenis) (npm) | MIT |
 | 8-point star (khatam) motif, icons, 404 tiles | Drawn for this project | Owned by Akbar |
