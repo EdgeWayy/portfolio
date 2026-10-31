@@ -3,38 +3,46 @@
    visit. Hold the button for 3 seconds to open the site.
    Self-contained: delete this file, js/gate.js and the marked "gate"
    lines in js/main.js to remove it.
-   Colors: white, navy #0B1F3A, orange, soft yellow and soft teal accents.
+   Colors: dark graphite-navy #0A0F18, navy #0B1F3A, white, soft orange.
    ========================================================== */
 
-/* white from the very first paint, before the gate is built (first page of a visit only) */
+/* the gate's color from the very first paint, before it is built (first page of a visit only) */
 html.js:not(.seen):not(.ak-gate-done)::after {
-  content: ""; position: fixed; inset: 0; z-index: 199; background: #FFFFFF;
+  content: ""; position: fixed; inset: 0; z-index: 199; background: #0A0F18;
 }
+/* after the gate, the counter loader is shown on white (navy digits, the same orange star) */
+html.ak-gate-flow .loader { background: #FFFFFF; color: #0B1F3A; }
 
 .ak-gate {
-  position: fixed; inset: 0; z-index: 200; background: #FFFFFF; overflow: hidden;
-  contain: strict;
+  position: fixed; inset: 0; z-index: 200; overflow: hidden; contain: strict;
+  background: #0A0F18;
+}
+.ak-gate::before { /* a very subtle vignette */
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, .35) 100%);
 }
 
-/* living code: floating code symbols with a soft static glow.
-   Far ones are small, blurred and faint; near ones are big and sharp. Only transform/opacity animate. */
-.ak-gate__code { position: absolute; inset: 0; pointer-events: none; }
-.ak-gate__sym { position: absolute; left: 0; top: 0; white-space: nowrap; }
-.ak-gate.is-moving .ak-gate__sym.is-near { will-change: transform, opacity; }
-.ak-gate__bob {
-  display: block; font-family: "JetBrains Mono", ui-monospace, Consolas, monospace; font-weight: 500; line-height: 1;
-  transform: rotate(var(--r, 0deg));
-  animation: ak-gate-bob var(--d, 6s) ease-in-out var(--delay, 0s) infinite alternate;
+/* the field: terminal-like blocks, each with one white symbol that blinks like a cursor.
+   The block (outer) gets one transform from the physics loop; the tilt sits on the inner key; the blink is opacity on the glyph. */
+.ak-gate__field { position: absolute; inset: 0; pointer-events: none; }
+.ak-gate__blk { position: absolute; left: 0; top: 0; will-change: transform; }
+.ak-gate__key {
+  width: 100%; height: 100%; display: grid; place-items: center;
+  background: #151C28; border: 1px solid rgba(255, 255, 255, .10); border-radius: 15px;
 }
-.ak-gate__sym.is-far .ak-gate__bob { filter: blur(6px); opacity: .45; }
-.ak-gate__bob.is-breathing { animation: ak-gate-bob var(--d, 6s) ease-in-out var(--delay, 0s) infinite alternate, ak-gate-breathe 7s ease-in-out var(--delay, 0s) infinite alternate; }
-.ak-gate__sym.is-far .ak-gate__bob.is-breathing { animation: ak-gate-bob var(--d, 6s) ease-in-out var(--delay, 0s) infinite alternate, ak-gate-breathe-far 7s ease-in-out var(--delay, 0s) infinite alternate; }
-@keyframes ak-gate-bob {
-  from { transform: translate3d(0, 0, 0) rotate(calc(var(--r, 0deg) - 3deg)); }
-  to { transform: translate3d(var(--ax, 0px), var(--ay, -8px), 0) rotate(calc(var(--r, 0deg) + 3deg)); }
+.ak-gate__blk.is-far .ak-gate__key { filter: blur(6px); opacity: .45; } /* static, never animated */
+.ak-gate__glyph {
+  color: #FFFFFF; font-family: "JetBrains Mono", ui-monospace, Consolas, monospace; font-weight: 600;
+  line-height: 1; white-space: nowrap;
+  font-variant-ligatures: none; font-feature-settings: "calt" 0, "liga" 0; /* "=>" and "!=" stay literal */
 }
-@keyframes ak-gate-breathe { from { opacity: 1; } to { opacity: .2; } }
-@keyframes ak-gate-breathe-far { from { opacity: .45; } to { opacity: .08; } }
+.ak-gate__glyph.is-dim { color: rgba(255, 255, 255, .7); }
+.ak-gate__glyph.is-blinking { animation: ak-gate-blink 2s steps(1, end) infinite; }
+@keyframes ak-gate-blink {
+  0% { opacity: 1; }
+  55% { opacity: .15; }
+  100% { opacity: 1; }
+}
 
 /* the hold button: a symmetric stretched pill */
 .ak-gate__btn {
@@ -42,7 +50,8 @@ html.js:not(.seen):not(.ak-gate-done)::after {
   width: 284px; height: 96px; margin: -48px 0 0 -142px;
   border-radius: 999px; overflow: hidden;
   background: #0B1F3A; color: #FFFFFF;
-  box-shadow: 0 18px 44px rgba(11, 31, 58, .22), 0 3px 10px rgba(11, 31, 58, .16);
+  border: 1.5px solid rgba(255, 255, 255, .25);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, .35), 0 3px 10px rgba(0, 0, 0, .25);
   font: 600 22px/1 var(--f-display, system-ui, sans-serif); letter-spacing: -.01em;
   cursor: pointer;
   user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
@@ -51,6 +60,36 @@ html.js:not(.seen):not(.ak-gate-done)::after {
 .ak-gate__btn:focus-visible { outline: 3px solid #F2A154; outline-offset: 5px; }
 @media (max-width: 640px) {
   .ak-gate__btn { width: 70vw; height: 84px; margin: -42px 0 0 -35vw; font-size: 20px; }
+}
+
+/* charging glow: a big soft orange circle behind the button (flat color fading to transparent, no filter) */
+.ak-gate__aura { position: absolute; left: 50%; top: 50%; width: 0; height: 0; pointer-events: none; }
+.ak-gate__aura::before {
+  content: ""; position: absolute; left: 0; top: 0;
+  width: var(--d, 440px); height: var(--d, 440px); margin: calc(var(--d, 440px) / -2) 0 0 calc(var(--d, 440px) / -2);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(242, 161, 84, .55) 0%, rgba(242, 161, 84, .3) 34%, rgba(242, 161, 84, 0) 70%);
+  transform: scale(var(--s, .55)); opacity: var(--o, 0);
+}
+/* completion burst: a flat soft-orange ring in the button's shape that races out past the screen edges */
+.ak-gate__burst {
+  position: absolute; left: 50%; top: 50%;
+  width: 284px; height: 96px; margin: -48px 0 0 -142px;
+  border-radius: 999px; border: 3px solid rgba(242, 161, 84, .55);
+  opacity: 0; pointer-events: none;
+}
+@media (max-width: 640px) {
+  .ak-gate__burst { width: 70vw; height: 84px; margin: -42px 0 0 -35vw; }
+}
+/* the opening: a white circle from the button center that becomes the white intro */
+.ak-gate__open {
+  position: absolute; left: 50%; top: 50%; width: 40px; height: 40px; margin: -20px 0 0 -20px;
+  border-radius: 50%; background: #FFFFFF; transform: scale(0); pointer-events: none;
+}
+/* a soft light at the leading edge of the fill (clipped by the pill) */
+.ak-gate__shine {
+  position: absolute; left: 0; top: 0; bottom: 0; width: 18px; opacity: 0; pointer-events: none;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, .3) 80%, rgba(255, 255, 255, .12));
 }
 
 /* two identical label layers: white on navy below, navy on orange above, revealed left to right */
@@ -62,6 +101,7 @@ html.js:not(.seen):not(.ak-gate-done)::after {
 .ak-gate__btn.is-holding .ak-gate__t.is-hold { opacity: 1; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
-  .ak-gate__bob, .ak-gate__bob.is-breathing, .ak-gate__sym.is-far .ak-gate__bob.is-breathing { animation: none; }
+  .ak-gate__glyph.is-blinking { animation: none; }
   .ak-gate__t { transition: none; }
+  .ak-gate__aura, .ak-gate__burst { display: none; }
 }

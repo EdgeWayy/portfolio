@@ -48,6 +48,21 @@ const svgEl = (tag, attrs = {}) => {
   return el;
 };
 
+let activeUnlock = null; // the scroll lock of a running intro (released by abortIntro if something breaks)
+
+/* Failsafe: if the intro breaks halfway, take the overlay away and give the page back exactly as the site expects it. */
+export function abortIntro() {
+  activeUnlock?.();
+  activeUnlock = null;
+  document.querySelectorAll(".ak-intro").forEach((n) => n.remove());
+  for (const sel of ["#nav", "main", ".footer"]) {
+    const root = document.querySelector(sel);
+    if (!root) continue;
+    root.style.visibility = "";
+    root.querySelectorAll("[style]").forEach((el) => { el.style.visibility = ""; el.style.clipPath = ""; });
+  }
+}
+
 /* Hold the page still while the intro covers it. */
 function lockScroll() {
   const stop = (e) => { e.preventDefault(); e.stopImmediatePropagation(); };
@@ -228,6 +243,7 @@ export async function playIntro(loader, { prepare } = {}) {
   const starPath = star.querySelector("path");
   const fade = loader.querySelectorAll(".loader__count, .loader__word");
   const unlock = lockScroll();
+  activeUnlock = unlock;
 
   const W = innerWidth, H = innerHeight;
   const phone = W < 640;
@@ -245,8 +261,8 @@ export async function playIntro(loader, { prepare } = {}) {
 
   // the name takes ~56% of the width on desktop, ~80% on phones
   const { svg, strokes, scale } = makeWord(Math.min(W * (phone ? 0.8 : 0.56), 1100));
-  // underline: 1.5x the original line (max(2px, .2vw)), placed so its top stays clear of the lowest letter
-  const lineW = Math.max(3, W * 0.003);
+  // underline: 2.25x the original line (max(2px, .2vw)), placed so its top stays clear of the lowest letter
+  const lineW = Math.max(4.5, W * 0.0045);
   sig.append(svg);
   const sw = makeSwoosh((ink[2] - ink[0]) * scale * 1.02, lineW, sig);
   const swooshSvg = sw.svg, swoosh = sw.center, swooshLen = sw.len;
@@ -418,5 +434,6 @@ export async function playIntro(loader, { prepare } = {}) {
   groups.forEach((g) => { g.el.style.visibility = ""; g.el.style.clipPath = ""; });
   root.remove();
   unlock();
+  activeUnlock = null;
   return true;
 }

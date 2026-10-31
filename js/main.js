@@ -8,8 +8,8 @@ import { renderAll } from "./render.js";
 import { initUI } from "./ui.js";
 import { initSmoothScroll, initMotion, initStill, heroIntro, gsap, ScrollTrigger } from "./motion.js";
 import { initCursor, initMagnetic } from "./cursor.js";
-import { playIntro, shouldPlayIntro } from "./intro.js"; // intro sequence (remove with js/intro.js, js/intro-word.js, css/intro.css)
-import { runGate } from "./gate.js"; // gate screen (remove with js/gate.js, css/gate.css)
+import { playIntro, shouldPlayIntro, abortIntro } from "./intro.js"; // intro sequence (remove with js/intro.js, js/intro-word.js, css/intro.css)
+import { runGate, abortGate } from "./gate.js"; // gate screen (remove with js/gate.js, css/gate.css)
 
 const root = document.documentElement;
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -97,7 +97,8 @@ function heroScroll() {
 // The counter loader plays on the first page of a visit only. Later pages already have .seen/.loaded
 // from the inline head script (loader hidden from the first paint) and just wait for the fonts.
 async function boot() {
-  await runGate(); // gate screen: the loader and the intro wait until the button has been held
+  // gate screen: the loader and the intro wait until the button has been held (if it ever breaks, the site goes on)
+  await runGate().catch((e) => { console.warn("gate:", e); abortGate(); });
   const loader = document.getElementById("loader");
   const num = document.getElementById("loader-num");
   const star = loader.querySelector(".loader__star path");
@@ -138,7 +139,8 @@ async function boot() {
     nav.style.transition = "none"; nav.classList.remove("is-pre"); void nav.offsetHeight; nav.style.transition = "";
     if (document.querySelector(".hero")) heroIntro().progress(1, false);
   };
-  const assembled = shouldPlayIntro({ reduce, seen }) && await playIntro(loader, { prepare: settlePage }); // intro sequence
+  const assembled = shouldPlayIntro({ reduce, seen }) && await playIntro(loader, { prepare: settlePage }) // intro sequence
+    .catch((e) => { console.warn("intro:", e); abortIntro(); return false; }); // if it ever breaks, the page is given back intact
   loader.classList.add("is-out");
   setTimeout(() => document.getElementById("nav").classList.remove("is-pre"), reduce || seen ? 0 : 350);
   if (!reduce && document.querySelector(".hero") && !assembled) heroIntro();

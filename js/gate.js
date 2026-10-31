@@ -1,23 +1,34 @@
-/* Gate screen, shown before the intro on the first page of a visit: softly glowing code symbols ("living code")
-   and a pill button. Holding the button for 3 seconds fills it, zooms the symbols and the button toward the viewer
-   and opens the site; letting go earlier drains it back. The loader and the intro only start after the gate is done.
+/* Gate screen, shown before the intro on the first page of a visit: a dark field of terminal-like blocks, each
+   with one blinking white code symbol, and a pill button. Holding the button for HOLD_MS fills it, grows it and
+   pushes the blocks away (spring physics); letting go earlier springs everything back. At the end a shockwave
+   throws the blocks out and a white circle opens into the (white) loader and the intro.
    Remove: delete this file, css/gate.css and the marked "gate" lines in js/main.js. */
 import { gsap } from "gsap";
 import { getLang, onLang } from "./i18n.js";
 import "../css/gate.css";
 
 const KEY = "akbar-intro-seen"; // same key as the intro: seen once this session, both are skipped
-const HOLD = 3;                 // seconds
+const HOLD_MS = 2200;           // the one hold duration: fill, button, glow, blocks, haptics, keyboard, completion
+const HOLD = HOLD_MS / 1000;
 const TEXT = {
-  ru: { open: "Открыть", hold: "Держи", label: "Удерживайте кнопку 3 секунды, чтобы открыть сайт" },
-  en: { open: "Open", hold: "Hold it", label: "Hold the button for 3 seconds to open the site" },
+  ru: { open: "Открыть", hold: "Держи", label: "Удерживайте кнопку около 2 секунд, чтобы открыть сайт" },
+  en: { open: "Open", hold: "Hold it", label: "Hold the button for about 2 seconds to open the site" },
 };
-const SYMBOLS = ["</>", "{ }", "=>", "#", "$_", ";", "[]", "( )", "//", "&&", "||", "!=", "++", ">_", "0 1",
-  "const", "<div>", "def", "if", "return", "{ }", "</>", "=>", ";", "()", "[]"];
-// mostly navy and the site's orange, a few soft warm accents (soft yellow, soft teal)
-const COLORS = ["#0B1F3A", "#0B1F3A", "#C9A35E", "#0B1F3A", "#C9A35E", "#E2C46B", "#0B1F3A", "#C9A35E", "#6FA8A0"];
+// the five main symbols are the most frequent
+const SYMBOLS = ["</>", "{ }", "=>", "#", "$_", "</>", "{ }", "=>", "#", "$_", "</>", "{ }", "$_", "=>",
+  "[]", "( )", "//", "&&", "!=", ">_", ";"];
 const rand = (a, b) => a + Math.random() * (b - a);
-const alpha = (hex, a) => `${hex}${Math.round(a * 255).toString(16).padStart(2, "0")}`;
+
+let activeCleanup = null; // undoes the gate's listeners and loop (used by abortGate if something breaks)
+
+/* Failsafe: if the gate breaks, remove it and let the site through instead of leaving a stuck dark screen. */
+export function abortGate() {
+  activeCleanup?.();
+  activeCleanup = null;
+  document.querySelectorAll(".ak-gate").forEach((n) => n.remove());
+  document.documentElement.classList.remove("ak-gate-flow");
+  document.documentElement.classList.add("ak-gate-done");
+}
 
 export function shouldShowGate() {
   if (document.documentElement.classList.contains("seen")) return false;
@@ -25,22 +36,28 @@ export function shouldShowGate() {
   return true;
 }
 
-/* Evenly spread candidate spots (jittered grid), in random order. */
-function place(count, W, H) {
-  const cols = Math.max(3, Math.round(Math.sqrt((count * 1.8 * W) / H)));
-  const rows = Math.max(3, Math.round((count * 1.8) / cols));
-  const cw = W / cols, ch = H / rows;
-  const cells = [];
-  for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
-    cells.push({ x: (c + rand(0.2, 0.8)) * cw, y: (r + rand(0.2, 0.8)) * ch });
+/* Place `count` blocks at random without overlaps, fully on screen, clear of the button zone. */
+function layout(count, W, H, zone, sizes) {
+  const out = [];
+  for (let i = 0; i < count; i++) {
+    const size = sizes(i);
+    const r = size * 0.6; // half size plus room for the small tilt
+    for (let tries = 0; tries < 300; tries++) {
+      const x = rand(r + 6, W - r - 6), y = rand(r + 6, H - r - 6);
+      if (x + r > zone.l && x - r < zone.r && y + r > zone.t && y - r < zone.b) continue;
+      if (out.some((o) => Math.hypot(o.x - x, o.y - y) < o.r + r + 4)) continue;
+      out.push({ x, y, r, size });
+      break;
+    }
   }
-  return gsap.utils.shuffle(cells);
+  return out;
 }
 
-/** Show the gate; resolves once it has been held for 3 seconds and has faded away. */
+/** Show the gate; resolves once the button has been held for HOLD_MS and the gate has opened. */
 export function runGate() {
   const html = document.documentElement;
   if (!shouldShowGate()) { html.classList.add("ak-gate-done"); return Promise.resolve(); }
+  html.classList.add("ak-gate-flow"); // the loader that follows is shown on white
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   return new Promise((resolve) => {
@@ -48,15 +65,23 @@ export function runGate() {
     const phone = W < 640;
     const gate = document.createElement("div");
     gate.className = "ak-gate";
-    gate.innerHTML = `<div class="ak-gate__code" aria-hidden="true"></div>
+    gate.innerHTML = `<div class="ak-gate__field" aria-hidden="true"></div>
+      <div class="ak-gate__aura" aria-hidden="true"></div>
+      <span class="ak-gate__burst" aria-hidden="true"></span>
       <div class="ak-gate__btn" role="button" tabindex="0">
         <span class="ak-gate__layer"><span class="ak-gate__t is-idle"></span><span class="ak-gate__t is-hold"></span></span>
         <span class="ak-gate__layer ak-gate__fill" aria-hidden="true"><span class="ak-gate__t is-idle"></span><span class="ak-gate__t is-hold"></span></span>
-      </div>`;
+        <span class="ak-gate__shine" aria-hidden="true"></span>
+      </div>
+      <span class="ak-gate__open" aria-hidden="true"></span>`;
     document.body.append(gate);
     const btn = gate.querySelector(".ak-gate__btn");
     const fill = gate.querySelector(".ak-gate__fill");
-    const codeBox = gate.querySelector(".ak-gate__code");
+    const field = gate.querySelector(".ak-gate__field");
+    const aura = gate.querySelector(".ak-gate__aura");
+    const burst = gate.querySelector(".ak-gate__burst");
+    const shine = gate.querySelector(".ak-gate__shine");
+    const opener = gate.querySelector(".ak-gate__open");
 
     const setText = () => {
       const t = TEXT[getLang() === "en" ? "en" : "ru"];
@@ -67,77 +92,171 @@ export function runGate() {
     setText();
     onLang(() => { if (gate.isConnected) setText(); });
 
-    /* ----- living code: ~60% far (small, blurred, faint), ~40% near (big, sharp, stronger glow) ----- */
+    /* ----- blocks: ~40% near (big, sharp), ~60% far (smaller, static blur, fainter) ----- */
     const BTN_MAX = phone ? 1.15 : 1.3; // how far the button grows while held
     const b = btn.getBoundingClientRect();
-    const grow = { x: (b.width * (BTN_MAX - 1)) / 2, y: (b.height * (BTN_MAX - 1)) / 2 };
-    const pad = phone ? 30 : 64;
-    const zone = { l: b.left - grow.x - pad, r: b.right + grow.x + pad, t: b.top - grow.y - pad, b: b.bottom + grow.y + pad };
-    const count = phone ? 28 : 44;
-    const cx = W / 2, cy = H / 2;
-    const syms = [];
-    for (const p of place(count, W, H)) {
-      if (syms.length >= count) break;
-      const i = syms.length;
-      const near = i % 5 < 2;
-      const size = near ? (phone ? rand(20, 34) : rand(26, 48)) : (phone ? rand(12, 18) : rand(14, 24));
-      const text = SYMBOLS[(i * 7) % SYMBOLS.length];
-      // rough box of the text (monospace: ~0.6em per character): it must stay clear of the button zone
-      const w = text.length * size * 0.62 + 24, h = size * 1.2 + 24;
-      if (p.x + w / 2 > zone.l && p.x - w / 2 < zone.r && p.y + h / 2 > zone.t && p.y - h / 2 < zone.b) continue;
-      const color = COLORS[(i * 5) % COLORS.length];
+    const bcx = b.left + b.width / 2, bcy = b.top + b.height / 2;
+    const pad = phone ? 22 : 56;
+    const gx = (b.width * BTN_MAX * 1.08) / 2 + pad, gy = (b.height * BTN_MAX * 1.08) / 2 + pad; // incl. the final pulse
+    const zone = { l: bcx - gx, r: bcx + gx, t: bcy - gy, b: bcy + gy };
+    const count = phone ? 18 : 28;
+    const isNear = (i) => i % 5 < 2;
+    const sizes = (i) => (isNear(i) ? (phone ? rand(76, 92) : rand(108, 140)) : (phone ? rand(56, 70) : rand(72, 96)));
+    const pick = gsap.utils.shuffle([...SYMBOLS, ...SYMBOLS]); // weighted mix: the main five come up most
+    const blocks = layout(count, W, H, zone, sizes).map((p, i) => {
+      const near = isNear(i);
+      const text = pick[i % pick.length];
       const el = document.createElement("div");
-      el.className = `ak-gate__sym ${near ? "is-near" : "is-far"}`;
-      const bob = document.createElement("span");
-      bob.className = `ak-gate__bob${i % 6 === 3 ? " is-breathing" : ""}`;
-      const amp = near ? 12 : 5;
-      bob.style.setProperty("--d", `${(near ? rand(4.5, 6.5) : rand(6.5, 9)).toFixed(2)}s`);
-      bob.style.setProperty("--delay", `${(-rand(0, 8)).toFixed(2)}s`);
-      bob.style.setProperty("--ax", `${rand(-amp, amp).toFixed(1)}px`);
-      bob.style.setProperty("--ay", `${(-rand(amp * 0.6, amp)).toFixed(1)}px`);
-      bob.style.setProperty("--r", `${rand(-15, 15).toFixed(1)}deg`);
-      bob.style.color = color;
-      bob.style.fontSize = `${size.toFixed(1)}px`;
-      // a soft, static glow in the symbol's own color (stronger on near symbols)
-      bob.style.textShadow = near
-        ? `0 0 14px ${alpha(color, 0.45)}, 0 0 4px ${alpha(color, 0.3)}`
-        : `0 0 12px ${alpha(color, 0.4)}`;
-      bob.textContent = text;
-      el.append(bob);
-      codeBox.append(el);
-      const x = p.x, y = p.y;
-      gsap.set(el, { x, y, xPercent: -50, yPercent: -50 });
-      syms.push({ el, near, x, y, dx: p.x - cx, dy: p.y - cy });
-    }
-    // far layer first in the DOM, so near symbols paint on top
-    syms.filter((s) => !s.near).forEach((s) => codeBox.prepend(s.el));
-    gsap.from(syms.map((s) => s.el), { opacity: 0, duration: reduce ? 0.01 : 0.8, stagger: reduce ? 0 : 0.012, ease: "power1.out" });
+      el.className = `ak-gate__blk ${near ? "is-near" : "is-far"}`;
+      el.style.width = el.style.height = `${p.size.toFixed(0)}px`;
+      const key = document.createElement("div");
+      key.className = "ak-gate__key";
+      key.style.transform = `rotate(${rand(-8, 8).toFixed(1)}deg)`; // static tilt on the inner element
+      const glyph = document.createElement("span");
+      const steady = i % 7 === 5, fast = i % 6 === 2;
+      glyph.className = `ak-gate__glyph${steady ? "" : " is-blinking"}${i % 3 === 1 ? " is-dim" : ""}`;
+      glyph.style.fontSize = `${(p.size * (text.replace(/ /g, "").length > 2 ? 0.28 : 0.34)).toFixed(1)}px`;
+      // a terminal-cursor blink with its own pace: never in sync, never changed by the hold
+      glyph.style.animationDuration = `${(fast ? rand(0.8, 1.1) : rand(1.2, 3)).toFixed(2)}s`;
+      glyph.style.animationDelay = `${(-rand(0, 3)).toFixed(2)}s`;
+      glyph.textContent = text;
+      key.append(glyph);
+      el.append(key);
+      field.append(el);
+      const dx = p.x - bcx, dy = p.y - bcy, dist = Math.hypot(dx, dy) || 1;
+      return {
+        el, near, size: p.size,
+        hx: p.x - p.size / 2, hy: p.y - p.size / 2, // home (top-left), cached once
+        ux: dx / dist, uy: dy / dist, dist,
+        // its own fixed organic twist on the drift (no randomness per frame)
+        ox: rand(-0.12, 0.12), oy: rand(-0.12, 0.12),
+        // spring-damper body: heavier near blocks react slower, travel farther, overshoot a little
+        w: near ? 7 : 10.5, z: near ? 0.62 : 0.78, m: near ? 1.6 : 1,
+        reach: near ? 0.5 : 0.18,
+        bobA: near ? 7 : 3, bobF: near ? 0.55 : 0.38, bobP: rand(0, Math.PI * 2),
+        x: 0, y: 0, vx: 0, vy: 0, rot: 0, vr: 0, op: 1,
+      };
+    });
+    // far layer first in the DOM, so near blocks paint on top
+    blocks.filter((k) => !k.near).forEach((k) => field.prepend(k.el));
+    blocks.forEach((k) => { k.el.style.transform = `translate3d(${k.hx.toFixed(1)}px,${k.hy.toFixed(1)}px,0)`; });
+    gsap.fromTo(blocks.map((k) => k.el.firstChild), { opacity: 0 }, { opacity: 1, duration: reduce ? 0.01 : 0.8, stagger: reduce ? 0 : 0.02, ease: "power1.out" });
 
-    /* ----- the 3-second hold: fill left to right (linear, exactly 3s) + scene and button zoom toward the viewer ----- */
+    /* ----- the hold: the fill fills at a constant speed; everything else reads its progress ----- */
     gsap.set(fill, { clipPath: "inset(0% 100% 0% 0%)" });
     const hold = gsap.timeline({ paused: true, onComplete: finish });
     hold.to(fill, { clipPath: "inset(0% 0% 0% 0%)", duration: HOLD, ease: "none" }, 0);
-    if (!reduce) {
-      hold.to(btn, { scale: BTN_MAX, duration: HOLD, ease: "power2.in" }, 0); // same easing as the scene zoom
-      syms.forEach((s) => {
-        const k = s.near ? 0.9 : 0.15; // near symbols drift out past the edges, far ones barely move
-        hold.to(s.el, { x: s.x + s.dx * k, y: s.y + s.dy * k, scale: s.near ? 1.8 : 1.2, duration: HOLD, ease: "power2.in" }, 0);
-      });
-    }
+
+    const build = gsap.parseEase("power2.in"); // slow at first, stronger toward the end
+    const bw = b.width;
+    // the charging glow: a big soft orange circle behind the button (sized to stay soft on small screens)
+    aura.style.setProperty("--d", `${Math.round(Math.min(bw * 1.6, W * 1.15))}px`);
+    const canBuzz = typeof navigator.vibrate === "function" && matchMedia("(pointer: coarse)").matches;
+    let buzz = 0;
+    const st = { press: 1, glow: 1 };
+    let mode = "idle"; // idle | hold | release | done
+    let release = null, pressTween = null;
+    let floatW = 1;      // idle float weight: blends out while holding, back in afterwards
+    let shock = -1;      // time (s) the shockwave started
+    let last = 0;
+
+    /* One loop: button (scale, tension shake), glow, shine, and every block's physics. One transform per element. */
+    const tick = (time) => {
+      const dt = Math.min(0.033, Math.max(0, time - (last || time))); // real delta time, clamped
+      last = time;
+      const p = hold.progress();
+      const z = build(p);
+      if (!reduce) {
+        aura.style.setProperty("--o", (Math.pow(p, 0.8) * st.glow).toFixed(3));
+        aura.style.setProperty("--s", (0.55 + 0.75 * z).toFixed(3));
+      }
+      shine.style.transform = `translate3d(${(p * bw - 16).toFixed(1)}px,0,0)`;
+      shine.style.opacity = p > 0.004 && p < 0.996 && mode !== "done" ? "1" : "0";
+
+      if (mode === "hold" && !reduce) {
+        // tension on the button only: in the last 40% a tiny tremble that grows toward the end (max ~1.5px / 0.3deg)
+        const k = Math.max(0, (p - 0.6) / 0.4);
+        const n1 = Math.sin(time * 61) * 0.6 + Math.sin(time * 97) * 0.4;
+        const n2 = Math.sin(time * 71 + 1.3) * 0.6 + Math.sin(time * 113) * 0.4;
+        gsap.set(btn, {
+          scale: st.press * (1 + (BTN_MAX - 1) * z),
+          x: n1 * 1.5 * k, y: n2 * 1.1 * k, rotation: Math.sin(time * 83) * 0.3 * k,
+        });
+      }
+      if (reduce) return;
+
+      // idle float blends out while holding and back in after a release (exponential smoothing, no jumps)
+      floatW += ((mode === "idle" || mode === "release" ? 1 : 0) - floatW) * (1 - Math.exp(-4 * dt));
+      // synchronized gentle breathing after ~70%
+      const bk = mode === "hold" ? Math.max(0, (p - 0.7) / 0.3) : 0;
+      const breathe = 1 + 0.03 * bk * (0.5 - 0.5 * Math.cos(time * Math.PI * 2 * 1.1));
+      const drift = mode === "hold" ? z : 0; // released: the target is home, the spring brings them back
+      const steps = dt > 1 / 90 ? 2 : 1, h = dt / steps;
+      for (const k of blocks) {
+        if (shock >= 0) {
+          // free flight after the shockwave: damped, turning slightly with the motion, fading out over ~0.5s
+          for (let s = 0; s < steps; s++) {
+            const damp = Math.exp(-2.6 * h);
+            k.vx *= damp; k.vy *= damp; k.vr *= damp;
+            k.x += k.vx * h; k.y += k.vy * h; k.rot += k.vr * h;
+          }
+          k.op = Math.max(0, 1 - (time - shock) / 0.5);
+        } else {
+          const reach = k.dist * k.reach * drift;
+          const tx = (k.ux + k.oy * 0.5) * reach + k.ox * reach * 0.3;
+          const ty = (k.uy - k.ox * 0.5) * reach + k.oy * reach * 0.3;
+          for (let s = 0; s < steps; s++) {
+            // spring-damper: a = w^2 (target - x) - 2 z w v   (semi-implicit Euler)
+            k.vx += (k.w * k.w * (tx - k.x) - 2 * k.z * k.w * k.vx) * h;
+            k.vy += (k.w * k.w * (ty - k.y) - 2 * k.z * k.w * k.vy) * h;
+            k.x += k.vx * h; k.y += k.vy * h;
+          }
+        }
+        const bob = floatW * k.bobA;
+        const fx = Math.sin(time * k.bobF + k.bobP) * bob * 0.6;
+        const fy = Math.sin(time * k.bobF * 1.3 + k.bobP) * bob;
+        const sc = shock >= 0 ? 1 : breathe;
+        k.el.style.transform = `translate3d(${(k.hx + k.x + fx).toFixed(1)}px,${(k.hy + k.y + fy).toFixed(1)}px,0) rotate(${k.rot.toFixed(2)}deg) scale(${sc.toFixed(4)})`;
+        if (shock >= 0) k.el.style.opacity = k.op.toFixed(3);
+      }
+    };
+    gsap.ticker.add(tick);
 
     let holding = false, done = false;
     const start = () => {
       if (done || holding) return;
       holding = true;
       btn.classList.add("is-holding");
-      gate.classList.add("is-moving");
+      if (!reduce) {
+        // press in (~0.96 over 120ms), then let the growth take over
+        release?.kill();
+        const cur = gsap.getProperty(btn, "scale");
+        st.press = cur / (1 + (BTN_MAX - 1) * build(hold.progress()));
+        st.glow = 1;
+        pressTween?.kill();
+        pressTween = gsap.timeline()
+          .to(st, { press: 0.96, duration: 0.12, ease: "power2.out" })
+          .to(st, { press: 1, duration: 0.3, ease: "power2.inOut" });
+        mode = "hold";
+      }
+      if (canBuzz) { navigator.vibrate(10); buzz = setInterval(() => navigator.vibrate(10), 400); }
       hold.timeScale(1).play();
     };
     const stop = () => {
       if (done || !holding) return;
       holding = false;
       btn.classList.remove("is-holding");
-      hold.timeScale(HOLD / 0.5).reverse(); // drains back in about half a second
+      if (canBuzz) { clearInterval(buzz); navigator.vibrate(0); }
+      hold.timeScale(HOLD / 0.5).reverse(); // the fill drains in about half a second
+      if (!reduce) {
+        // spring back: a little past 1 (~0.97), then settle (~0.6s); the glow fades out; blocks spring home
+        mode = "release";
+        pressTween?.kill();
+        release = gsap.timeline()
+          .to(btn, { scale: 0.97, x: 0, y: 0, rotation: 0, duration: 0.28, ease: "power2.out" })
+          .to(btn, { scale: 1, duration: 0.32, ease: "power2.inOut" });
+        gsap.to(st, { glow: 0, duration: 0.35, ease: "power1.out" });
+      }
     };
 
     /* ----- input: pointer (mouse + touch) and keyboard (Space / Enter) ----- */
@@ -164,33 +283,58 @@ export function runGate() {
     window.addEventListener("wheel", block, opts);
     window.addEventListener("touchmove", block, opts);
     window.addEventListener("keydown", blockKeys, true);
+    activeCleanup = () => {
+      window.removeEventListener("wheel", block, opts);
+      window.removeEventListener("touchmove", block, opts);
+      window.removeEventListener("keydown", blockKeys, true);
+      window.removeEventListener("blur", stop);
+      if (canBuzz) { clearInterval(buzz); navigator.vibrate(0); }
+      gsap.ticker.remove(tick);
+    };
     btn.focus({ preventScroll: true });
 
     function finish() {
+      try { finishGate(); } catch (e) { console.warn("gate:", e); abortGate(); resolve(); }
+    }
+    function finishGate() {
       if (done) return;
       done = true;
+      mode = "done";
       window.removeEventListener("blur", stop);
+      if (canBuzz) { clearInterval(buzz); navigator.vibrate(40); }
+      const diag = Math.hypot(Math.max(bcx, W - bcx), Math.max(bcy, H - bcy)) * 2; // circle that covers the screen
       const out = gsap.timeline({
         onComplete() {
-          window.removeEventListener("wheel", block, opts);
-          window.removeEventListener("touchmove", block, opts);
-          window.removeEventListener("keydown", blockKeys, true);
-          gate.remove();
+          activeCleanup?.();
+          activeCleanup = null;
+          html.classList.add("ak-gate-done");
+          gate.remove(); // the loader underneath is already white: nothing changes on screen
           resolve();
         },
       });
       if (!reduce) {
-        // a small pulse on the (already zoomed) button, then the zoom speeds up: near symbols rush past and fade
-        out.to(btn, { scale: BTN_MAX * 1.05, duration: 0.14, ease: "power2.out", yoyo: true, repeat: 1 }, 0);
-        syms.forEach((s) => {
-          out.to(s.el, s.near
-            ? { x: s.x + s.dx * 2.4, y: s.y + s.dy * 2.4, scale: 3.4, opacity: 0, duration: 0.6, ease: "power2.in" }
-            : { scale: 1.5, opacity: 0, duration: 0.6, ease: "power1.in" }, 0.05);
-        });
+        // ONE shockwave: a radial impulse from the button, stronger close by, weaker for heavy blocks
+        shock = gsap.ticker.time;
+        const far = Math.hypot(W, H);
+        for (const k of blocks) {
+          const j = 1500 * (0.35 + 0.65 * Math.max(0, 1 - k.dist / far)) / k.m;
+          k.vx += k.ux * j; k.vy += k.uy * j;
+          k.vr = Math.sign(k.ux || 1) * (k.near ? 40 : 60);
+        }
+        // the button pulses, the soft orange ring races out, the glow fades
+        pressTween?.kill();
+        out.to(btn, { scale: BTN_MAX * 1.08, x: 0, y: 0, rotation: 0, duration: 0.14, ease: "power2.out" }, 0)
+          .to(btn, { scale: BTN_MAX, duration: 0.22, ease: "power2.inOut" }, 0.14)
+          .fromTo(burst, { scale: BTN_MAX, opacity: 0.9 }, {
+            scale: Math.max(W / bw, H / b.height) * 1.15, opacity: 0, duration: 0.6, ease: "power1.out",
+          }, 0)
+          .to(st, { glow: 0, duration: 0.4, ease: "power1.in" }, 0.1)
+        // ...and a white circle opens from the button into the white intro (~0.5s)
+          .fromTo(opener, { scale: 0 }, { scale: diag / 40, duration: 0.5, ease: "power2.in" }, 0.12);
+      } else {
+        // reduced motion: a plain crossfade to white
+        out.fromTo(opener, { scale: diag / 40, opacity: 0 }, { opacity: 1, duration: 0.4, ease: "power1.inOut" }, 0);
       }
-      // the white gate fades to the loader underneath (the counter starts right after)
-      out.add(() => html.classList.add("ak-gate-done"), reduce ? 0 : 0.3)
-        .to(gate, { opacity: 0, duration: 0.45, ease: "power1.inOut" }, reduce ? 0 : 0.3);
     }
   });
 }
