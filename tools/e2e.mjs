@@ -194,6 +194,18 @@ try {
     check(st.theme === "acid" && st.exit !== "none" && st.over === 0 && st.frame, `${f} in ACID ${JSON.stringify(st)}`);
   }
 
+  // pressing a form chip keeps its size: the ripple stays clipped inside and does not stretch it
+  const chipBox = a.locator(".chips span").first();
+  await chipBox.scrollIntoViewIfNeeded();
+  await a.waitForTimeout(300);
+  const chipRest = await chipBox.boundingBox();
+  await a.mouse.move(chipRest.x + chipRest.width / 2, chipRest.y + chipRest.height / 2);
+  await a.mouse.down();
+  await a.waitForTimeout(150);
+  const chipHeld = await chipBox.boundingBox();
+  await a.mouse.up();
+  check(chipHeld.width < chipRest.width * 1.1 && chipHeld.height < chipRest.height * 1.1, `chip keeps its size while pressed ${Math.round(chipRest.width)}x${Math.round(chipRest.height)} -> ${Math.round(chipHeld.width)}x${Math.round(chipHeld.height)}`);
+
   // ACID x: back to autumn on the live page, remembered after a reload
   await a.goto(BASE, { waitUntil: "load" });
   await a.waitForTimeout(1500);

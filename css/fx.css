@@ -29,9 +29,9 @@ html[data-theme="acid"] .leaves { display: none; }
 html[lang="en"] .lang::before { translate: 100% 0; }
 .lang button[aria-pressed="true"] { background: none; }
 .lang button { transition: color .3s var(--ease), scale .28s var(--ease); }
-.lang:active::before { scale: 1.06 .92; }
-@media (hover: hover) { .lang button[aria-pressed="false"]:hover { color: var(--ink); } }
-.lang button:active { scale: .92; }
+.lang:active::before { scale: .97; }
+@media (hover: hover) and (pointer: fine) { .lang button[aria-pressed="false"]:hover { color: var(--ink); } }
+.lang button:active { scale: .97; }
 
 /* the page text while the language changes: out, swap, in */
 .lang-out :is([data-i18n], .case__kind, .case__dl :is(dt, dd), .case .btn span, .case__note, .svc__title, .svc__text, .svc__price, .qa summary span, .qa__a p) {
@@ -84,8 +84,8 @@ html[lang="en"] .lang::before { translate: 100% 0; }
 
   /* buttons: lift and a warm glow; pressed down on click */
   .btn:active { scale: .96; translate: 0 0; transition-duration: .1s; }
-  .burger:active { scale: .9; transition-duration: .1s; }
-  .chips label:active span { scale: .95; transition-duration: .1s; }
+  .burger:active { scale: .96; transition-duration: .1s; }
+  .chips label:active span { scale: .97; transition-duration: .1s; }
   .btn:focus-visible { translate: 0 -2px; filter: drop-shadow(0 8px 16px rgba(201, 163, 94, .3)); }
 
   /* cards and lists: inputs get a glow, list rows slide */
@@ -94,10 +94,10 @@ html[lang="en"] .lang::before { translate: 100% 0; }
   .qa summary:focus-visible { translate: 6px 0; }
   .qa summary:active { scale: .99; }
 
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     .btn:hover { translate: 0 -2px; filter: drop-shadow(0 8px 16px rgba(201, 163, 94, .3)); }
     .btn:hover:active { translate: 0 0; }
-    .burger:hover { scale: 1.08; }
+    .burger:hover { scale: 1.05; }
     .chips label:hover span { scale: 1.04; }
     .hub a:hover b { translate: 8px 0; }
     .hub a:hover span { translate: 8px 0; color: var(--ink-2); }

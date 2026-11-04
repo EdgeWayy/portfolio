@@ -10,7 +10,8 @@ export function initFx() {
     if (!box) return;
     const r = box.getBoundingClientRect();
     const size = Math.max(r.width, r.height) * 2.2;
-    const dot = document.createElement("span");
+    // not a <span>: rules like `.chips span` would match it, turn it into a large in-flow box and stretch the chip
+    const dot = document.createElement("i");
     dot.className = "ripple";
     dot.setAttribute("aria-hidden", "true");
     dot.style.width = dot.style.height = `${size}px`;

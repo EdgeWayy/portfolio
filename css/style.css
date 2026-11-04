@@ -137,11 +137,12 @@ p { text-wrap: pretty; }
 }
 .btn:focus-visible::before { transform: translateY(0); }
 .btn:focus-visible { color: var(--hover-fg, var(--on-accent)); }
-@media (hover: hover) {
+@media (hover: hover) and (pointer: fine) {
   .btn:hover::before { transform: translateY(0); }
   .btn:hover { color: var(--hover-fg, var(--on-accent)); }
 }
-.btn:active { transform: scale(.97); }
+/* `scale`, not `transform`: a transform here would stack with the `scale` in fx.css and fight GSAP's magnetic pull */
+.btn:active { scale: .97; }
 /* touch screens have no hover: show the same color change while the finger is down */
 @media (hover: none) {
   .btn:active::before { transform: translateY(0); transition-duration: .12s; }
@@ -512,7 +513,7 @@ main > .section:first-child { padding-top: calc(var(--nav-h) + clamp(40px, 8vw, 
   display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 18px; border-radius: 999px;
   box-shadow: inset 0 0 0 1.5px var(--ink); font-weight: 600; font-size: 15px; transition: background-color .25s, color .25s;
 }
-@media (hover: hover) { .chips label:hover input:not(:checked) + span { background: rgba(236, 231, 220, .08); } }
+@media (hover: hover) and (pointer: fine) { .chips label:hover input:not(:checked) + span { background: rgba(236, 231, 220, .08); } }
 .chips input:checked + span { background: var(--ink); color: var(--on-accent); }
 .chips input:focus-visible + span { outline: 3px solid var(--teal); outline-offset: 3px; }
 .field { display: grid; }
@@ -529,12 +530,12 @@ main > .section:first-child { padding-top: calc(var(--nav-h) + clamp(40px, 8vw, 
 .quote__note { font-size: 15px; max-width: 46ch; }
 .contact__aside { display: grid; gap: 16px; align-content: start; }
 .contact__tg { justify-self: start; display: inline-block; padding: 4px 0; font: 800 clamp(40px, 7vw, 96px)/.95 var(--f-display); letter-spacing: -.05em; border-bottom: 4px solid var(--clay); }
-.contact__tg:hover { color: var(--clay); }
+@media (hover: hover) and (pointer: fine) { .contact__tg:hover { color: var(--clay); } }
 .contact__aside p { max-width: 34ch; }
 .contact__links { display: grid; border-top: 1px solid var(--line-strong); }
 .contact__links a { display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 56px; border-bottom: 1px solid var(--line-strong); font-weight: 600; }
 .contact__links span { color: var(--muted); font-weight: 400; }
-.contact__links a:hover, .contact__links a:hover span { color: var(--clay); }
+@media (hover: hover) and (pointer: fine) { .contact__links a:hover, .contact__links a:hover span { color: var(--clay); } }
 @media (min-width: 960px) {
   .contact__grid { grid-template-columns: 1.15fr .85fr; gap: 6vw; }
 }

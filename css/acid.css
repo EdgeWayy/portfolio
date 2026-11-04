@@ -168,8 +168,8 @@ html[data-theme="acid"] .skull-links { display: flex; gap: 2%; position: absolut
   transition: background-color .25s, color .25s, scale .25s var(--ease);
 }
 .skull-links svg { width: 52%; height: 52%; fill: currentColor; }
-.skull-links a:active { scale: .92; }
-@media (hover: hover) { .skull-links a:hover { background: var(--lime); color: #000; scale: 1.08; box-shadow: 0 0 0 1.5px #000; } }
+.skull-links a:active { scale: .96; }
+@media (hover: hover) and (pointer: fine) { .skull-links a:hover { background: var(--lime); color: #000; scale: 1.05; box-shadow: 0 0 0 1.5px #000; } }
 .skull-links a:focus-visible { background: var(--lime); color: #000; }
 @media (max-width: 959px) {
   /* phones: a narrower figure leaves room at the sides for the drips to show; the stickers stay inside the screen */
@@ -217,8 +217,8 @@ html[data-theme="acid"] .acid-exit {
   transition: background-color .25s, color .25s, scale .25s var(--ease), box-shadow .25s;
 }
 html[data-theme="acid"] .acid-exit:focus-visible { background: var(--lime); color: #000; }
-@media (hover: hover) { html[data-theme="acid"] .acid-exit:hover { background: var(--lime); color: #000; box-shadow: 0 0 22px rgba(184, 255, 0, .55); } }
-html[data-theme="acid"] .acid-exit:active { background: var(--lime); color: #000; scale: .94; }
+@media (hover: hover) and (pointer: fine) { html[data-theme="acid"] .acid-exit:hover { background: var(--lime); color: #000; box-shadow: 0 0 22px rgba(184, 255, 0, .55); } }
+html[data-theme="acid"] .acid-exit:active { background: var(--lime); color: #000; scale: .96; }
 /* never covers the footer's last row */
 html[data-theme="acid"] .footer { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
 
@@ -230,23 +230,23 @@ html[data-theme="acid"] .case .btn--case { --bg: var(--lime); --fg: #000; --hove
 /* the hover fill rises like liquid, with a lumpy surface */
 html[data-theme="acid"] .btn::before { top: -14%; border-radius: 42% 58% 0 0 / 22% 16% 0 0; transition-duration: .6s; }
 html[data-theme="acid"] .chips input:checked + span { background: var(--lime); color: #000; }
-html[data-theme="acid"] .chips label:hover input:not(:checked) + span { background: rgba(184, 255, 0, .12); }
+@media (hover: hover) and (pointer: fine) { html[data-theme="acid"] .chips label:hover input:not(:checked) + span { background: rgba(184, 255, 0, .12); } }
 
 @media (prefers-reduced-motion: no-preference) {
   @keyframes acid-jelly {
-    0% { scale: 1 1; } 25% { scale: 1.07 .93; } 50% { scale: .97 1.05; } 72% { scale: 1.03 .98; } 100% { scale: 1.03 1.03; }
+    0% { scale: 1 1; } 25% { scale: 1.05 .96; } 50% { scale: .98 1.04; } 72% { scale: 1.03 .99; } 100% { scale: 1.03 1.03; }
   }
   @keyframes acid-ooze {
     0%, 100% { text-shadow: 0 0 4px rgba(184, 255, 0, .25); } 50% { text-shadow: 0 0 14px rgba(184, 255, 0, .75); }
   }
   html[data-theme="acid"] .btn:focus-visible { animation: acid-jelly .6s var(--ease) both; filter: drop-shadow(0 0 12px rgba(184, 255, 0, .6)); translate: none; }
-  html[data-theme="acid"] .btn:active { animation: none; scale: .92 1.06; transition-duration: .1s; }
-  html[data-theme="acid"] .chips label:active span { scale: .9 1.08; }
-  html[data-theme="acid"] .burger:active { scale: .86 1.1; }
+  html[data-theme="acid"] .btn:active { animation: none; scale: .97; transition-duration: .1s; }
+  html[data-theme="acid"] .chips label:active span { animation: none; scale: .97; }
+  html[data-theme="acid"] .burger:active { scale: .96; }
   html[data-theme="acid"] .qa summary:focus-visible { animation: acid-ooze 1.4s ease-in-out infinite; }
-  @media (hover: hover) {
+  @media (hover: hover) and (pointer: fine) {
     html[data-theme="acid"] .btn:hover { animation: acid-jelly .6s var(--ease) both; filter: drop-shadow(0 0 12px rgba(184, 255, 0, .6)); translate: none; }
-    html[data-theme="acid"] .btn:hover:active { animation: none; scale: .92 1.06; }
+    html[data-theme="acid"] .btn:hover:active { animation: none; scale: .97; }
     html[data-theme="acid"] :is(.nav__links a, .hub a, .footer__row a, .contact__links a, .contact__tg, .qa summary, .menu nav a):hover { color: var(--lime); animation: acid-ooze 1.4s ease-in-out infinite; }
     html[data-theme="acid"] .burger:hover { filter: drop-shadow(0 0 10px rgba(184, 255, 0, .6)); }
     html[data-theme="acid"] .chips label:hover span { animation: acid-jelly .55s var(--ease) both; }
