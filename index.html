@@ -39,7 +39,20 @@
       <figure class="hero__portrait" id="portrait">
         <img class="hero__img" src="img/portrait-dots-480.webp" srcset="img/portrait-dots-480.webp 480w, img/portrait-dots-640.webp 640w, img/portrait-dots-900.webp 900w" sizes="(max-width: 760px) 80vw, 40vw" width="900" height="1125" alt="Портрет Акбара из восьмиконечных звёзд" data-i18n-alt="hero.alt" fetchpriority="high">
         <canvas class="hero__gl" aria-hidden="true"></canvas>
-        <figcaption class="hero__hint mono" data-i18n="hero.hint">Наведите — лупа мастера</figcaption>
+        <figcaption class="hero__hint mono" data-i18n="hero.hint">Наведите — рентген</figcaption>
+        <!-- ACID theme only: the stickers around the skull -->
+        <svg class="skull-badge" viewBox="0 0 120 120" aria-hidden="true">
+          <defs><path id="skull-badge-arc" d="M60 60m-46 0a46 46 0 1 1 92 0a46 46 0 1 1-92 0"/></defs>
+          <circle cx="60" cy="60" r="60"/>
+          <g class="skull-badge__ring"><text><textPath href="#skull-badge-arc" textLength="286" data-i18n="hero.badge">Принимаю заказы · Принимаю заказы · </textPath></text></g>
+          <path class="skull-badge__leaf" transform="translate(44 44) scale(.667)" d="M24 2l4 9 5-3-1 9 8-3-3 7 8 2-7 6 2 5-9-2-1 6h-.2l.2 8h-4l.2-8H26l-1-6-9 2 2-5-7-6 8-2-3-7 8 3-1-9 5 3z"/>
+        </svg>
+        <span class="skull-tag skull-tag--name" aria-hidden="true" data-i18n="hero.name">Акбар</span>
+        <span class="skull-tag skull-tag--role" aria-hidden="true" data-i18n="hero.role">Fullstack-разработчик</span>
+        <span class="skull-links">
+          <a href="https://t.me/KrieWoo" target="_blank" rel="noopener" aria-label="Telegram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.4 3.6 2.9 10.8c-1.2.5-1.2 1.2 0 1.6l4.7 1.5 1.8 5.6c.2.6.4.8.9.8.4 0 .6-.2.9-.5l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.3-.5-1.9-1.6-1.4zM9.6 14.4l-.4 4.1-1.4-4.6 10.6-6.7z"/></svg></a>
+          <a href="https://github.com/EdgeWayy" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-4.9 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.600 9.600 0 0 1 5 0c1.900-1.300 2.800-1 2.800-1 .5 1.400.2 2.400.1 2.700.6.7 1 1.600 1 2.700 0 3.800-2.300 4.600-4.600 4.900.4.300.7.900.7 1.900V21c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></svg></a>
+        </span>
       </figure>
 
       <div class="hero__bottom">

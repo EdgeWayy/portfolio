@@ -7,6 +7,7 @@
   <meta name="robots" content="noindex">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='10' fill='%230F1318'/%3E%3Cpath fill='%23C9A35E' d='M24 6l4.3 7.8 8.6-2.5-2.5 8.6L42 24l-7.6 4.3 2.5 8.6-8.6-2.5L24 42l-4.3-7.6-8.6 2.5 2.5-8.6L6 24l7.6-4.3-2.5-8.6 8.6 2.5z'/%3E%3C/svg%3E">
   <!-- Self-contained on purpose: GitHub Pages serves this file at any missing URL depth, so no relative assets. -->
+  <script>try{if(sessionStorage.getItem("akbar-theme")==="acid")document.documentElement.dataset.theme="acid"}catch(e){}</script>
   <style>
     :root{--paper:#0F1318;--ink:#ECE7DC;--sand:#181D24;--teal:#8FA8C2;--clay:#C9A35E;--light:#0F1318}
     *{box-sizing:border-box;margin:0}
@@ -24,7 +25,22 @@
     a:hover{background:var(--teal)}
     a:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
     .en{display:block;margin-top:6px;font-size:14px}
-    @media (prefers-reduced-motion:reduce){.grid svg{transition:none}}
+    a,#acid{transition:background-color .25s,color .25s,scale .25s,translate .25s}
+    @media (hover:hover){a:hover{translate:0 -2px}}
+    a:active{scale:.96}
+    @media (prefers-reduced-motion:reduce){.grid svg,a,#acid{transition:none}}
+    /* ACID theme (js/theme.js) */
+    #acid{display:none}
+    html[data-theme=acid]{--paper:#000;--ink:#E6FFB8;--sand:#000;--teal:#E2FF8F;--clay:#B8FF00;--light:#000}
+    html[data-theme=acid] body{font-family:ui-monospace,Consolas,monospace}
+    html[data-theme=acid] .grid svg{fill:#0C1406}
+    html[data-theme=acid] .grid svg.gone{stroke:#B8FF00}
+    html[data-theme=acid] main{border:3px dashed #B8FF00;border-radius:2px}
+    html[data-theme=acid] p{color:#A3C576}
+    html[data-theme=acid] a{border-radius:3px}
+    html[data-theme=acid] #acid{display:inline-flex;align-items:center;position:fixed;z-index:2;left:14px;bottom:14px;min-height:44px;padding:0 16px;
+      background:#000;color:#B8FF00;border:3px dashed #B8FF00;font:700 18px/1 ui-monospace,Consolas,monospace;cursor:pointer}
+    html[data-theme=acid] #acid:hover,html[data-theme=acid] #acid:focus-visible{background:#B8FF00;color:#000}
   </style>
 </head>
 <body>
@@ -35,7 +51,12 @@
     <p>В плитке не хватает одной звезды. Вернитесь на главную — там всё на месте.<span class="en">This page is missing a tile. Head back home.</span></p>
     <a id="home" href="/">← На главную / Home</a>
   </main>
+  <button id="acid" type="button" aria-label="Turn off the ACID theme">ACID ×</button>
   <script>
+    document.getElementById("acid").addEventListener("click", function () {
+      try { sessionStorage.setItem("akbar-theme", "autumn"); } catch (e) {}
+      delete document.documentElement.dataset.theme;
+    });
     // Project sites live at /<repo>/ on github.io; anywhere else the root is "/".
     (function () {
       var seg = location.pathname.split("/").filter(Boolean);

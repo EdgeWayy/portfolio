@@ -27,13 +27,15 @@ const en = {
   "nav.cta": "Message me",
   "nav.menu": "Menu",
   "hero.status": "Taking projects · November 2026",
+  "hero.role": "Fullstack developer",
+  "hero.badge": "Taking projects · Taking projects · ",
   "hero.place": "Uzbekistan",
   "hero.tz": "Tashkent",
   "hero.name": "Akbar",
   "hero.sr": "Akbar, web developer.",
   "hero.line": "Websites that sell, for businesses in&nbsp;Uzbekistan",
   "hero.alt": "Portrait of Akbar made of eight-point stars",
-  "hero.hint": "Hover for the master's loupe",
+  "hero.hint": "Hover for the X-ray",
   "hero.lead": "I build fast websites, online stores and admin panels for cafes, clubs, restaurants and shops. Custom design, three languages, Click and Payme payments.",
   "hero.cta": "Discuss a project",
   "hero.cta2": "See the work",
@@ -117,7 +119,7 @@ const ui = {
     need: { site: "сайт-визитка", shop: "интернет-магазин", admin: "админ-панель", pay: "оплата Click / Payme", bot: "Telegram-бот", redesign: "редизайн", booking: "онлайн-запись", qr: "QR-меню", seo: "SEO и карты", support: "поддержка сайта" },
     budget: { b1: "до $200", b2: "$200–500", b3: "$500–1000", b4: "$1000+", b5: "пока не знаю" },
     from: "", eggOn: "Звёзды повсюду ✦",
-    hintTouch: "Коснитесь — лупа мастера",
+    hintTouch: "Коснитесь — рентген",
   },
   en: {
     titles: {
@@ -133,7 +135,7 @@ const ui = {
     need: { site: "business site", shop: "online store", admin: "admin panel", pay: "Click / Payme payments", bot: "Telegram bot", redesign: "redesign", booking: "online booking", qr: "QR menu", seo: "SEO and maps", support: "site support" },
     budget: { b1: "under $200", b2: "$200–500", b3: "$500–1000", b4: "$1000+", b5: "not sure yet" },
     eggOn: "Stars everywhere ✦",
-    hintTouch: "Touch for the master's loupe",
+    hintTouch: "Touch for the X-ray",
   },
 };
 
@@ -177,5 +179,26 @@ export function initI18n() {
   let saved = "ru";
   try { saved = localStorage.getItem("akbar-lang") || "ru"; } catch (e) {}
   setLang(saved, { silent: true });
-  document.querySelectorAll("[data-lang]").forEach((b) => b.addEventListener("click", () => setLang(b.dataset.lang)));
+  document.querySelectorAll("[data-lang]").forEach((b) => b.addEventListener("click", () => switchLang(b.dataset.lang)));
+}
+
+/* The switcher's click: the pill moves at once (it follows <html lang>, see css/fx.css), the page text fades and slides
+   out, changes language while it is invisible, and comes back in. */
+let swapTimer = 0, swapTo = null;
+function switchLang(next) {
+  if (next === (swapTo ?? lang)) return;
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) { setLang(next); return; }
+  const root = document.documentElement;
+  swapTo = next;
+  root.lang = next;
+  document.querySelectorAll("[data-lang]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.lang === next)));
+  root.classList.remove("lang-in");
+  root.classList.add("lang-out");
+  clearTimeout(swapTimer);
+  swapTimer = setTimeout(() => {
+    setLang(swapTo);
+    swapTo = null;
+    root.classList.replace("lang-out", "lang-in");
+    swapTimer = setTimeout(() => root.classList.remove("lang-in"), 420);
+  }, 140);
 }

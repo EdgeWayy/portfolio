@@ -2,9 +2,16 @@
    with one blinking white code symbol, and a pill button. Holding the button for HOLD_MS fills it, grows it and
    pushes the blocks away (spring physics); letting go earlier springs everything back. At the end a shockwave
    throws the blocks out and a white circle opens into the (white) loader and the intro.
+   ACID theme: same hold, but the blocks are floating candies (js/candies.js) that drift away from the pointer, the button is
+   black and fills with a rising potion (js/potion.js), and a full button starts the skull-bite finale (js/finale.js),
+   which ends in the page (no white loader, no intro).
    Remove: delete this file, css/gate.css and the marked "gate" lines in js/main.js. */
 import { gsap } from "gsap";
 import { getLang, onLang } from "./i18n.js";
+import { isAcid } from "./theme.js";
+import { candySvg } from "./candies.js";
+import { makePotion } from "./potion.js";
+import { addProbe } from "./cursor-tone.js";
 import "../css/gate.css";
 
 const KEY = "akbar-intro-seen"; // same key as the intro: seen once this session, both are skipped
@@ -20,11 +27,14 @@ const SYMBOLS = ["</>", "{ }", "=>", "#", "$_", "</>", "{ }", "=>", "#", "$_", "
 const rand = (a, b) => a + Math.random() * (b - a);
 
 let activeCleanup = null; // undoes the gate's listeners and loop (used by abortGate if something breaks)
+let finaleAbort = null;
 
 /* Failsafe: if the gate breaks, remove it and let the site through instead of leaving a stuck dark screen. */
 export function abortGate() {
   activeCleanup?.();
   activeCleanup = null;
+  finaleAbort?.();
+  finaleAbort = null;
   document.querySelectorAll(".ak-gate").forEach((n) => n.remove());
   document.documentElement.classList.remove("ak-gate-flow", "ak-hide-site");
   document.documentElement.classList.add("ak-gate-done");
@@ -60,6 +70,17 @@ export function runGate() {
   html.classList.add("ak-gate-flow"); // the loader that follows is shown on white
   html.classList.add("ak-hide-site"); // the covered page is not painted while the gate/loader/intro are on top (perf)
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const acid = isAcid();
+  // fetched ahead, so the finale starts the moment the button is full
+  const finale = acid ? import("./finale.js") : null;
+  finale?.catch((e) => console.warn("finale:", e));
+  // ...and its pictures are drawn on the first press: the first frame of the finale must not stutter
+  let prepared = false;
+  const prepareFinale = () => {
+    if (prepared || !finale) return;
+    prepared = true;
+    finale.then((m) => m.prepareFinale()).catch((e) => console.warn("finale:", e));
+  };
 
   return new Promise((resolve) => {
     const W = innerWidth, H = innerHeight;
@@ -72,6 +93,7 @@ export function runGate() {
       <span class="ak-gate__shadow" aria-hidden="true"></span>
       <div class="ak-gate__btn" role="button" tabindex="0">
         <span class="ak-gate__layer"><span class="ak-gate__t is-idle"></span><span class="ak-gate__t is-hold"></span></span>
+        ${acid ? '<canvas class="ak-gate__potion" aria-hidden="true"></canvas>' : ""}
         <span class="ak-gate__fill" aria-hidden="true"><span class="ak-gate__layer ak-gate__fill-in"><span class="ak-gate__t is-idle"></span><span class="ak-gate__t is-hold"></span></span></span>
         <span class="ak-gate__shine" aria-hidden="true"></span>
       </div>
@@ -110,12 +132,33 @@ export function runGate() {
     const blocks = layout(count, W, H, zone, sizes).map((p, i) => {
       const near = isNear(i);
       const text = pick[i % pick.length];
+      const kind = i * 3 + (i >> 2); // an even mix of candies, not in an obvious order
       const el = document.createElement("div");
       el.className = `ak-gate__blk ${near ? "is-near" : "is-far"}`;
       el.style.width = el.style.height = `${p.size.toFixed(0)}px`;
       const key = document.createElement("div");
       key.className = "ak-gate__key";
       key.style.transform = `rotate(${rand(-8, 8).toFixed(1)}deg)`; // static tilt on the inner element
+      if (acid) {
+        key.classList.add("is-candy");
+        key.innerHTML = candySvg(kind);
+        el.append(key);
+        field.append(el);
+        const dx = p.x - bcx, dy = p.y - bcy, dist = Math.hypot(dx, dy) || 1;
+        const depth = p.size / (phone ? 92 : 140); // bigger = closer: it floats wider and faster, and reacts more
+        return {
+          el, near, size: p.size,
+          hx: p.x - p.size / 2, hy: p.y - p.size / 2,
+          ux: dx / dist, uy: dy / dist, dist,
+          ox: rand(-0.12, 0.12), oy: rand(-0.12, 0.12),
+          w: near ? 6 : 8, z: near ? 0.55 : 0.7, m: near ? 1.6 : 1,
+          reach: near ? 0.5 : 0.18,
+          bobA: 6 + depth * 15, bobF: 0.2 + depth * 0.42, bobP: rand(0, Math.PI * 2),
+          x: 0, y: 0, vx: 0, vy: 0, rot: rand(-40, 40), vr: 0, op: 1,
+          spin: rand(5, 13) * (Math.random() < 0.5 ? -1 : 1) * (0.5 + depth * 0.7),
+          wobF: rand(0.8, 1.5), depth,
+        };
+      }
       const glyph = document.createElement("span");
       const steady = i % 7 === 5, fast = i % 6 === 2;
       glyph.className = `ak-gate__glyph${steady ? "" : " is-blinking"}${i % 3 === 1 ? " is-dim" : ""}`;
@@ -149,11 +192,14 @@ export function runGate() {
     /* ----- the hold: the fill fills at a constant speed; everything else reads its progress ----- */
     // the fill is a window sliding in from the left while its content slides the other way: a left-to-right
     // reveal done with transforms only (no clip-path repaint per frame)
-    gsap.set(fill, { xPercent: -100 });
-    gsap.set(fillIn, { xPercent: 100 });
+    // (ACID: the same window rises from the bottom, in step with the liquid, and holds the black label)
+    const axis = acid ? "yPercent" : "xPercent";
+    gsap.set(fill, { [axis]: acid ? 100 : -100 });
+    gsap.set(fillIn, { [axis]: acid ? -100 : 100 });
     const hold = gsap.timeline({ paused: true, onComplete: finish });
-    hold.to(fill, { xPercent: 0, duration: HOLD, ease: "none" }, 0)
-      .to(fillIn, { xPercent: 0, duration: HOLD, ease: "none" }, 0);
+    hold.to(fill, { [axis]: 0, duration: HOLD, ease: "none" }, 0)
+      .to(fillIn, { [axis]: 0, duration: HOLD, ease: "none" }, 0);
+    const potion = acid ? makePotion(gate.querySelector(".ak-gate__potion"), btn.clientWidth, btn.clientHeight, reduce) : null;
 
     const build = gsap.parseEase("power2.in"); // slow at first, stronger toward the end
     const bw = b.width;
@@ -164,9 +210,22 @@ export function runGate() {
     const st = { press: 1, glow: 1, hover: 0 };
     // mouse position for the magnetic blocks (mouse only; touch has no hover)
     const mouse = { x: 0, y: 0, on: false, w: 0 };
-    const onMove = (e) => { if (e.pointerType !== "mouse") return; mouse.x = e.clientX; mouse.y = e.clientY; mouse.on = true; };
+    // (ACID: touch counts too, the candies drift away from the finger)
+    const onMove = (e) => { if (e.pointerType !== "mouse" && !acid) return; mouse.x = e.clientX; mouse.y = e.clientY; mouse.on = true; };
+    const onTouchEnd = (e) => { if (e.pointerType !== "mouse") mouse.on = false; };
     const onOut = (e) => { if (!e.relatedTarget) mouse.on = false; };
     if (!reduce) { window.addEventListener("pointermove", onMove, { passive: true }); document.addEventListener("mouseout", onOut); }
+    if (!reduce && acid) { window.addEventListener("pointerdown", onMove, { passive: true }); window.addEventListener("pointerup", onTouchEnd, { passive: true }); }
+    // the cursor: black over a candy and over the liquid, lime over the black around them
+    const removeProbe = acid ? addProbe((x, y) => {
+      if (done && !gate.isConnected) return null;
+      const r = btn.getBoundingClientRect();
+      if (x >= r.left && x <= r.right && y >= r.top && y <= r.bottom) return y > r.bottom - hold.progress() * r.height ? "light" : "dark";
+      for (const k of blocks) {
+        if (Math.hypot(x - k.px, y - k.py) < k.size * 0.42) return "light";
+      }
+      return "dark";
+    }) : null;
     let mode = "idle"; // idle | hold | release | done
     let release = null, pressTween = null;
     let floatW = 1;      // idle float weight: blends out while holding, back in afterwards
@@ -180,6 +239,8 @@ export function runGate() {
       last = time;
       const p = hold.progress();
       const z = build(p);
+      potion?.(time, dt, p);
+      potion?.frame(dt);
       // write only what changed (an idle gate then costs almost nothing per frame)
       if (!reduce) {
         // glow: charges with the hold; a soft hint of it while the mouse is over the button
@@ -232,8 +293,13 @@ export function runGate() {
             const mx = mouse.x - (k.hx + k.size / 2), my = mouse.y - (k.hy + k.size / 2);
             const d = Math.hypot(mx, my), R = k.near ? 260 : 200;
             if (d < R && d > 1) {
-              const f = Math.min(Math.pow(1 - d / R, 2) * (k.near ? 34 : 18), d * 0.4) * mouse.w;
-              tx += (mx / d) * f; ty += (my / d) * f;
+              if (acid) { // candies drift away from the pointer, the closer ones more
+                const f = Math.pow(1 - d / R, 1.4) * (30 + 58 * k.depth) * mouse.w;
+                tx -= (mx / d) * f; ty -= (my / d) * f;
+              } else {
+                const f = Math.min(Math.pow(1 - d / R, 2) * (k.near ? 34 : 18), d * 0.4) * mouse.w;
+                tx += (mx / d) * f; ty += (my / d) * f;
+              }
             }
           }
           for (let s = 0; s < steps; s++) {
@@ -247,7 +313,14 @@ export function runGate() {
         const fx = Math.sin(time * k.bobF + k.bobP) * bob * 0.6;
         const fy = Math.sin(time * k.bobF * 1.3 + k.bobP) * bob;
         const sc = shock >= 0 ? 1 : breathe;
-        k.el.style.transform = `translate3d(${(k.hx + k.x + fx).toFixed(1)}px,${(k.hy + k.y + fy).toFixed(1)}px,0) rotate(${k.rot.toFixed(2)}deg) scale(${sc.toFixed(4)})`;
+        let turn = k.rot;
+        if (acid) { // slow turning with a small wobble on top
+          if (shock < 0) k.rot += k.spin * dt;
+          turn += Math.sin(time * k.wobF + k.bobP) * 7;
+          k.px = k.hx + k.x + fx + k.size / 2;
+          k.py = k.hy + k.y + fy + k.size / 2;
+        }
+        k.el.style.transform = `translate3d(${(k.hx + k.x + fx).toFixed(1)}px,${(k.hy + k.y + fy).toFixed(1)}px,0) rotate(${turn.toFixed(2)}deg) scale(${sc.toFixed(4)})`;
         if (shock >= 0) k.el.style.opacity = k.op.toFixed(3);
       }
     };
@@ -257,6 +330,7 @@ export function runGate() {
     const start = () => {
       if (done || holding) return;
       holding = true;
+      prepareFinale();
       btn.classList.add("is-holding");
       if (!reduce) {
         // press in (~0.96 over 120ms), then let the growth take over
@@ -278,7 +352,7 @@ export function runGate() {
       holding = false;
       btn.classList.remove("is-holding");
       if (canBuzz) { clearInterval(buzz); navigator.vibrate(0); }
-      hold.timeScale(HOLD / 0.5).reverse(); // the fill drains in about half a second
+      hold.timeScale(HOLD / (acid ? 0.9 : 0.5)).reverse(); // the fill drains in about half a second (the potion takes longer)
       if (!reduce) {
         // spring back: a little past 1 (~0.97), then settle (~0.6s); the glow fades out; blocks spring home
         mode = "release";
@@ -335,6 +409,9 @@ export function runGate() {
     window.addEventListener("keydown", blockKeys, true);
     activeCleanup = () => {
       window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerdown", onMove);
+      window.removeEventListener("pointerup", onTouchEnd);
+      removeProbe?.();
       document.removeEventListener("mouseout", onOut);
       window.removeEventListener("wheel", block, opts);
       window.removeEventListener("touchmove", block, opts);
@@ -342,6 +419,7 @@ export function runGate() {
       window.removeEventListener("blur", stop);
       if (canBuzz) { clearInterval(buzz); navigator.vibrate(0); }
       gsap.ticker.remove(tick);
+      potion?.dispose(); // the finale and the page reuse its WebGL context
     };
     btn.focus({ preventScroll: true });
 
@@ -357,6 +435,22 @@ export function runGate() {
       const diag = Math.hypot(Math.max(bcx, W - bcx), Math.max(bcy, H - bcy)) * 2; // circle that covers the screen
       const out = gsap.timeline({
         onComplete() {
+          if (acid) {
+            // no white intro in this theme: the finale plays over the gate, and the page starts under its black wave
+            const enter = () => {
+              activeCleanup?.();
+              activeCleanup = null;
+              html.classList.add("ak-gate-done");
+              try { sessionStorage.setItem(KEY, "1"); } catch (e) {}
+              gate.remove();
+              resolve();
+            };
+            finale.then((m) => {
+              finaleAbort = m.abortFinale;
+              return m.runFinale({ reduce, onCovered: enter });
+            }).catch((e) => { console.warn("finale:", e); enter(); }).finally(() => { finaleAbort = null; });
+            return;
+          }
           activeCleanup?.();
           activeCleanup = null;
           html.classList.add("ak-gate-done");

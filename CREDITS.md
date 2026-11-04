@@ -7,9 +7,11 @@
 | Star portraits of Akbar (`public/img/portrait-*`) | Rendered from Akbar's own photo with `tools/photo/*.py`. The photo itself is not published or committed | Owned by Akbar |
 | Demo screenshots (`public/img/work/*`) | Captured from the demos in this repo with `tools/shots.mjs` | Owned by Akbar |
 | Fonts: Unbounded, Onest, JetBrains Mono | Google Fonts via [Fontsource](https://fontsource.org), self-hosted | SIL Open Font License 1.1 |
+| Fonts (ACID theme): Rubik Wet Paint, Creepster | Google Fonts via [Fontsource](https://fontsource.org), self-hosted | SIL Open Font License 1.1 |
 | Intro name "Akbar" (`js/intro-word.js`) | Letter outlines of [Allura](https://github.com/google/fonts/tree/main/ofl/allura), converted to SVG paths | SIL Open Font License 1.1 |
 | GSAP + ScrollTrigger | [gsap.com](https://gsap.com) (npm) | GSAP Standard "No Charge" license |
 | Lenis | [darkroomengineering/lenis](https://github.com/darkroomengineering/lenis) (npm) | MIT |
+| Slime, potion, skull, skull-bite finale, autumn leaves (`js/slime.js`, `js/slime-gl.js`, `js/potion.js`, `js/skull.js`, `js/finale.js`, `js/leaves.js`) | Drawn in code for this project | Owned by Akbar |
 | 8-point star (khatam) motif, icons, 404 tiles | Drawn for this project | Owned by Akbar |
 
 No other photos are used on the portfolio page itself.

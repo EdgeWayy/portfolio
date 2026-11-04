@@ -3,8 +3,8 @@
 Portfolio of **Akbar**, a web developer from Uzbekistan ([@KrieWoo](https://t.me/KrieWoo)).
 
 The site is built around the eight-point star (khatam) from
-Samarkand tilework. The hero portrait is a live WebGL grid of stars, and the cursor works as a lens that
-turns into a "master's loupe" with finer, magnified stars. No real photo is published, only star renderings. Six real demo sites live inside this repo and open from the portfolio.
+Samarkand tilework. The hero portrait is a live WebGL grid of stars, and the cursor carries a wobbling "UV X-ray" blob
+that shows the portrait as an X-ray, with details that exist only inside it. No real photo is published, only star renderings. Six real demo sites live inside this repo and open from the portfolio.
 
 - Static site: Vite + vanilla JS + GSAP + Lenis + raw WebGL. No backend.
 - Russian by default, with an English toggle. Mobile first. Respects reduced motion.

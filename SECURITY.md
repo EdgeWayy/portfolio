@@ -82,3 +82,29 @@ npm audit
 npm run build     # secret scan + CSP injection
 npm run test      # every page loads with no console errors (CSP violations count as errors)
 ```
+
+## Review of 2026-11-04
+
+Scope: the whole site, including the ACID theme code, plus the full git history (22 commits).
+
+| Check | Result |
+|---|---|
+| API keys and secrets in files | None (`npm run check`) |
+| Secrets in git history | None (GitHub, AWS, OpenAI, Slack, Telegram, Google key patterns and private keys, all commits) |
+| `.env` in `.gitignore` | Yes: `.env` and `.env.*`. Only `.env.example` was ever committed |
+| Dependencies | `npm audit`: 0 vulnerabilities |
+| Debug mode | No source maps in `dist/`, no `debugger`, no debug flags |
+| Passwords | Only the Lumina demo admin: salted SHA-256, 20,000 rounds. No plain password in its code |
+| Admin route | Lumina `admin.html` only: client-side gate, data stays in the visitor's own browser. See the limitation below |
+| Rate limiting | Client-side only: Lumina login lockout, Vortaq 60 s cooldown, quote form 10 s cooldown. There is no server to limit |
+| Form inputs | Quote form: length caps, control characters stripped, URL-encoded, never sent by the site. Demo fields are escaped before they are rendered |
+| CORS | No API, no credentials. GitHub Pages' public `*` is correct for public static files |
+| Security headers | CSP and referrer policy as `<meta>` on all portfolio pages and the demos. Other headers are in `public/_headers`, which GitHub Pages ignores |
+| New theme code | `akbar-theme` is only compared with `"acid"`, never written into the page. New links use `rel="noopener"` |
+| Deploy workflow | **Fixed:** `pages: write` and `id-token: write` moved from the whole workflow to the deploy job only |
+
+Limits that code on a static site cannot remove:
+
+- `admin123` is public on purpose, and any client-side gate can be skipped in DevTools. This is safe only because each visitor edits their own local copy. A real client's admin needs server-side authentication.
+- `X-Frame-Options`, HSTS and `nosniff` cannot be sent from GitHub Pages. To get them, move to a host that reads `public/_headers`, such as Cloudflare Pages or Netlify.
+- The deploy workflow's actions are pinned to version tags, not commit hashes.

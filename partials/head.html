@@ -20,12 +20,14 @@
   <!-- critical: loader and no-js state, before the CSS bundle arrives -->
   <style>
     html{background:#0F1318;color:#ECE7DC}
+    html[data-theme=acid],html[data-theme=acid] .loader{background:#000;color:#B8FF00}
+    html[data-theme=acid] .loader__star path{stroke:#B8FF00}
     .loader{position:fixed;inset:0;z-index:100;background:#0F1318;color:#ECE7DC;display:grid;place-items:center}
     .no-js .loader,.loaded .loader{display:none}
-    .loader__star{width:72px;height:72px}
-    .loader__star path{fill:none;stroke:#C9A35E;stroke-width:1.2;stroke-dasharray:100;stroke-dashoffset:100}
+    .loader__star{width:72px;height:72px;overflow:visible}
+    .loader__star path{fill:none;stroke:#C9A35E;stroke-width:1.2;stroke-linejoin:round;shape-rendering:geometricPrecision;stroke-dasharray:100;stroke-dashoffset:100}
     @media (prefers-reduced-motion:reduce){.loader__star path{animation:none;stroke-dashoffset:0}}
   </style>
   <!-- the counter loader plays once per visit; every later page skips it and only fades in -->
-  <script>var d=document.documentElement;d.classList.replace("no-js","js");try{if(localStorage.getItem("akbar-lang")==="en")d.lang="en";if(sessionStorage.getItem("akbar-seen"))d.classList.add("seen","loaded")}catch(e){}</script>
+  <script>var d=document.documentElement;d.classList.replace("no-js","js");try{if(sessionStorage.getItem("akbar-theme")==="acid"){d.dataset.theme="acid";d.classList.add("acid-entry");var n=performance.getEntriesByType("navigation")[0];if(!sessionStorage.getItem("akbar-acid-intro")||(n&&n.type==="reload"))d.classList.add("acid-pre")}if(localStorage.getItem("akbar-lang")==="en")d.lang="en";if(sessionStorage.getItem("akbar-seen"))d.classList.add("seen","loaded")}catch(e){}</script>
   <script type="module" src="js/main.js"></script>

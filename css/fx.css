@@ -1,0 +1,130 @@
+/* ==========================================================
+   Shared motion: language switcher, the secret star, leaves, and the hover / focus / active
+   states of everything interactive. ACID's slimy versions of these states are in acid.css.
+   Hover lifts use the separate `translate` and `scale` properties on purpose: GSAP writes inline
+   `transform` on many of these elements (magnetic buttons, reveals), and the two add up instead of fighting.
+   ========================================================== */
+
+/* the page itself is transparent so the leaves canvas (z-index -1) shows through; the color moves to <html> */
+html { background: var(--paper); }
+body { background: transparent; }
+.section--sand { background: rgba(19, 24, 30, .6); }
+.section--mist { background: rgba(21, 27, 34, .6); }
+.section--blush { background: rgba(26, 26, 31, .6); }
+
+/* ---------- leaves ---------- */
+.leaves { display: block; position: absolute; pointer-events: none; }
+.leaves--page { position: fixed; left: 0; top: 0; width: 100vw; height: 100vh; z-index: -1; opacity: .13; } /* barely there */
+.leaves--hero { top: 0; bottom: 0; left: 44%; right: 0; width: 56%; height: 100%; z-index: -1; opacity: .5; }
+.leaves--panel { inset: 0; width: 100%; height: 100%; opacity: .5; }
+html[data-theme="acid"] .leaves { display: none; }
+
+/* ---------- language switcher: a sliding pill that follows <html lang> ---------- */
+.lang { position: relative; display: inline-grid; grid-template-columns: 1fr 1fr; isolation: isolate; }
+.lang::before {
+  content: ""; position: absolute; z-index: -1; left: 2px; top: 2px; bottom: 2px; width: calc(50% - 2px); border-radius: 999px;
+  background: var(--ink);
+  transition: translate .5s cubic-bezier(.34, 1.45, .64, 1), scale .28s var(--ease), background-color .3s;
+}
+html[lang="en"] .lang::before { translate: 100% 0; }
+.lang button[aria-pressed="true"] { background: none; }
+.lang button { transition: color .3s var(--ease), scale .28s var(--ease); }
+.lang:active::before { scale: 1.06 .92; }
+@media (hover: hover) { .lang button[aria-pressed="false"]:hover { color: var(--ink); } }
+.lang button:active { scale: .92; }
+
+/* the page text while the language changes: out, swap, in */
+.lang-out :is([data-i18n], .case__kind, .case__dl :is(dt, dd), .case .btn span, .case__note, .svc__title, .svc__text, .svc__price, .qa summary span, .qa__a p) {
+  opacity: 0 !important; translate: 0 -6px; transition: opacity .14s linear, translate .14s linear !important;
+}
+.lang-in :is([data-i18n], .case__kind, .case__dl :is(dt, dd), .case .btn span, .case__note, .svc__title, .svc__text, .svc__price, .qa summary span, .qa__a p) {
+  animation: lang-in .4s var(--ease);
+}
+@keyframes lang-in { from { opacity: 0; translate: 0 8px; } }
+
+/* ---------- the star next to the name ---------- */
+.nav__logo { -webkit-touch-callout: none; -webkit-user-drag: none; }
+.nav__seal {
+  position: relative; display: grid; place-items: center; flex: none; width: 36px; height: 36px; margin: -7px;
+  touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
+}
+.nav__seal .star-icon { transition: scale .18s var(--ease), transform .8s var(--ease); }
+.nav__seal.is-charging .star-icon { scale: .84; } /* the press; the progress itself shows on the portrait */
+
+/* glitch + lime flash when the secret fires */
+.acid-flash { position: fixed; inset: 0; z-index: 500; overflow: hidden; pointer-events: none; }
+.acid-flash i { position: absolute; left: -5%; width: 110%; height: 14%; background: #B8FF00; opacity: 0; animation: acid-bar .5s steps(5, end) both; }
+.acid-flash i:nth-child(1) { top: 6%; animation-delay: 0s; }
+.acid-flash i:nth-child(2) { top: 24%; height: 7%; background: #000; animation-delay: .05s; }
+.acid-flash i:nth-child(3) { top: 37%; height: 20%; animation-delay: .1s; }
+.acid-flash i:nth-child(4) { top: 58%; height: 5%; background: #000; animation-delay: .03s; }
+.acid-flash i:nth-child(5) { top: 66%; height: 12%; animation-delay: .14s; }
+.acid-flash i:nth-child(6) { top: 86%; height: 9%; animation-delay: .07s; }
+.acid-flash b { position: absolute; inset: 0; background: #000; opacity: 0; animation: acid-flood .3s .44s ease-in both; }
+.acid-flash.is-still { background: #B8FF00; }
+@keyframes acid-bar {
+  0% { opacity: 0; translate: -8% 0; } 20% { opacity: 1; translate: 6% 0; } 40% { opacity: .4; translate: -3% 0; }
+  60% { opacity: 1; translate: 4% 0; } 80% { opacity: .7; translate: -2% 0; } 100% { opacity: 1; translate: 0 0; }
+}
+@keyframes acid-flood { to { opacity: 1; } }
+
+/* ---------- the press ripple (js/fx.js) ---------- */
+.ripple { position: absolute; border-radius: 50%; background: currentColor; pointer-events: none; transform: scale(0); z-index: 0; }
+.burger, .chips span, .acid-exit { position: relative; overflow: hidden; }
+
+/* ---------- hover / focus / active on everything interactive ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .btn, .burger, .chips span, .hub b, .hub span, .menu nav a, .qa summary, .qa__icon, .contact__tg, .contact__links a,
+  .footer__row a, .case__tags li, .stat, .step__n, .log li, .skills__group, .nav__links a, .nav__logo > span:last-child, .case__visual, .field input, .field textarea {
+    /* never `transform` or `opacity` here: GSAP animates those on these elements, and a CSS transition on them breaks its tweens */
+    transition-property: translate, scale, color, background-color, box-shadow, border-color, filter;
+    transition-duration: .35s;
+    transition-timing-function: var(--ease);
+  }
+
+  /* buttons: lift and a warm glow; pressed down on click */
+  .btn:active { scale: .96; translate: 0 0; transition-duration: .1s; }
+  .burger:active { scale: .9; transition-duration: .1s; }
+  .chips label:active span { scale: .95; transition-duration: .1s; }
+  .btn:focus-visible { translate: 0 -2px; filter: drop-shadow(0 8px 16px rgba(201, 163, 94, .3)); }
+
+  /* cards and lists: inputs get a glow, list rows slide */
+  .hub a:focus-visible b, .menu nav a:focus-visible { translate: 8px 0; }
+  .field input:focus, .field textarea:focus { translate: 2px 0; }
+  .qa summary:focus-visible { translate: 6px 0; }
+  .qa summary:active { scale: .99; }
+
+  @media (hover: hover) {
+    .btn:hover { translate: 0 -2px; filter: drop-shadow(0 8px 16px rgba(201, 163, 94, .3)); }
+    .btn:hover:active { translate: 0 0; }
+    .burger:hover { scale: 1.08; }
+    .chips label:hover span { scale: 1.04; }
+    .hub a:hover b { translate: 8px 0; }
+    .hub a:hover span { translate: 8px 0; color: var(--ink-2); }
+    .menu nav a:hover { translate: 8px 0; color: var(--clay); }
+    .qa summary:hover { translate: 6px 0; }
+    .qa summary:hover .qa__icon { scale: 1.1; }
+    .contact__tg:hover { translate: 0 -3px; }
+    .contact__links a:hover { translate: 6px 0; }
+    .footer__row a:hover { translate: 0 -2px; }
+    .case__tags li:hover { scale: 1.08; background-color: var(--line); }
+    .stats li:hover .stat { scale: 1.06; }
+    .stat { transform-origin: 0 100%; }
+    .step:hover .step__n { scale: 1.14; }
+    .log li:hover { translate: 6px 0; }
+    .skills__group:hover { translate: 0 -4px; }
+    .nav__logo:hover > span:last-child { color: var(--clay); }
+    .case:hover { box-shadow: inset 0 0 0 1.5px var(--clay), 0 18px 50px rgba(0, 0, 0, .35); }
+    .case { transition: box-shadow .4s var(--ease); }
+    .case__visual:hover { translate: 0 -4px; }
+
+    /* nav links: an underline slides out from the middle */
+    .nav__links a::before {
+      content: ""; position: absolute; left: 14px; right: 14px; bottom: 7px; height: 2px; background: var(--clay);
+      transform: scaleX(0); transition: transform .35s var(--ease);
+    }
+    .nav__links a:hover::before { transform: scaleX(1); }
+    .nav__links a[aria-current="page"]::before { display: none; }
+  }
+}
+.nav__links a:focus-visible, .hub a:focus-visible b { color: var(--clay); }
